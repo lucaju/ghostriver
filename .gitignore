@@ -7,6 +7,14 @@ yarn-error.log*
 
 package-lock.json
 
+#wordpress
+wp-admin
+wp-content
+wp-includes
+wp-*
+xmlrpc.php
+index.php
+.htaccess
 
 
 # Runtime data

@@ -1,4 +1,5 @@
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
+import {select} from 'd3-selection/dist/d3-selection.min.js';
 import postMustache from './post.html';
 
 
@@ -7,13 +8,13 @@ export default function post() {
 
 	this.init = function init() {
 
-		const _this = this;
+		// const _this = this;
 
 		const pageData = {};
 
-		d3.select('#app').append('div').attr('id', 'post');
+		select('#app').append('div').attr('id', 'post');
 		const html = postMustache(pageData);
-		d3.select('#post').html(html);
+		select('#post').html(html);
 
 	};
 
