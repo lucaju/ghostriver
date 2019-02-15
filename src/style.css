@@ -1,4 +1,4 @@
-.box {
+/* .box {
     background-color: white;
     z-index: 100;
     position: absolute;
@@ -6,7 +6,7 @@
     height: 200px;
     top: 0;
     left: 0;
-}
+} */
 
 /* #map {
     width: 100%;
@@ -19,5 +19,5 @@
     top: 0;
     bottom: 0;
     width: 100%;
-    /* z-index: -99; */
+    /* height: 100vh; */
 }

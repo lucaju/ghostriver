@@ -85,18 +85,13 @@ function App() {
 		// 	// _this.drawData(mapVis.dataset,500,2);
 		// });
 
-		this.wp.posts().id(36).then(function (data) {
-			console.log(data);
-		});
-
-		this.mapbox.on('click', 'tt', function () {
-			console.log(this);
-		});
-		
+		// this.mapbox.on('click', 'tt', function () {
+		// 	console.log(this);
+		// });
 
 		this.mapbox.on('click', function (e) {
 			const features = _this.mapbox.queryRenderedFeatures(e.point, {
-				layers: ['tt'] // replace this with the name of the layer
+				layers: ['ghost-river-nodes','ghost-river-lines'] // replace this with the name of the layer
 			});
 
 			if (!features.length) {
@@ -118,10 +113,11 @@ function App() {
 		
 			// _this.post.init();
 
-
+			const postID = feature.properties.postID;
+			console.log(postID);
 			
 
-			_this.wp.posts().id(36).then(function (data) {
+			_this.wp.posts().id(postID).then(function (data) {
 				console.log(data);
 
 				select('#article-title').select('.fl-heading-text').html(data.title.rendered);
