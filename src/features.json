@@ -1,0 +1,61 @@
+{
+    "features": [{
+            "type": "Feature",
+            "properties": {
+                "name": "market",
+                "type": "node",
+                "theme": "infrastructure",
+                "postID": 44,
+                "active": "false",
+                "over": "true"
+            },
+            "geometry": {
+                "coordinates": [
+                    -73.576049,
+                    45.479569
+                ],
+                "type": "Point"
+            },
+            "id": "5e81acbb868717e0e29263780efeb928"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "type": "node",
+                "theme": "beyond-human",
+                "name": "my house",
+                "postID": 36,
+                "active": "false",
+                "over": "false"
+            },
+            "geometry": {
+                "coordinates": [
+                    -73.565859,
+                    45.495003
+                ],
+                "type": "Point"
+            },
+            "id": "72cb1d37ca996fc46bcdfee84f26aaa7"
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "bridge",
+                "theme": "infrastructure",
+                "type": "node",
+                "postID": "null",
+                "active": "true",
+                "over": "false"
+            },
+            "geometry": {
+                "coordinates": [
+                    -73.566245,
+                    45.485456
+                ],
+                "type": "Point"
+            },
+            "id": "ef3797977cc435ee46f5980a597a8db0"
+        }
+    ],
+    "type": "FeatureCollection"
+}

@@ -21,3 +21,64 @@
     width: 100%;
     /* height: 100vh; */
 }
+
+
+
+
+
+
+#timeline {
+    width:100%
+}
+
+#map-box-vis {
+    position: absolute;
+    width: 100%;
+    /* height: 100%; */
+  }
+
+circle {
+    /* fill: #e55e5e; */
+    /* stroke: #fefefe; */
+    stroke-width: 0;
+    cursor: pointer;
+    transition: 0.5s fill, 0.5s stroke-width;
+}
+
+circle:hover {
+    fill: #5e5ee5;
+    stroke-width: 9;
+}
+
+.nav-bar-container-height-shorter {
+    height: 30px;
+}
+
+.axis path,
+.axis line {
+    /* fill: none; */
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.x.axis path, .y.axis path {
+    display: none;
+}
+
+.x.axis text, .y.axis text {
+    font-size: 10px;
+}
+
+.track {
+    /* stroke: #777; */
+    stroke-opacity: .2;
+    /* stroke-width: 8; */
+  }
+  .track-overlay {
+    pointer-events: stroke;
+    stroke-width: 20px;
+  }
+  
+  .slider-circle-time-from, .slider-circle-time-to {
+      cursor: pointer;  
+  }
