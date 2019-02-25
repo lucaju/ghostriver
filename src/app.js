@@ -420,7 +420,8 @@ function App() {
 
 	// Project GeoJSON coordinate to the map's current state
 	this.project = function (d) {
-		return this.mapbox.project(new mapboxgl.LngLat(+d.lat, +d.long));
+		console.log(d)
+		return this.mapbox.project(new mapboxgl.LngLat(+d[0], +d[1]));
 	};
 
 	this.init3 = function init3() {
@@ -443,16 +444,16 @@ function App() {
 		// Overlay d3 on the map
 		this.svg = select(canvas).append('svg');
 		this.svg.attr('id', 'map-box-vis');
-
+		
 		// Load map and dataset
 		this.mapbox.on('load', function () {
-			console.log('opa')
+			// console.log(_this.dataset);
 			_this.svg.attr('height', '100%');
 			// _this.setupMapInterations();
-			_this.drawData(_this.dataset.features, 500, 2);
+			_this.drawData(dataset.features, 500, 2);
 		});
 
-		console.log(dataset);
+		// console.log(dataset);
 		console.log(this.mapbox);
 	};
 
@@ -484,41 +485,35 @@ function App() {
 				return `index-${d.postID}`;
 			})
 			.on('click', function (d) {
-				app.showDetails(d.postID);
+				app.showDetails(d.properties.postID);
 			})
 			.on('mouseover', function (d) {
 				_this._mouseOverSelection(d);
+				console.log(this)
 			})
 			.on('mouseout', function (d) {
 				_this._mouseOutSelection(d);
 			})
 			.attr('cx', function (d) {
-				if (d.location.hasOwnProperty('coordinates')) {
-					return _this.project(d.geometry.coordinates).x;
-				} else {
-					return 0;
-				}
+				return _this.project(d.geometry.coordinates).x;
 			})
 			.attr('r', 0)
 			.attr('cy', function (d) {
-				if (d.location.hasOwnProperty('coordinates')) {
-					return _this.project(d.geometry.coordinates).y;
-				} else {
-					return 0;
-				}
+				return _this.project(d.geometry.coordinates).y;
 			})
 			.style('opacity', 0.1)
 			.style('fill', function (d) {
-				return app.color(_this.colorCategory(d, app.colorCodeBy));
+				// return app.color(_this.colorCategory(d, app.colorCodeBy));
 			})
 			.style('stroke', function (d) {
-				return app.color(_this.colorCategory(d, app.colorCodeBy));
+				// return app.color(_this.colorCategory(d, app.colorCodeBy));
 			})
 			.transition()
-			.duration(transitionTime)
-			.delay(function (d, i) {
-				return delayTime * i;
-			})
+			.duration(1000)
+			// .duration(transitionTime)
+			// .delay(function (d, i) {
+			// 	return delayTime * i;
+			// })
 			.attr('r', 8)
 			.style('opacity', 0.8);
 
