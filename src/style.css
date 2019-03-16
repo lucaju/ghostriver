@@ -22,14 +22,10 @@
     /* height: 100vh; */
 }
 
-
-
-
-
-
-#timeline {
-    width:100%
+.lower-layer {
+    z-index: 0;
 }
+
 
 #map-box-vis {
     position: absolute;
@@ -49,6 +45,7 @@ circle:hover {
     fill: #5e5ee5;
     stroke-width: 9;
 }
+  
 
 .nav-bar-container-height-shorter {
     height: 30px;
