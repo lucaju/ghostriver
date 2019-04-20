@@ -23,14 +23,13 @@ export default function WordpressAPI(_app) {
 	
 	// leftPanel.classed('lower-layer', true);
 	this.wp = new WPAPI({
-		endpoint: 'http://localhost:8888/ghost-river/wp-json/'
-		// http://labs.fluxo.art.br/ghost-river/
-		// endpoint: 'http://labs.fluxo.art.br/ghost-river/wp-json/'
+		// endpoint: 'http://localhost:8888/ghost-river/wp-json/'
+		endpoint: 'http://labs.fluxo.art.br/ghost-river/wp-json/'
 	});
 
-	// this.init = () => {
-	// 	// leftPanel.classed('lower-layer', true);
-	// };
+	this.init = () => {
+		// leftPanel.classed('lower-layer', true);
+	};
 
 	//main menu
 	mainMenu.environmentBT.on('click', () => {
