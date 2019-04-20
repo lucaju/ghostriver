@@ -24,10 +24,10 @@ function App() {
 
 	/////------
 
-	// let panel = select('#left-panel');
-	// panel.classed('hide', false);
-	// console.log(panel.attr('id'));
-	// console.log(panel.classed('hide'));
+	let panel = select('#left-panel');
+	panel.classed('hide', false);
+	console.log(panel.attr('id'));
+	console.log(panel.classed('hide'));
 
 
 
@@ -56,13 +56,15 @@ function App() {
 
 		console.log(postID);
 
-		this.wp.posts().id(postID)
-			.then(function (data) {
-				console.log(data);
+		this.wordpressAPI.showPost(postID);
 
-				select('#article-title').select('.fl-heading-text').html(data.title.rendered);
-				select('#article-content').select('.fl-rich-text').html(data.content.rendered);
-			});
+		// this.wordpressAPI.wp.posts().id(postID)
+		// 	.then(function (data) {
+		// 		console.log(data);
+
+		// 		select('#article-title').select('.fl-heading-text').html(data.title.rendered);
+		// 		select('#article-content').select('.fl-rich-text').html(data.content.rendered);
+		// 	});
 	};
 
 

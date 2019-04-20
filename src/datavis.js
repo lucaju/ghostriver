@@ -34,11 +34,15 @@ export default function Datavis(_app) {
 
 		this.svg.attr('height', '100%');
 
-		// this.draNodes(dataset.features, 500, 2);
+		this.draNodes(dataset.features, 500, 2);
 		this.drawRiver(river1834.features, 500, 2);
+
+		console.log('opa')
 	};
 
 	this.draNodes = function draNodes(data, transitionTime = 0, delayTime = 0) {
+
+		console.log('go')
 
 		const _this = this;
 
@@ -65,14 +69,15 @@ export default function Datavis(_app) {
 				return `index-${d.postID}`;
 			})
 			.on('click', function (d) {
+				console.log(d.properties.postID);
 				app.showDetails(d.properties.postID);
 			})
 			.on('mouseover', function (d) {
-				_this._mouseOverSelection(d);
+				// _this._mouseOverSelection(d);
 				console.log(this);
 			})
 			.on('mouseout', function (d) {
-				_this._mouseOutSelection(d);
+				// _this._mouseOutSelection(d);
 			})
 			.attr('cx', function (d) {
 				return mapAPI.project(d.geometry.coordinates).x;
