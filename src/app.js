@@ -3,15 +3,14 @@
 // 	select
 // } from 'd3-selection/dist/d3-selection.min.js';
 import {select} from 'd3/dist/d3.min';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import './style.css';
+// import 'mapbox-gl/dist/mapbox-gl.css';
+// import './style.css';
 
 import WordpressAPI from './wordpress.js';
 import MapAPI from './mapAPI.js';
 import Datavis from './datavis.js';
 
 
-// APP
 function App() {
 
 

@@ -1,6 +1,7 @@
 import {select} from 'd3/dist/d3.min';
-import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
-import 'mapbox-gl/dist/mapbox-gl.css';
+// import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';	
+// import 'mapbox-gl/dist/mapbox-gl.css';
+import mapboxgl from 'mapbox-gl';
 
 
 // APP
