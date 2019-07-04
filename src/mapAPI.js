@@ -19,7 +19,7 @@ const mapBoxConfig = {
 	style: `mapbox://styles/${mapBoxUser}/cjtf3qpso03kh1fkvzo8dd4xk`,
 	center: [-73.59, 45.485],
 	zoom: 12,
-	pitch: 60,
+	pitch: 0,
 	interactive: false,
 };
 

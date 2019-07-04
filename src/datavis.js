@@ -1,35 +1,25 @@
 import * as d3 from 'd3';
 import mapAPI from './mapAPI.js';
-import wordpressAPI from './wordpress.js';
+import wpAPI from './wordpress.js';
 
-import dataset from './features.json';
-import river1834 from './1834_A_Jobin_final-2.json';
-
-
-
-const margin = {
-	top: 20,
-	right: 20,
-	bottom: 20,
-	left: 20
-};
-
-
-// let currentPage;
-// let currentTheme;
-
-// let theme;
-
+import nodesDataset from './data/features.json';
+import river1834 from './data/1834_A_Jobin_final-2.json';
 
 let path;
 let svg;
 let riverLines;
+let dataset = [];
 let nodes;
+let themeNodes = [];
 
 const init = canvas => {
 
 	const transform = d3.geoTransform({point:mapAPI.projectPoint});
 	path = d3.geoPath().projection(transform);
+
+	dataset = nodesDataset.features;
+
+	console.log(dataset);
 
 	// Overlay d3 on the mapbox canvas
 	svg = d3.select(canvas).append('svg');
@@ -39,9 +29,16 @@ const init = canvas => {
 
 	// draNodes(dataset.features, 500, 2);
 	drawRiver(river1834.features, 500, 2);
+
+	wpAPI.init();
 };
 
-const draNodes =  (data, transitionTime = 0, delayTime = 0) => {
+const getThemeNodes = theme => dataset.filter( feature => feature.properties.theme.toLowerCase() === theme );
+
+const drawNodes =  (theme, transitionTime = 500, delayTime = 2) => {
+
+	const data = getThemeNodes(theme);
+	console.log(data);
 
 	// Add circles
 	nodes = svg.selectAll('.circle')
@@ -60,12 +57,12 @@ const draNodes =  (data, transitionTime = 0, delayTime = 0) => {
 		.attr('class', 'circle');
 
 	nodes = svg.selectAll('.circle')
-		.attr('id', function (d) {
+		.attr('id', d => {
 			return `index-${d.postID}`;
 		})
-		.on('click', function (d) {
+		.on('click', d => {
 			console.log(d.properties.postID);
-			wordpressAPI.showPost(d.properties.postID);
+			wpAPI.showPost(d.properties.postID);
 		})
 		.on('mouseover', function (d) {
 			// _this._mouseOverSelection(d);
@@ -164,4 +161,5 @@ const riverUpdate = () => {
 
 export default {
 	init,
+	drawNodes,
 };
