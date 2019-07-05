@@ -1,23 +1,16 @@
 import {select} from 'd3/dist/d3.min';
 import mapboxgl from 'mapbox-gl';
 // import 'mapbox-gl/dist/mapbox-gl.css'
-
+import config from './config/config.json';
 import datavis from './datavis.js';
 
 
+mapboxgl.accessToken = config.remote.mapbox.token;
 let mapbox;
-
-//lucaju
-// mapboxgl.accessToken = 'pk.eyJ1IjoibHVjYWp1IiwiYSI6IlVyQTZDODQifQ.FUtjr5TQfJNR606U1v4gcQ';
-//project
-mapboxgl.accessToken = 'pk.eyJ1Ijoic2FpbnRwaWVycmVtYXBwaW5nIiwiYSI6ImNqdDBpOXo4aDBkYmk0Nm5wMTU0MzhxcWcifQ.tH1TZXEMh4KOnahRKRl_BA';
-
-const mapBoxUser = 'saintpierremapping';
-
 const mapBoxConfig = {
 	container: 'map',
-	style: `mapbox://styles/${mapBoxUser}/cjtf3qpso03kh1fkvzo8dd4xk`,
-	center: [-73.59, 45.485],
+	style: `mapbox://styles/${config.remote.mapbox.user}/cjtf3qpso03kh1fkvzo8dd4xk`,
+	center: [-73.59, 45.485], //center in Montreal
 	zoom: 12,
 	pitch: 0,
 	interactive: false,
@@ -53,8 +46,7 @@ const projectPoint = function (lon, lat) {
 };
 
 const changeMap = mapID => {
-	console.log(mapID);
-	mapbox.setStyle(`mapbox://styles/${mapBoxUser}/${mapID}`);
+	mapbox.setStyle(`mapbox://styles/${config.remote.mapbox.user}/${mapID}`);
 };
 
 

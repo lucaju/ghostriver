@@ -1,0 +1,21 @@
+{
+    "local": {
+        "mapbox": {
+            "user": "lucaju",
+            "token": "pk.eyJ1IjoibHVjYWp1IiwiYSI6IlVyQTZDODQifQ.FUtjr5TQfJNR606U1v4gcQ"
+        },
+        "wordpress": {
+            "endpoint": "http://localhost:8888/ghost-river/wp-json/"
+        }
+    },
+    "remote": {
+        "mapbox": {
+            "user": "saintpierremapping",
+            "token": "pk.eyJ1Ijoic2FpbnRwaWVycmVtYXBwaW5nIiwiYSI6ImNqdDBpOXo4aDBkYmk0Nm5wMTU0MzhxcWcifQ.tH1TZXEMh4KOnahRKRl_BA"
+        },
+        "wordpress": {
+            "endpoint": "http://labs.fluxo.art.br/ghost-river/wp-json/"
+        }
+    }
+    
+}

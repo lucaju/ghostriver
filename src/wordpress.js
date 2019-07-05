@@ -2,16 +2,14 @@ import WPAPI from 'wpapi';
 import {select, selectAll} from 'd3/dist/d3.min';
 import mapAPI from './mapAPI.js';
 import datavis from './datavis.js';
+import config from './config/config.json';
 
 let theme;
 
 const mainMenu = {};
 const topMenu = {};
 
-const wp = new WPAPI({
-	// endpoint: 'http://localhost:8888/ghost-river/wp-json/'
-	endpoint: 'http://labs.fluxo.art.br/ghost-river/wp-json/'
-});
+const wp = new WPAPI({ endpoint: config.remote.wordpress.endpoint });
 
 const themes = [
 	{
@@ -170,6 +168,7 @@ const showPage = async ({name, pageID, mapID}) => {
 
 	select('#article-title').select('.fl-heading-text').html(pageData.title.rendered);
 	select('#article-content').select('.fl-rich-text').html(pageData.content.rendered);
+	select('.tagline').select('.fl-heading-text').html('');
 
 	mapAPI.changeMap(mapID);
 	datavis.drawNodes(theme);
