@@ -1,12 +1,8 @@
 {
   "name": "ghost-river",
   "version": "0.1.0",
-  "author": {
-    "name": "Luciano Frizzera",
-    "email": "lucaju@gmail.com",
-    "url": "http://luciano.fluxo.art.br"
-  },
-  "license": "CC-BY-SA-4.0",
+  "author": "Luciano Frizzera",
+  "license": "ISC",
   "description": "Speculative Saint-Pierre River",
   "keywords": [
     "Mapping",

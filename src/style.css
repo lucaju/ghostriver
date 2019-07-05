@@ -14,12 +14,8 @@
     z-index: -99;
 } */
 
-.mapboxgl-map {
-    position: absolute !important;
-}
-
 #map {
-    position: absolute !important;
+    position: absolute;
     top: 0;
     bottom: 0;
     width: 100%;
