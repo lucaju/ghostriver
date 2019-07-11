@@ -5,21 +5,17 @@ import wpAPI from './wordpress.js';
 import nodesDataset from './data/features.json';
 import river1834 from './data/1834_A_Jobin_final-2.json';
 
-let path;
+let riverPath;
 let svg;
 let riverLines;
 let dataset = [];
-let nodes;
-let themeNodes = [];
+let nodesPoint;
+let nodesLine;
+let nodesPoygon;
 
 const init = canvas => {
 
-	const transform = d3.geoTransform({point:mapAPI.projectPoint});
-	path = d3.geoPath().projection(transform);
-
 	dataset = nodesDataset.features;
-
-	console.log(dataset);
 
 	// Overlay d3 on the mapbox canvas
 	svg = d3.select(canvas).append('svg');
@@ -33,18 +29,35 @@ const init = canvas => {
 	wpAPI.init();
 };
 
-const getThemeNodes = theme => dataset.filter( feature => feature.properties.theme.toLowerCase() === theme );
+const getThemeNodes = theme => {
+	const selectedNodes = [];
+	for (const node of dataset) {
+		const nodethemes = node.properties.theme.split(', ');
+		const themeNode = nodethemes.filter(t => t.toLowerCase() === theme);
+		if (themeNode.length > 0) selectedNodes.push(node);
+	}
+	return selectedNodes;
+};
 
-const drawNodes =  (theme, transitionTime = 500, delayTime = 2) => {
+const drawNodes =  theme => {
 
-	const data = getThemeNodes(theme);
-	console.log(data);
+	const themeNodes = getThemeNodes(theme);
+	const points = themeNodes.filter(n => n.geometry.type === 'Point');
+	const lines = themeNodes.filter(n => n.geometry.type === 'LineString');
+	const polygons = themeNodes.filter(n => n.geometry.type === 'Polygon');
+	// console.log(themeNodes,points,lines,polygons);
+
+	drawPoints(points);
+
+};
+
+const drawPoints =  (data, transitionTime = 500, delayTime = 2) => {
 
 	// Add circles
-	nodes = svg.selectAll('.circle')
+	nodesPoint = svg.selectAll('.circle')
 		.data(data);
 
-	nodes.exit()
+	nodesPoint.exit()
 		.attr('id', 'exit')
 		.attr('class', 'exit')
 		.transition()
@@ -53,33 +66,31 @@ const drawNodes =  (theme, transitionTime = 500, delayTime = 2) => {
 		.attr('r', 0)
 		.remove();
 
-	nodes.enter().append('circle')
+	nodesPoint.enter().append('circle')
 		.attr('class', 'circle');
 
-	nodes = svg.selectAll('.circle')
-		.attr('id', d => {
-			return `index-${d.postID}`;
+	nodesPoint = svg.selectAll('.circle')
+		.attr('id', function (d) {
+			return `index-${d.properties.id}`;
 		})
-		.on('click', d => {
-			console.log(d.properties.postID);
-			wpAPI.showPost(d.properties.postID);
+		.on('click', function (d) {
+			wpAPI.showPost(d.properties);
 		})
 		.on('mouseover', function (d) {
 			// _this._mouseOverSelection(d);
-			console.log(this);
-			console.log(d);
+			console.log(d.properties);
 		})
 		.on('mouseout', function (d) {
 			// _this._mouseOutSelection(d);
-			console.log(d);
+			// console.log(d);
 		})
 		.attr('cx', function (d) {
 			return mapAPI.project(d.geometry.coordinates).x;
 		})
-		.attr('r', 0)
 		.attr('cy', function (d) {
 			return mapAPI.project(d.geometry.coordinates).y;
 		})
+		.attr('r', 0)
 		.style('opacity', 0.1)
 		.style('fill', function (d) {
 			// console.log(d);
@@ -90,7 +101,7 @@ const drawNodes =  (theme, transitionTime = 500, delayTime = 2) => {
 			// return app.color(_this.colorCategory(d, app.colorCodeBy));
 		});
 		
-	nodes.transition()
+	nodesPoint.transition()
 		.duration(1000)
 		// .duration(transitionTime)
 		// .delay(function (d, i) {
@@ -106,6 +117,9 @@ const drawNodes =  (theme, transitionTime = 500, delayTime = 2) => {
 
 const drawRiver = (data, transitionTime = 0, delayTime = 0) => {
 
+	const transform = d3.geoTransform({point:mapAPI.projectPoint});
+	riverPath = d3.geoPath().projection(transform);
+
 	riverLines = svg.selectAll('path')
 		// .data(data.features)
 		.data(data)
@@ -114,47 +128,49 @@ const drawRiver = (data, transitionTime = 0, delayTime = 0) => {
 		.attr('id', function (d) {
 			return d.properties.Name;
 		})
-		.attr('d', path)
+		.attr('d', riverPath)
 		.style('fill','none')
 		.style('stroke-width', 2)
 		.style('stroke', '#0071bc')
 		.on('mousemove', function (d) {
-			console.log(d);
+			// console.log(d);
 		})
 		.on('mouseout', function (d) {
-			console.log(d);
+			// console.log(d);
 		});
 
 	//graph animation
-	let lineLength = riverLines.node().getTotalLength();
+	// let lineLength = riverLines.node().getTotalLength();
 
-	riverLines
-		.attr('stroke-dasharray', lineLength + ' ' + lineLength)
-		.attr('stroke-dashoffset', +lineLength)
-		.transition()
-		.duration(10000)
-		.ease(d3.easeLinear)
-		.attr('stroke-dashoffset', 0);
+	// riverLines
+	// 	.attr('stroke-dasharray', lineLength + ' ' + lineLength)
+	// 	.attr('stroke-dashoffset', +lineLength)
+	// 	.transition()
+	// 	.duration(10000)
+	// 	.ease(d3.easeLinear)
+	// 	.attr('stroke-dashoffset', 0);
 };
 
 const mapUpdate =  () => {
 	riverUpdate();
-};
-
-const nodeUpdate = () => {
-	riverLines.attr('d', path);
+	nodeUpdate();
 };
 
 const riverUpdate = () => {
-	riverLines.attr('d', path);
+	if (riverLines) riverLines.attr('d', riverPath);
+};
+
+const nodeUpdate = () => {
 	
-	nodes
-		.attr('cx', function (d) {
-			return mapAPI.project(d.geometry.coordinates).x;
-		})
-		.attr('cy', function (d) {
-			return mapAPI.project(d.geometry.coordinates).y;
-		});
+	if (nodesPoint) {
+		nodesPoint
+			.attr('cx', function (d) {
+				return mapAPI.project(d.geometry.coordinates).x;
+			})
+			.attr('cy', function (d) {
+				return mapAPI.project(d.geometry.coordinates).y;
+			});
+	}
 };
 
 
@@ -162,4 +178,5 @@ const riverUpdate = () => {
 export default {
 	init,
 	drawNodes,
+	mapUpdate
 };
