@@ -9,7 +9,7 @@ let theme;
 const mainMenu = {};
 const topMenu = {};
 
-const wp = new WPAPI({ endpoint: config.remote.wordpress.endpoint });
+const wp = new WPAPI({ endpoint: config.wordpress.remote.endpoint });
 
 const themes = [
 	{
@@ -137,24 +137,15 @@ const showLeftPanel = () => {
 };
 
 
-const showPost = id => {
-	console.log(id);
+const showPost = async data => {
 
-	wp.posts().id(id)
-		.then(function (data) {
-			update(data);
-			// console.log(data);
+	const postData = await wp.posts().id(data.id);
+	console.log(postData);
 
-			// select('#article-title').select('.fl-heading-text').html(data.title.rendered);
-			// select('#article-content').select('.fl-rich-text').html(data.content.rendered);
-		});
+	select('#article-title').select('.fl-heading-text').html(postData.title.rendered);
+	select('#article-content').select('.fl-rich-text').html(postData.content.rendered);
+	select('.tagline').select('.fl-heading-text').html(theme);
 
-	function update(data) {
-		console.log(data);
-
-		select('#article-title').select('.fl-heading-text').html(data.title.rendered);
-		select('#article-content').select('.fl-rich-text').html(data.content.rendered);
-	}
 };
 
 const showPage = async ({name, pageID, mapID}) => {
