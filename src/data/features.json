@@ -1,119 +1,417 @@
 {
-    "features": [
-        {
-            "type": "Feature",
-            "properties": {
-                "name": "market",
-                "type": "node",
-                "theme": "environment",
-                "postID": 44,
-                "active": "false",
-                "over": "true"
-            },
-            "geometry": {
-                "coordinates": [
-                    -73.576049,
-                    45.479569
-                ],
-                "type": "Point"
-            },
-            "id": "5e81acbb868717e0e29263780efeb928"
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "type": "node",
-                "theme": "environment",
-                "name": "my house",
-                "postID": 19,
-                "active": "false",
-                "over": "false"
-            },
-            "geometry": {
-                "coordinates": [
-                    -73.565859,
-                    45.495003
-                ],
-                "type": "Point"
-            },
-            "id": "72cb1d37ca996fc46bcdfee84f26aaa7"
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "name": "bridge",
-                "theme": "environment",
-                "type": "node",
-                "postID": "null",
-                "active": "true",
-                "over": "false"
-            },
-            "geometry": {
-                "coordinates": [
-                    -73.566245,
-                    45.485456
-                ],
-                "type": "Point"
-            },
-            "id": "ef3797977cc435ee46f5980a597a8db0"
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "name": "market",
-                "type": "node",
-                "theme": "water",
-                "postID": 44,
-                "active": "false",
-                "over": "true"
-            },
-            "geometry": {
-                "coordinates": [
-                    -73.57604,
-                    45.47956
-                ],
-                "type": "Point"
-            },
-            "id": "5e81acbb868717e0e29263780efeb928"
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "type": "node",
-                "theme": "water",
-                "name": "my house",
-                "postID": 19,
-                "active": "false",
-                "over": "false"
-            },
-            "geometry": {
-                "coordinates": [
-                    -73.565869,
-                    45.495004
-                ],
-                "type": "Point"
-            },
-            "id": "72cb1d37ca996fc46bcdfee84f26aaa7"
-        },
-        {
-            "type": "Feature",
-            "properties": {
-                "name": "bridge",
-                "theme": "steps",
-                "type": "node",
-                "postID": "null",
-                "active": "true",
-                "over": "false"
-            },
-            "geometry": {
-                "coordinates": [
-                    -73.566245,
-                    45.485456
-                ],
-                "type": "Point"
-            },
-            "id": "ef3797977cc435ee46f5980a597a8db0"
-        }
-    ],
-    "type": "FeatureCollection"
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Drowning",
+        "theme": "Water",
+        "id": 155,
+        "tag": "Dis/re-appearing Waters, Infrastructure, Unrully Waters"
+      },
+      "geometry": {
+        "coordinates": [
+          -73.595,
+          45.467781
+        ],
+        "type": "Point"
+      },
+      "id": "0dbf95544b9375bec51e333c9f71869c"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Falaise St. Jacques",
+        "theme": "Environment, Steps",
+        "id": 136
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -73.602983,
+              45.469211
+            ],
+            [
+              -73.602573,
+              45.469436
+            ],
+            [
+              -73.602316,
+              45.469642
+            ],
+            [
+              -73.601932,
+              45.46975
+            ],
+            [
+              -73.601419,
+              45.470038
+            ],
+            [
+              -73.601522,
+              45.469669
+            ],
+            [
+              -73.601573,
+              45.469382
+            ],
+            [
+              -73.602803,
+              45.46851
+            ],
+            [
+              -73.604521,
+              45.467638
+            ],
+            [
+              -73.604944,
+              45.46718
+            ],
+            [
+              -73.60552,
+              45.467027
+            ],
+            [
+              -73.6062,
+              45.466622
+            ],
+            [
+              -73.606738,
+              45.466407
+            ],
+            [
+              -73.60784,
+              45.465796
+            ],
+            [
+              -73.609275,
+              45.465175
+            ],
+            [
+              -73.609724,
+              45.464888
+            ],
+            [
+              -73.610147,
+              45.464798
+            ],
+            [
+              -73.610544,
+              45.464528
+            ],
+            [
+              -73.61139,
+              45.464241
+            ],
+            [
+              -73.612261,
+              45.463881
+            ],
+            [
+              -73.612659,
+              45.463733
+            ],
+            [
+              -73.613056,
+              45.463584
+            ],
+            [
+              -73.613722,
+              45.463315
+            ],
+            [
+              -73.61576,
+              45.462551
+            ],
+            [
+              -73.616491,
+              45.462272
+            ],
+            [
+              -73.617759,
+              45.461778
+            ],
+            [
+              -73.619067,
+              45.461148
+            ],
+            [
+              -73.619566,
+              45.460771
+            ],
+            [
+              -73.619861,
+              45.460474
+            ],
+            [
+              -73.62022,
+              45.460276
+            ],
+            [
+              -73.620528,
+              45.460061
+            ],
+            [
+              -73.621015,
+              45.459917
+            ],
+            [
+              -73.621438,
+              45.459611
+            ],
+            [
+              -73.621566,
+              45.459378
+            ],
+            [
+              -73.621796,
+              45.459261
+            ],
+            [
+              -73.622937,
+              45.458524
+            ],
+            [
+              -73.624142,
+              45.457768
+            ],
+            [
+              -73.625269,
+              45.456959
+            ],
+            [
+              -73.6265,
+              45.456105
+            ],
+            [
+              -73.627909,
+              45.454838
+            ],
+            [
+              -73.628448,
+              45.454388
+            ],
+            [
+              -73.628678,
+              45.45446
+            ],
+            [
+              -73.629563,
+              45.453696
+            ],
+            [
+              -73.630242,
+              45.453336
+            ],
+            [
+              -73.630421,
+              45.453642
+            ],
+            [
+              -73.630216,
+              45.453795
+            ],
+            [
+              -73.630191,
+              45.454056
+            ],
+            [
+              -73.62996,
+              45.454271
+            ],
+            [
+              -73.629358,
+              45.454469
+            ],
+            [
+              -73.628794,
+              45.455134
+            ],
+            [
+              -73.628781,
+              45.455368
+            ],
+            [
+              -73.628281,
+              45.45553
+            ],
+            [
+              -73.627833,
+              45.456006
+            ],
+            [
+              -73.627499,
+              45.456258
+            ],
+            [
+              -73.626795,
+              45.456654
+            ],
+            [
+              -73.626243,
+              45.457148
+            ],
+            [
+              -73.62568,
+              45.457732
+            ],
+            [
+              -73.625321,
+              45.457867
+            ],
+            [
+              -73.625116,
+              45.458362
+            ],
+            [
+              -73.625487,
+              45.458631
+            ],
+            [
+              -73.625128,
+              45.459135
+            ],
+            [
+              -73.624577,
+              45.458874
+            ],
+            [
+              -73.623719,
+              45.45953
+            ],
+            [
+              -73.622591,
+              45.459782
+            ],
+            [
+              -73.621758,
+              45.461014
+            ],
+            [
+              -73.620656,
+              45.461364
+            ],
+            [
+              -73.620156,
+              45.461589
+            ],
+            [
+              -73.619387,
+              45.461912
+            ],
+            [
+              -73.618977,
+              45.462137
+            ],
+            [
+              -73.602983,
+              45.469211
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "id": "31f219523dab517791fd662df84ad922"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Overflow: The Flood of 1904",
+        "theme": "Water",
+        "id": 153,
+        "tag": "Unrully Waters, Infrastructure, Imaginaries"
+      },
+      "geometry": {
+        "coordinates": [
+          -73.565131,
+          45.473318
+        ],
+        "type": "Point"
+      },
+      "id": "35949d66c4db57ddc6f28c7881791782"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pointe-à-Callière",
+        "theme": "Environment",
+        "id": 132,
+        "tag": "Ghosts, Imaginaries, Unrully Waters"
+      },
+      "geometry": {
+        "coordinates": [
+          -73.554216,
+          45.502389
+        ],
+        "type": "Point"
+      },
+      "id": "665f2139a4fe406260ef21b0079a0dda"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "A Ghost Story",
+        "theme": "Water, Environment",
+        "id": 151,
+        "tag": "Speculation, Ghosts"
+      },
+      "geometry": {
+        "coordinates": [
+          -73.554082,
+          45.502794
+        ],
+        "type": "Point"
+      },
+      "id": "b856be5a37e64e52c4d0ccce51c2fd29"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Water Out of Place",
+        "theme": "Water",
+        "id": 172,
+        "tag": "Infrastructure, Unrully Waters, Imaginaries"
+      },
+      "geometry": {
+        "coordinates": [
+          -73.543169,
+          45.50587
+        ],
+        "type": "Point"
+      },
+      "id": "db8f697bf3d9d039ac3246e8feaf805d"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "The Tailrace",
+        "theme": "Water, Environment",
+        "id": 180,
+        "tag": "Contamination, Dis/re-appearing Waters, Infrastructure"
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            -73.568712,
+            45.474668
+          ],
+          [
+            -73.564047,
+            45.473014
+          ],
+          [
+            -73.559203,
+            45.471217
+          ],
+          [
+            -73.556537,
+            45.469886
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": "e2f0361ab20a10bb589628d7e11470f5"
+    }
+  ],
+  "type": "FeatureCollection"
 }
