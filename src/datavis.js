@@ -1,12 +1,12 @@
-import * as d3 from 'd3';
+// import * as d3 from 'd3';
+import {select,geoTransform,geoPath,easeLinear} from 'd3/dist/d3.min';
 import mapAPI from './mapAPI.js';
 import wpAPI from './wordpress.js';
 
 import nodesDataset from './data/features.json';
 import river1834 from './data/1834_A_Jobin_final-2.json';
 
-let geoTransform;
-let geoPath;
+let D3geoPath;
 let svg;
 let riverLines;
 let dataset = [];
@@ -16,13 +16,13 @@ let nodesPoygon;
 
 const init = canvas => {
 
-	geoTransform = d3.geoTransform({point:mapAPI.projectPoint});
-	geoPath = d3.geoPath().projection(geoTransform);
+	const D3geoTransform = geoTransform({point:mapAPI.projectPoint});
+	D3geoPath = geoPath().projection(D3geoTransform);
 
 	dataset = nodesDataset.features;
 
 	// Overlay d3 on the mapbox canvas
-	svg = d3.select(canvas).append('svg');
+	svg = select(canvas).append('svg');
 	svg.attr('id', 'map-box-vis');
 
 	svg.attr('height', '100%');
@@ -81,14 +81,14 @@ const drawPoints =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 		.on('click', function (d) {
 			wpAPI.showPost(d.properties);
 		})
-		.on('mouseover', function (d) {
-			// _this._mouseOverSelection(d);
-			console.log(d.properties);
-		})
-		.on('mouseout', function (d) {
-			// _this._mouseOutSelection(d);
-			// console.log(d);
-		})
+		// .on('mouseover', function (d) {
+		// 	// _this._mouseOverSelection(d);
+		// 	console.log(d.properties);
+		// })
+		// .on('mouseout', function (d) {
+		// 	// _this._mouseOutSelection(d);
+		// 	// console.log(d);
+		// })
 		.attr('cx', function (d) {
 			return mapAPI.project(d.geometry.coordinates).x;
 		})
@@ -96,13 +96,9 @@ const drawPoints =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 			return mapAPI.project(d.geometry.coordinates).y;
 		})
 		.attr('r', 0)
-		.style('opacity', 0.1)
-		.style('fill', function (d) {
-			// console.log(d);
-		})
-		.style('stroke', function (d) {
-			// console.log(d);=
-		});
+		.style('opacity', 0.1);
+	// .style('fill', )
+	// .style('stroke', );
 		
 	nodesPoint.transition()
 		.duration(transitionTime)
@@ -135,13 +131,13 @@ const drawLines =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 		.attr('id', function (d) {
 			return d.properties.id;
 		})
-		.attr('d', geoPath)
-		.on('mouseover', function (d) {
-			// console.log(d);
-		})
-		.on('mouseout', function (d) {
-			// console.log(d);
-		})
+		.attr('d', D3geoPath)
+		// .on('mouseover', function (d) {
+		// 	// console.log(d);
+		// })
+		// .on('mouseout', function (d) {
+		// 	// console.log(d);
+		// })
 		.on('click', function (d) {
 			wpAPI.showPost(d.properties);
 		})
@@ -185,13 +181,13 @@ const drawPolygins =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 		.attr('id', function (d) {
 			return d.properties.id;
 		})
-		.attr('d', geoPath)
-		.on('mouseover', function (d) {
-			// console.log(d);
-		})
-		.on('mouseout', function (d) {
-			// console.log(d);
-		})
+		.attr('d', D3geoPath)
+		// .on('mouseover', function (d) {
+		// 	// console.log(d);
+		// })
+		// .on('mouseout', function (d) {
+		// 	// console.log(d);
+		// })
 		.on('click', function (d) {
 			wpAPI.showPost(d.properties);
 		})
@@ -220,7 +216,7 @@ const drawRiver = data => {
 		.enter()
 		.append('path')
 		.attr('id', 'river')
-		.attr('d', geoPath)
+		.attr('d', D3geoPath)
 		.style('fill','none')
 		.style('stroke-width', 1)
 		.style('stroke', '#0071bc')
@@ -239,7 +235,7 @@ const drawRiver = data => {
 		.attr('stroke-dashoffset', +lineLength)
 		.transition()
 		.duration(8000)
-		.ease(d3.easeLinear)
+		.ease(easeLinear)
 		.attr('stroke-dashoffset', 0)
 		.style('stroke-width', 3)
 		.on('end', () => mapAPI.pitchMap({finalPitch:40, duration:20}) );
@@ -253,7 +249,7 @@ const mapUpdate =  () => {
 const riverUpdate = () => {
 	if (riverLines) {
 		riverLines
-			.attr('d', geoPath)
+			.attr('d', D3geoPath)
 			.attr('stroke-dasharray', 'none')
 			.attr('stroke-dashoffset', 'none');
 	}
@@ -271,8 +267,8 @@ const nodeUpdate = () => {
 			});
 	}
 
-	if (nodesLine) nodesLine.attr('d', geoPath);
-	if (nodesPoygon) nodesPoygon.attr('d', geoPath);
+	if (nodesLine) nodesLine.attr('d', D3geoPath);
+	if (nodesPoygon) nodesPoygon.attr('d', D3geoPath);
 	
 };
 

@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const CleanWebpackPlugin = require('clean-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -38,7 +38,7 @@ module.exports = {
 							// you can specify a publicPath here
 							// by default it uses publicPath in webpackOptions.output
 							publicPath: '../',
-							hmr: process.env.NODE_ENV === 'development',
+							hmr: process.env.NODE_ENV === 'production',
 						},
 					},
 					'css-loader',
@@ -91,7 +91,7 @@ module.exports = {
 		]),
 		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 		new WebpackBar(),
-		// new BundleAnalyzerPlugin(),
+		new BundleAnalyzerPlugin(),
 	],
 	optimization: {
 		splitChunks: {

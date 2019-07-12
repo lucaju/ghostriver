@@ -126,7 +126,7 @@ const showHome = () => {
 		.style('opacity', 1)
 		.style('margin-top', '0px');
 
-}
+};
 
 const hideHome = () => {
 	select('#header-col')

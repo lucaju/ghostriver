@@ -46,6 +46,8 @@ const init = () => {
 	mapbox.on('move', update);
 	mapbox.on('movleeend', update);
 
+	mouseMapPitch();
+
 };
 
 const pitchMap = ({finalPitch = 0, duration = 1000}) => {
