@@ -4,7 +4,7 @@ import mapAPI from './mapAPI.js';
 import datavis from './datavis.js';
 import config from './config/config.json';
 
-let theme;
+let theme = 'home';
 
 const mainMenu = {};
 const topMenu = {};
@@ -18,19 +18,24 @@ const themes = [
 		mapID: 'cjtf3qpso03kh1fkvzo8dd4xk'
 	},
 	{
-		name: 'water',
-		pageID: 116,
-		mapID: 'cjuee51b92imr1fpof8u119ws'
-	},
-	{
 		name: 'steps',
 		pageID: 118,
 		mapID: 'cjtg0c42v0w5x1fqlf1rmfs76'
 	},
 	{
+		name: 'water',
+		pageID: 116,
+		mapID: 'cjuee51b92imr1fpof8u119ws'
+	},
+	{
 		name: 'about',
-		pageID: 9,
+		pageID: 56,
 		mapID: 'cjtg0c42v0w5x1fqlf1rmfs76'
+	},
+	{
+		name: 'home',
+		pageID: 0,
+		mapID: 'cjxzbs7nf0a4b1cowp80tsndy'
 	},
 ];
 
@@ -48,7 +53,25 @@ const init = () => {
 	// const leftPanel = select('#left-panel');
 	// const rightPanel = select('#right-panel');
 
+	// const homeTitle = select('#home-title')
+	// 	.style('opacity', 0)
+	// 	.style('display', 'block')
+	// 	.transition()
+	// 	.delay(1000)
+	// 	.duration(3000)
+	// 	.style('opacity', 1);
 
+	// console.log(homeTitle);
+
+	select('#home-text')
+		.style('opacity', 0)
+		.style('display', 'block')
+		.transition()
+		.delay(3000)
+		.duration(3000)
+		.style('opacity', 1);
+
+	let delay = 8000;
 	for (const theme of themes) {
 
 		const mainMenuBT = select(`#main-${theme.name}-bt`);
@@ -59,52 +82,75 @@ const init = () => {
 
 		mainMenuBT.on('click', () => showPage(theme));
 		topMenuBT.on('click', () => showPage(theme));
+
+		mainMenuBT.style('opacity', 0)
+			.style('display', 'block')
+			.transition()
+			.delay(delay)
+			.duration(3000)
+			.style('opacity', 1);
+
+		delay += 1000;
 	}
+	
 };
 
-const getTheme = name => themes.find( theme => theme.name === name );
+// const getTheme = name => themes.find( theme => theme.name === name );
 
 const changeState = newState => {
-
 	if (newState == 'home') {
-		console.log('go to home');
+		hideTopMenu();
+		hidePanel({direction:'up'});
+		showHome();
 	} else if (newState == 'internal') {
 		hideHome();
 		showTopMenu();
-		showLeftPanel();
-
 	}
 };
+
+const showHome = () => {
+	select('#header-col')
+		.style('display', 'block')
+		.transition()
+		.delay(1000)
+		.duration(3000)
+		.style('opacity', 1)
+		.style('margin-top', '0px');
+
+	selectAll('.col-main-menu')
+		.style('opacity', 0)
+		.style('display', 'block')
+		.transition()
+		.delay(1000)
+		.duration(3000)
+		.style('opacity', 1)
+		.style('margin-top', '0px');
+
+}
 
 const hideHome = () => {
 	select('#header-col')
 		.transition()
 		.duration(3000)
 		.style('opacity', 0)
-		.style('margin-top', '-500px');
-
-	select('#header-col')
-		.transition()
-		.delay(3000)
-		.duration(10)
-		.style('display', 'none');
+		.style('margin-top', '-500px')
+		.on('end', function() {
+			select(this).style('display', 'none');
+		});
 
 	selectAll('.col-main-menu')
 		.transition()
 		.duration(3000)
-		.style('opacity', 0.5)
-		.style('margin-top', '-200px');
-
-	selectAll('.col-main-menu')
-		.transition()
-		.delay(3000)
-		.duration(10)
-		.style('display', 'none');
+		.style('opacity', 0)
+		.style('margin-top', '-200px')
+		.on('end', function() {
+			select(this).style('display', 'none');
+		});
 };
 
 const showTopMenu = () => {
-	const topMenu = select('#top-menu');
-	topMenu.style('opacity',0)
+	select('#top-menu')
+		.style('opacity',0)
 		.style('top', -200)
 		.style('display', 'block')
 		.transition()
@@ -114,45 +160,126 @@ const showTopMenu = () => {
 		.style('top', 0);
 };
 
-const showLeftPanel = () => {
+const hideTopMenu = () => {
+	select('#top-menu')
+		.transition()
+		.delay(0)
+		.duration(2000)
+		.style('opacity', 0)
+		.style('top', -200)
+		.on('end', function() {
+			select(this).style('display', 'none');
+		});
+};
+
+const showPanel = ({direction = 'none', delay = 0}) => {
+
+	if (direction == 'none') {
+		direction = '0px';
+	} else if (direction == 'up') {
+		direction = '-2000px';
+	} else if (direction == 'down') {
+		direction = '2000px';
+	}
+
 	select('#left-panel')
 		.style('opacity',0)
-		.style('margin-top', '2000px')
+		.style('margin-top', direction)
 		.style('display', 'block')
 		.transition()
-		.delay(3000)
+		.delay(delay)
 		.duration(2000)
 		.style('opacity', 1)
 		.style('margin-top','0px');
 
 	select('#right-panel')
 		.style('opacity',0)
-		.style('margin-top', '2000px')
+		.style('margin-top', direction)
 		.style('display', 'block')
 		.transition()
-		.delay(3000)
+		.delay(delay)
 		.duration(2000)
 		.style('opacity', 1)
 		.style('margin-top','0px');
 };
 
+const hidePanel = async ({direction = 'none'}) => {
 
-const showPost = async data => {
+	if (direction == 'none') {
+		direction = '0px';
+	} else if (direction == 'up') {
+		direction = '-2000px';
+	} else if (direction == 'down') {
+		direction = '2000px';
+	}
 
-	const postData = await wp.posts().id(data.id);
+	return new Promise(resolve => {
+
+		select('#left-panel')
+			.transition()
+			.delay(0)
+			.duration(2000)
+			.style('opacity', 0)
+			.style('margin-top',direction)
+			.on('end', function() {
+				select(this).style('display', 'none');
+				resolve();
+			});
+
+		select('#right-panel')
+			.transition()
+			.delay(0)
+			.duration(2000)
+			.style('opacity', 0)
+			.style('margin-top',direction)
+			.on('end', function() {
+				select(this).style('display', 'none');
+			});
+	});
+};
+
+
+const showPost = async ({id}) => {
+
+	await hidePanel({direction:'up'});
+
+	const postData = await wp.posts().id(id);
 	console.log(postData);
-
+	
 	select('#article-title').select('.fl-heading-text').html(postData.title.rendered);
 	select('#article-content').select('.fl-rich-text').html(postData.content.rendered);
 	select('.tagline').select('.fl-heading-text').html(theme);
 
+	showPanel({direction:'down', delay: 0});
+
 };
+
+// const loadPostData = (postData) => {
+// 	console.log(postData)
+// 	select('#article-title').select('.fl-heading-text').html(postData.title.rendered);
+// 	select('#article-content').select('.fl-rich-text').html(postData.content.rendered);
+// 	select('.tagline').select('.fl-heading-text').html(theme);
+
+// 	showPanel();
+// };
 
 const showPage = async ({name, pageID, mapID}) => {
 
+	if (theme === 'home') {
+		changeState('internal');
+	} else if (name === 'home') {
+		theme = name;
+		changeState('home');
+		return;
+	}
+
 	theme = name;
 
-	changeState('internal');
+	if (name != 'about') mapAPI.changeMap(mapID);
+
+	await hidePanel({direction:'up'});
+
+	datavis.drawNodes(theme);
 
 	const pageData = await wp.pages().id(pageID);
 	console.log(pageData);
@@ -161,9 +288,7 @@ const showPage = async ({name, pageID, mapID}) => {
 	select('#article-content').select('.fl-rich-text').html(pageData.content.rendered);
 	select('.tagline').select('.fl-heading-text').html('');
 
-	mapAPI.changeMap(mapID);
-	datavis.drawNodes(theme);
-
+	showPanel({direction:'down', delay: 0});
 };
 
 

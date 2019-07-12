@@ -5,7 +5,8 @@ import wpAPI from './wordpress.js';
 import nodesDataset from './data/features.json';
 import river1834 from './data/1834_A_Jobin_final-2.json';
 
-let riverPath;
+let geoTransform;
+let geoPath;
 let svg;
 let riverLines;
 let dataset = [];
@@ -15,6 +16,9 @@ let nodesPoygon;
 
 const init = canvas => {
 
+	geoTransform = d3.geoTransform({point:mapAPI.projectPoint});
+	geoPath = d3.geoPath().projection(geoTransform);
+
 	dataset = nodesDataset.features;
 
 	// Overlay d3 on the mapbox canvas
@@ -23,7 +27,6 @@ const init = canvas => {
 
 	svg.attr('height', '100%');
 
-	// draNodes(dataset.features, 500, 2);
 	drawRiver(river1834.features, 500, 2);
 
 	wpAPI.init();
@@ -47,11 +50,13 @@ const drawNodes =  theme => {
 	const polygons = themeNodes.filter(n => n.geometry.type === 'Polygon');
 	// console.log(themeNodes,points,lines,polygons);
 
-	drawPoints(points);
+	drawPoints({data:points});
+	drawLines({data:lines});
+	drawPolygins({data:polygons});
 
 };
 
-const drawPoints =  (data, transitionTime = 500, delayTime = 2) => {
+const drawPoints =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 
 	// Add circles
 	nodesPoint = svg.selectAll('.circle')
@@ -94,61 +99,150 @@ const drawPoints =  (data, transitionTime = 500, delayTime = 2) => {
 		.style('opacity', 0.1)
 		.style('fill', function (d) {
 			// console.log(d);
-			// return app.color(_this.colorCategory(d, app.colorCodeBy));
 		})
 		.style('stroke', function (d) {
-			// console.log(d);
-			// return app.color(_this.colorCategory(d, app.colorCodeBy));
+			// console.log(d);=
 		});
 		
 	nodesPoint.transition()
-		.duration(1000)
-		// .duration(transitionTime)
-		// .delay(function (d, i) {
-		// 	return delayTime * i;
-		// })
+		.duration(transitionTime)
+		.delay(function (d, i) {
+			return delayTime * i;
+		})
 		.attr('r', 8)
 		.style('opacity', 0.8);
-
-	// Call the update function
-	// this.updateDataPoints();
-
 };
 
-const drawRiver = (data, transitionTime = 0, delayTime = 0) => {
+const drawLines =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 
-	const transform = d3.geoTransform({point:mapAPI.projectPoint});
-	riverPath = d3.geoPath().projection(transform);
+	// Add circles
+	nodesLine = svg.selectAll('.line')
+		.data(data);
 
-	riverLines = svg.selectAll('path')
-		// .data(data.features)
-		.data(data)
-		.enter()
-		.append('path')
+	nodesLine.exit()
+		.attr('id', 'exit')
+		.attr('class', 'exit')
+		.transition()
+		.duration(500)
+		.style('fill', '#000000')
+		.attr('width', 0)
+		.remove();
+
+	nodesLine.enter().append('path')
+		.attr('class', 'line');
+
+	nodesLine = svg.selectAll('.line')
 		.attr('id', function (d) {
-			return d.properties.Name;
+			return d.properties.id;
 		})
-		.attr('d', riverPath)
-		.style('fill','none')
-		.style('stroke-width', 2)
-		.style('stroke', '#0071bc')
-		.on('mousemove', function (d) {
+		.attr('d', geoPath)
+		.on('mouseover', function (d) {
 			// console.log(d);
 		})
 		.on('mouseout', function (d) {
 			// console.log(d);
-		});
+		})
+		.on('click', function (d) {
+			wpAPI.showPost(d.properties);
+		})
+		.style('cursor', 'pointer')
+		.style('fill','none')
+		.style('stroke-width', 0)
+		.style('stroke', '#FF8C00')
+		.style('opacity', 0.1);
+
+
+	nodesLine.transition()
+		.duration(transitionTime)
+		.delay(function (d, i) {
+			return delayTime * i;
+		})
+		.style('stroke-width', 2)
+		.style('opacity', 0.8);
+
+
+};
+
+const drawPolygins =  ({data, transitionTime = 5000, delayTime = 1000}) => {
+
+	// Add circles
+	nodesPoygon = svg.selectAll('.polygons')
+		.data(data);
+
+	nodesPoygon.exit()
+		.attr('id', 'exit')
+		.attr('class', 'exit')
+		.transition()
+		.duration(500)
+		.style('fill', '#000000')
+		.attr('width', 0)
+		.remove();
+
+	nodesPoygon.enter().append('path')
+		.attr('class', 'polygons');
+
+	nodesPoygon = svg.selectAll('.polygons')
+		.attr('id', function (d) {
+			return d.properties.id;
+		})
+		.attr('d', geoPath)
+		.on('mouseover', function (d) {
+			// console.log(d);
+		})
+		.on('mouseout', function (d) {
+			// console.log(d);
+		})
+		.on('click', function (d) {
+			wpAPI.showPost(d.properties);
+		})
+		.style('cursor', 'pointer')
+		.style('fill','#FFA500')
+		.style('stroke-width', 0)
+		.style('stroke', '#FF8C00')
+		.style('opacity', 0.1);
+
+
+	nodesPoygon.transition()
+		.duration(transitionTime)
+		.delay(function (d, i) {
+			return delayTime * i;
+		})
+		.style('stroke-width', 2)
+		.style('opacity', 0.8);
+
+};
+
+const drawRiver = data => {
+
+	riverLines = svg.selectAll('#river')
+		// .data(data.features)
+		.data(data)
+		.enter()
+		.append('path')
+		.attr('id', 'river')
+		.attr('d', geoPath)
+		.style('fill','none')
+		.style('stroke-width', 1)
+		.style('stroke', '#0071bc')
+		.style('opacity', 0.8);
+
+	// riverLines.transition()
+	// 	.duration(1000)
+	// 	.style('stroke-width', 4)
+	// 	.style('opacity', 0.8);
 
 	//graph animation
-	// let lineLength = riverLines.node().getTotalLength();
+	let lineLength = riverLines.node().getTotalLength();
 
-	// riverLines
-	// 	.attr('stroke-dasharray', lineLength + ' ' + lineLength)
-	// 	.attr('stroke-dashoffset', +lineLength)
-	// 	.transition()
-	// 	.duration(10000)
-	// 	.ease(d3.easeLinear)
-	// 	.attr('stroke-dashoffset', 0);
+	riverLines
+		.attr('stroke-dasharray', lineLength + ' ' + lineLength)
+		.attr('stroke-dashoffset', +lineLength)
+		.transition()
+		.duration(8000)
+		.ease(d3.easeLinear)
+		.attr('stroke-dashoffset', 0)
+		.style('stroke-width', 3)
+		.on('end', () => mapAPI.pitchMap({finalPitch:40, duration:20}) );
 };
 
 const mapUpdate =  () => {
@@ -157,7 +251,12 @@ const mapUpdate =  () => {
 };
 
 const riverUpdate = () => {
-	if (riverLines) riverLines.attr('d', riverPath);
+	if (riverLines) {
+		riverLines
+			.attr('d', geoPath)
+			.attr('stroke-dasharray', 'none')
+			.attr('stroke-dashoffset', 'none');
+	}
 };
 
 const nodeUpdate = () => {
@@ -171,6 +270,10 @@ const nodeUpdate = () => {
 				return mapAPI.project(d.geometry.coordinates).y;
 			});
 	}
+
+	if (nodesLine) nodesLine.attr('d', geoPath);
+	if (nodesPoygon) nodesPoygon.attr('d', geoPath);
+	
 };
 
 
