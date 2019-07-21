@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Oswald&display=swap');
+
 /* .box {
     background-color: white;
     z-index: 100;
@@ -83,3 +85,48 @@ circle:hover {
   .slider-circle-time-from, .slider-circle-time-to {
       cursor: pointer;  
   }
+
+#tag-container {
+    background-color: whitesmoke;
+    margin-left: -54px;
+    margin-right: -54px;
+    padding-left: 50px;
+    padding-bottom: 10px;
+    display: flex;
+    padding-top: 10px;
+}
+
+.tag-pill {
+    font-family: 'Oswald', sans-serif;
+    background-color: rgba(27, 117, 188, 0.1);
+    border-radius: 5px;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    padding-left: 1em;
+    padding-right: 1em;
+    min-width: 3rem;
+    text-align: center;
+    font-size: 0.8em;
+    box-sizing: border-box;
+    float: left;
+    margin-right: 0.5em;
+    text-transform: uppe
+}
+
+/* .tag-pill_ {
+    font-family: 'Oswald', sans-serif;
+    background-color: rgba(27, 117, 188, 0.8);
+    border-radius: 15px;
+    color: white;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    padding-left: 1em;
+    padding-right: 1em;
+    min-width: 3rem;
+    text-align: center;
+    font-size: 0.8em;
+    box-sizing: border-box;
+    float: left;
+    margin-right: 0.5em;
+    text-transform: uppercase;
+} */

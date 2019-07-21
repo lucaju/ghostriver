@@ -6,6 +6,12 @@ import wpAPI from './wordpress.js';
 import nodesDataset from './data/features.json';
 import river1834 from './data/1834_A_Jobin_final-2.json';
 
+import config from './config/config.json';
+
+const internalOption = {
+	passThrough: true,
+};
+
 let D3geoPath;
 let svg;
 let riverLines;
@@ -13,6 +19,16 @@ let dataset = [];
 let nodesPoint;
 let nodesLine;
 let nodesPoygon;
+
+// const dataURL = 'https://api.mapbox.com/datasets/v1/saintpierremapping/cjxdpkggs01gi2os0srxdx837?access_token=pk.eyJ1Ijoic2FpbnRwaWVycmVtYXBwaW5nIiwiYSI6ImNqdDBpOXo4aDBkYmk0Nm5wMTU0MzhxcWcifQ.tH1TZXEMh4KOnahRKRl_BA';
+// const dataURL = `https://api.mapbox.com/datasets/v1/${config.mapbox.user}/cjxdpkggs01gi2os0srxdx837/features?access_token=pk.eyJ1Ijoic2FpbnRwaWVycmVtYXBwaW5nIiwiYSI6ImNqdDBpOXo4aDBkYmk0Nm5wMTU0MzhxcWcifQ.tH1TZXEMh4KOnahRKRl_BA`
+
+// const loadData = async () => {
+// 	const response = await fetch(dataURL);
+// 	const data = await response.json();
+// 	console.log(data);
+// };
+// loadData();
 
 const init = canvas => {
 
@@ -29,7 +45,6 @@ const init = canvas => {
 
 	drawRiver(river1834.features, 500, 2);
 
-	wpAPI.init();
 };
 
 const getThemeNodes = theme => {
@@ -42,7 +57,7 @@ const getThemeNodes = theme => {
 	return selectedNodes;
 };
 
-const drawNodes =  theme => {
+const drawNodes = ({slug: theme}) => {
 
 	const themeNodes = getThemeNodes(theme);
 	const points = themeNodes.filter(n => n.geometry.type === 'Point');
@@ -211,7 +226,6 @@ const drawPolygins =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 const drawRiver = data => {
 
 	riverLines = svg.selectAll('#river')
-		// .data(data.features)
 		.data(data)
 		.enter()
 		.append('path')
@@ -238,7 +252,9 @@ const drawRiver = data => {
 		.ease(easeLinear)
 		.attr('stroke-dashoffset', 0)
 		.style('stroke-width', 3)
-		.on('end', () => mapAPI.pitchMap({finalPitch:40, duration:20}) );
+		.on('end', () => {
+			if(!internalOption.passThrough) mapAPI.pitchMap({finalPitch:40, duration:2000});
+		});
 };
 
 const mapUpdate =  () => {

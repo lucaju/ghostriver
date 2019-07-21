@@ -1,0 +1,46 @@
+Changes on WP Theme Pages
+
+
+
+single.php
+comment everything
+add:
+echo '<html>';
+echo '<head>';
+echo '<script src="http://localhost:8888/ghost-river/dist/vendors~main.app.bundle.js" type="text/javascript"></script>';
+echo '<script src="http://localhost:8888/ghost-river/dist/app.bundle.js"></script>';
+echo '</head>';
+echo '<body></body>';
+echo '</html>';
+
+page.php
+add:
+if (!is_front_page()) {
+	
+	echo '<html>';
+	echo '<head>';
+	echo '<script src="http://localhost:8888/ghost-river/dist/vendors~main.app.bundle.js" type="text/javascript"></script>';
+	echo '<script src="http://localhost:8888/ghost-river/dist/app.bundle.js"></script>';
+	echo '</head>';
+	echo '<body></body>';
+	echo '</html>';
+	
+} else {
+
+    from header to footer
+
+}
+
+
+
+404.php
+
+comment everything
+add:
+echo '<html>';
+echo '<head>';
+echo '<script src="http://localhost:8888/ghost-river/dist/vendors~main.app.bundle.js" type="text/javascript"></script>';
+echo '<script src="http://localhost:8888/ghost-river/dist/app.bundle.js"></script>';
+echo '</head>';
+echo '<body></body>';
+echo '</html>';
