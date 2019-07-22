@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Oswald&display=swap');
 
-
 /* MAP */
-
 .mapboxgl-map {
     position: absolute !important;
 }
@@ -46,6 +44,35 @@ circle:hover {
     height: 30px;
 }
 
+.axis path,
+.axis line {
+    /* fill: none; */
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.x.axis path, .y.axis path {
+    display: none;
+}
+
+.x.axis text, .y.axis text {
+    font-size: 10px;
+}
+
+.track {
+    /* stroke: #777; */
+    stroke-opacity: .2;
+    /* stroke-width: 8; */
+  }
+  .track-overlay {
+    pointer-events: stroke;
+    stroke-width: 20px;
+  }
+  
+  .slider-circle-time-from, .slider-circle-time-to {
+      cursor: pointer;  
+  }
+
 #tag-container {
     background-color: whitesmoke;
     margin-left: -54px;
@@ -73,6 +100,7 @@ circle:hover {
     text-transform: uppe
 }
 
+
 /* .tag-pill_ {
     font-family: 'Oswald', sans-serif;
     background-color: rgba(27, 117, 188, 0.8);
@@ -90,9 +118,6 @@ circle:hover {
     margin-right: 0.5em;
     text-transform: uppercase;
 } */
-
-
-/* SPINNER */
 
 #spinner {
     width: 100%;

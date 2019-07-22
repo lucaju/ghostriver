@@ -1,12 +1,12 @@
 // import * as d3 from 'd3';
 import {select,geoTransform,geoPath,easeLinear} from 'd3/dist/d3.min';
-import mapAPI from './mapAPI.js';
-import wpAPI from './wordpress.js';
 
-import nodesDataset from './data/features.json';
-import river1834 from './data/1834_A_Jobin_final-2.json';
+import map from './map';
+import content from './content';
 
 import config from './config/config.json';
+import river1834 from './data/1834_A_Jobin_final-2.json';
+
 
 const internalOption = {
 	passThrough: true,
@@ -15,55 +15,43 @@ const internalOption = {
 let D3geoPath;
 let svg;
 let riverLines;
-let dataset = [];
+let dataset;
 let nodesPoint;
 let nodesLine;
 let nodesPoygon;
 
-// const dataURL = 'https://api.mapbox.com/datasets/v1/saintpierremapping/cjxdpkggs01gi2os0srxdx837?access_token=pk.eyJ1Ijoic2FpbnRwaWVycmVtYXBwaW5nIiwiYSI6ImNqdDBpOXo4aDBkYmk0Nm5wMTU0MzhxcWcifQ.tH1TZXEMh4KOnahRKRl_BA';
-// const dataURL = `https://api.mapbox.com/datasets/v1/${config.mapbox.user}/cjxdpkggs01gi2os0srxdx837/features?access_token=pk.eyJ1Ijoic2FpbnRwaWVycmVtYXBwaW5nIiwiYSI6ImNqdDBpOXo4aDBkYmk0Nm5wMTU0MzhxcWcifQ.tH1TZXEMh4KOnahRKRl_BA`
 
-// const loadData = async () => {
-// 	const response = await fetch(dataURL);
-// 	const data = await response.json();
-// 	console.log(data);
-// };
-// loadData();
+const init = async canvas => {
 
-const init = canvas => {
-
-	const D3geoTransform = geoTransform({point:mapAPI.projectPoint});
+	const D3geoTransform = geoTransform({point:map.projectPoint});
 	D3geoPath = geoPath().projection(D3geoTransform);
 
-	dataset = nodesDataset.features;
-
 	// Overlay d3 on the mapbox canvas
-	svg = select(canvas).append('svg');
-	svg.attr('id', 'map-box-vis');
-
-	svg.attr('height', '100%');
+	svg = select(canvas).append('svg')
+		.attr('id', 'map-box-vis')
+		.attr('height', '100%');
 
 	drawRiver(river1834.features, 500, 2);
 
 };
 
-const getThemeNodes = theme => {
-	const selectedNodes = [];
-	for (const node of dataset) {
-		const nodethemes = node.properties.theme.split(', ');
-		const themeNode = nodethemes.filter(t => t.toLowerCase() === theme);
-		if (themeNode.length > 0) selectedNodes.push(node);
-	}
-	return selectedNodes;
+const loadData = async () => {
+	const dataURL = `https://api.mapbox.com/datasets/v1/${config.mapbox.user}/${config.map.dataset}/features?access_token=${config.mapbox.token}`;
+	const response = await fetch(dataURL);
+	const data = await response.json();
+	dataset = data.features;
 };
 
-const drawNodes = ({slug: theme}) => {
+
+const drawNodes = async ({slug: theme}) => {
+
+	if (!dataset) await loadData();
 
 	const themeNodes = getThemeNodes(theme);
+
 	const points = themeNodes.filter(n => n.geometry.type === 'Point');
 	const lines = themeNodes.filter(n => n.geometry.type === 'LineString');
 	const polygons = themeNodes.filter(n => n.geometry.type === 'Polygon');
-	// console.log(themeNodes,points,lines,polygons);
 
 	drawPoints({data:points});
 	drawLines({data:lines});
@@ -71,9 +59,19 @@ const drawNodes = ({slug: theme}) => {
 
 };
 
+const getThemeNodes = theme => {
+
+	const selectedNodes = dataset.filter( node => {
+		const nodethemes = node.properties.theme.split(', ');
+		const themeNode = nodethemes.filter(t => t.toLowerCase() === theme);
+		if (themeNode.length > 0) return node;
+	});
+
+	return selectedNodes;
+};
+
 const drawPoints =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 
-	// Add circles
 	nodesPoint = svg.selectAll('.circle')
 		.data(data);
 
@@ -94,7 +92,7 @@ const drawPoints =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 			return `index-${d.properties.id}`;
 		})
 		.on('click', function (d) {
-			wpAPI.showPost(d.properties);
+			content.showPost(d.properties);
 		})
 		// .on('mouseover', function (d) {
 		// 	// _this._mouseOverSelection(d);
@@ -105,10 +103,10 @@ const drawPoints =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 		// 	// console.log(d);
 		// })
 		.attr('cx', function (d) {
-			return mapAPI.project(d.geometry.coordinates).x;
+			return map.project(d.geometry.coordinates).x;
 		})
 		.attr('cy', function (d) {
-			return mapAPI.project(d.geometry.coordinates).y;
+			return map.project(d.geometry.coordinates).y;
 		})
 		.attr('r', 0)
 		.style('opacity', 0.1);
@@ -126,7 +124,6 @@ const drawPoints =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 
 const drawLines =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 
-	// Add circles
 	nodesLine = svg.selectAll('.line')
 		.data(data);
 
@@ -154,7 +151,7 @@ const drawLines =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 		// 	// console.log(d);
 		// })
 		.on('click', function (d) {
-			wpAPI.showPost(d.properties);
+			content.showPost(d.properties);
 		})
 		.style('cursor', 'pointer')
 		.style('fill','none')
@@ -176,7 +173,6 @@ const drawLines =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 
 const drawPolygins =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 
-	// Add circles
 	nodesPoygon = svg.selectAll('.polygons')
 		.data(data);
 
@@ -204,7 +200,7 @@ const drawPolygins =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 		// 	// console.log(d);
 		// })
 		.on('click', function (d) {
-			wpAPI.showPost(d.properties);
+			content.showPost(d.properties);
 		})
 		.style('cursor', 'pointer')
 		.style('fill','#FFA500')
@@ -253,7 +249,7 @@ const drawRiver = data => {
 		.attr('stroke-dashoffset', 0)
 		.style('stroke-width', 3)
 		.on('end', () => {
-			if(!internalOption.passThrough) mapAPI.pitchMap({finalPitch:40, duration:2000});
+			if(!internalOption.passThrough) map.pitchMap({finalPitch:40, duration:2000});
 		});
 };
 
@@ -276,10 +272,10 @@ const nodeUpdate = () => {
 	if (nodesPoint) {
 		nodesPoint
 			.attr('cx', function (d) {
-				return mapAPI.project(d.geometry.coordinates).x;
+				return map.project(d.geometry.coordinates).x;
 			})
 			.attr('cy', function (d) {
-				return mapAPI.project(d.geometry.coordinates).y;
+				return map.project(d.geometry.coordinates).y;
 			});
 	}
 
@@ -287,7 +283,6 @@ const nodeUpdate = () => {
 	if (nodesPoygon) nodesPoygon.attr('d', D3geoPath);
 	
 };
-
 
 
 export default {

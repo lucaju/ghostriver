@@ -1,0 +1,37 @@
+[
+	{
+        "id": 0,
+        "name": "Home",
+		"slug": "home",
+		"mapID": "cjxzbs7nf0a4b1cowp80tsndy",
+		"state": "home"
+	},
+	{
+        "id": 56,
+        "name": "About",
+		"slug": "about",
+		"mapID": "cjybs9tuv1gnl1clpln0s5vq9",
+		"state": "page"
+	},
+	{
+        "id": 114,
+        "name": "Environment",
+		"slug": "environment",
+		"mapID": "cjtf3qpso03kh1fkvzo8dd4xk",
+		"state": "page"
+	},
+	{
+        "id": 118,
+        "name": "Steps",
+		"slug": "steps",
+		"mapID": "cjtg0c42v0w5x1fqlf1rmfs76",
+		"state": "page"
+	},
+	{
+        "id": 116,
+        "name": "Water",
+		"slug": "water",
+		"mapID": "cjuee51b92imr1fpof8u119ws",
+		"state": "page"
+	}
+]

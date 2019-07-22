@@ -1,49 +1,54 @@
-import wpAPI from './wordpress.js';
+import content from './content';
 
-const pathname = window.location.pathname;
-const search = window.location.search;
+
+const host = 'http://labs.fluxo.art.br'; //'http://localhost:8888'; // http://labs.fluxo.art.br
+const rootPath = '/ghost-river/';
+
 
 const loadDeepLink = async slug => {
 
-	let theme = wpAPI.getThemeBySlug(slug);
+	content.changeBrowserHistory({slug});					//change URL Bar
 
-	if (theme) {
-		await wpAPI.showPage(theme);
-	} else {
-		const post = await wpAPI.showPost({slug});
+	let theme = content.getThemeBySlug(slug);				//get theme based on the search parameters
 
-		//if no page found: 404
-		if (!post) notFound404();
+	//if search match to theme (page)
+	if (theme) {											
+		await content.showPage(theme);						//load the theme page
+		return;
 	}
 
+	//try to load a post based on search parameters
+	const post = await content.showPost({slug});			
+
+	//if no page/post found: load home with 404
+	if (!post) goHome({location: '404'});
+	
+
 };
 
-const notFound404 = async () => {
-	wpAPI.changeBrowserHistory({slug: '/ghost-river/'});
-	wpAPI.initHome({notFound: true});
-};
-
-const goHome = async () => {
-	wpAPI.changeBrowserHistory({slug: '/ghost-river/'});
-	wpAPI.initHome({});
+const goHome = async data => {
+	content.changeBrowserHistory({slug: rootPath});
+	content.initHome(data);
 };
  
-( async () => {
-	if (pathname == '/ghost-river/') {
+( async () => {		
 
-		if (!search) {
-			goHome();
-		} else {
-			const url = new URL(window.location.href);
-			const slug = url.searchParams.get('node');
-
-			wpAPI.changeBrowserHistory({slug});
-			loadDeepLink(slug);
-		}
-
-	} else { 
-		
-		const deepLink = pathname.split('/')[2];
-		location = `http://localhost:8888/ghost-river?node=${deepLink}`;
+	//test if url is trying to reach a deeplink		
+	if (window.location.pathname !== rootPath) {								
+		const deepLink = window.location.pathname.split('/')[2]; 	//get path after the '/' as deeplink
+		location = `${host}${rootPath}?node=${deepLink}`;			//naviate to root with deeplink as a search parameters
+		return;
 	}
+
+	//test if url is searching fofr deeplink
+	if (window.location.search) {																				
+		const url = new URL(window.location.href);					//get utl		
+		const slug = url.searchParams.get('node');					//get the params for search (a slug for a page or post)
+		loadDeepLink(slug);
+		return;
+	}
+
+	//Go Home
+	goHome({location: 'home'});
+
 })();

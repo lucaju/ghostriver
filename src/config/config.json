@@ -1,9 +1,22 @@
 {
+    "map": {
+        "default": {
+            "styleID": "cjxzbs7nf0a4b1cowp80tsndy",
+            "center": [-73.56, 45.465],
+            "zoom": 11.5,
+            "pitch": 0,
+            "maxZoom": 17,
+            "maxBounds": [
+                [-73.81,45.35],
+                [-73.34,45.58]
+            ]
+        },
+        "dataset": "cjxdpkggs01gi2os0srxdx837"
+    },
     "mapbox": {
         "user": "saintpierremapping",
         "token": "pk.eyJ1Ijoic2FpbnRwaWVycmVtYXBwaW5nIiwiYSI6ImNqdDBpOXo4aDBkYmk0Nm5wMTU0MzhxcWcifQ.tH1TZXEMh4KOnahRKRl_BA"
     },
-
     "wordpress": {
         "local": {
             "endpoint": "http://localhost:8888/ghost-river/wp-json/"
