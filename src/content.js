@@ -10,7 +10,7 @@ import themes from './config/themes.json';
 
 const wp = new WPAPI({endpoint: config.wordpress.remote.endpoint});
 
-let theme = themes[0];
+let theme;
 let currentNode;
 
 
@@ -31,6 +31,8 @@ export const showPage = async ({id, slug}) => {
 		changeBrowserHistory({slug: '/ghost-river/'});
 		return;
 	}
+
+	// console.log(theme.id, id);
 		
 	const pageData = await loadPage({id, slug});
 	// console.log(pageData);
@@ -88,7 +90,8 @@ export const showPost = async ({id, slug}) => {
 	const postCategories = postData._embedded['wp:term'][0];
 	const postTags = postData._embedded['wp:term'][1];
 
-	let postTheme = postCategories.find(cat => cat.slug == theme.slug);
+	let postTheme;
+	if (theme) postTheme = postCategories.find(cat => cat.slug == theme.slug);
 
 	if (!postTheme) {
 		if (postCategories.length > 1) {
@@ -97,7 +100,6 @@ export const showPost = async ({id, slug}) => {
 		} else {
 			postTheme = postCategories[0];
 		}
-		
 	}
 	
 	if(postTheme.slug == 'uncategorized') console.log('Problem with category "uncategorized": ', postData);
@@ -145,8 +147,16 @@ const loadPost = async ({id, slug}) => {
 	return postData;
 };
 
+export const closePanel = async () => {
+	await await contenHTML.hidePanel({direction: 'up'});
+	currentNode = null;
+	return currentNode;
+};
+
 
 const setTheme = async requestedThemeSlug => {
+
+	if (!theme) theme = {};
 
 	theme.isNew = false;
 	
@@ -158,9 +168,7 @@ const setTheme = async requestedThemeSlug => {
 	}
 
 	if (theme.slug != 'home') {
-		await contenHTML.hidePanel({
-			direction: 'up'
-		});
+		await contenHTML.hidePanel({direction: 'up'});
 	}
 	
 	return theme;
@@ -184,6 +192,8 @@ const changeState = async newState => {
 };
 
 const updateMap = async ({location}) => {
+
+	if (!theme) theme = themes[0];
 
 	if(!map.isMapboxLoaded()) {
 		if (location === '404') {
@@ -215,6 +225,7 @@ export default {
 	initHome,
 	showPage,
 	showPost,
+	closePanel,
 	getThemeBySlug,
 	changeBrowserHistory,
 };

@@ -1,5 +1,5 @@
 import {select, selectAll, event} from 'd3/dist/d3.min';
-import {showPage, showPost} from './content';
+import {showPage, showPost, closePanel} from './content';
 import themes from './config/themes.json';
 import {getIcon} from './tags';
 
@@ -58,8 +58,9 @@ const configTopMenu = () => {
 	if (topMenu == false) {
 		for (const theme of themes) {
 			select(`#top-${theme.slug}-bt`)
-				.on('click', () => showPage(theme))
-				.style('cursor', 'pointer'); 
+				.style('cursor', 'pointer')
+				.on('click', () => showPage(theme));
+				
 		}
 		topMenu = true;
 	}
@@ -234,10 +235,12 @@ const hidePanel = async ({direction = 'none'}) => {
 
 const updatePage = ({title, content}) => {
 	//dom manipulation
-	select('#right-panel').select('#article-title').select('.fl-heading-text').html(title.rendered);
-	select('#right-panel').select('#article-content').select('.fl-rich-text').html(content.rendered);
-	select('#right-panel').select('.tagline').select('.fl-heading-text').html('');
-	select('#right-panel').select('#article-tags').select('.fl-html').html('');
+	const panel = select('#right-panel');
+	panel.select('#article-title').select('.fl-heading-text').html(title.rendered);
+	panel.select('#article-content').select('.fl-rich-text').html(content.rendered);
+	panel.select('.tagline').select('.fl-heading-text').html('');
+	panel.select('#article-tags').select('.fl-html').html('');
+	panel.select('#close-panel').style('cursor', 'pointer').on('click', closePanel);
 	captureLinks();
 };
 
@@ -247,6 +250,7 @@ const updatePost = ({title, content}, tags, theme) => {
 
 	panel.select('#article-title').select('.fl-heading-text').html(title.rendered);
 	panel.select('#article-content').select('.fl-rich-text').html(content.rendered);
+	panel.select('#close-panel').style('cursor', 'pointer').on('click', closePanel);
 	panel.select('.tagline').select('.fl-heading-text').html(theme.slug);
 
 	//tags
@@ -265,6 +269,8 @@ const updatePost = ({title, content}, tags, theme) => {
 	tagsDIV.selectAll('svg').attr('width','15px').attr('height','15px');
 
 	captureLinks();
+
+
 };
 
 const captureLinks = () => {

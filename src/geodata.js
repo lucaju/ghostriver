@@ -104,10 +104,7 @@ const drawPoints =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 			return `index-${d.properties.id}`;
 		})
 		.on('click', function (d) {
-			console.log(d);
-			// map.flyTo(d.geometry.coordinates);
-
-			content.showPost({id: d.properties.id, coordinates: d.geometry.coordinates});
+			content.showPost(d.properties);
 		})
 		// .on('mouseover', function (d) {
 		// 	// _this._mouseOverSelection(d);
