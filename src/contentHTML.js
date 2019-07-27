@@ -1,6 +1,7 @@
 import {select, selectAll, event} from 'd3/dist/d3.min';
 import {showPage, showPost} from './content';
 import themes from './config/themes.json';
+import {getIcon} from './tags';
 
 
 const animation = {
@@ -252,11 +253,16 @@ const updatePost = ({title, content}, tags, theme) => {
 	const tagsDIV = panel.select('#article-tags').select('.fl-html');
 	let tagsHTML = '<div id="tag-container">';
 	for (const tag of tags) {
-		tagsHTML += `<div id="tag-${tag.slug}" class="tag-pill">${tag.name}</div>`;
+		const icon = getIcon(tag);
+		
+		tagsHTML += `<div id="tag-${tag.slug}" class="tag-pill">${icon}
+		${tag.name}
+		</div>`;
 	}
 	tagsHTML += '</div>';
 
 	tagsDIV.html(tagsHTML);
+	tagsDIV.selectAll('svg').attr('width','15px').attr('height','15px');
 
 	captureLinks();
 };

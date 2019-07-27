@@ -22,13 +22,6 @@ module.exports = {
 	devtool: 'inline-source-map',
 	module: {
 		rules: [
-			// {
-			// 	test: /\.css$/,
-			// 	use: [
-			// 		'style-loader',
-			// 		'css-loader',
-			// 	],
-			// },
 			{
 				test: /\.css$/,
 				use: [
@@ -45,7 +38,7 @@ module.exports = {
 				],
 			},
 			{
-				test: /\.(png|svg|jpg|gif)$/,
+				test: /\.(png|jpg|gif)$/,
 				use: [
 					'file-loader',
 				],
@@ -54,6 +47,10 @@ module.exports = {
 				test: /\.html$/,
 				use: 'mustache-loader',
 			},
+			{
+				test: /\.svg$/,
+				loader: 'svg-inline-loader'
+			}
 		],
 	},
 	plugins: [
@@ -87,7 +84,8 @@ module.exports = {
 			chunkFilename: '[id].css',
 		}),
 		new CopyWebpackPlugin([
-			// { from: 'src/asset/', to: 'asset/' }
+			// { from: 'src/styles/', to: '' },
+			// { from: 'src/assets/', to: 'assets/' }
 		]),
 		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 		new WebpackBar(),

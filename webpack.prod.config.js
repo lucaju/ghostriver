@@ -87,7 +87,8 @@ module.exports = {
 			chunkFilename: '[id].css',
 		}),
 		new CopyWebpackPlugin([
-			// { from: 'src/asset/', to: 'asset/' }
+			{ from: 'src/styles/', to: '' },
+			{ from: 'src/assets/', to: 'assets/' }
 		]),
 		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 		new WebpackBar(),

@@ -24,6 +24,7 @@
     "chroma-js": "^2.0.4",
     "d3": "^5.9.7",
     "mapbox-gl": "^1.1.1",
+    "webpack": "^4.36.1",
     "wpapi": "^1.2.1"
   },
   "devDependencies": {
@@ -37,7 +38,7 @@
     "html-webpack-template": "^6.2.0",
     "mini-css-extract-plugin": "^0.8.0",
     "style-loader": "^0.23.0",
-    "webpack": "^4.38.0",
+    "svg-inline-loader": "^0.8.0",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.3.6",
     "webpack-dev-middleware": "^3.7.0",

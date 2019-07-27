@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Oswald&display=swap');
 
+
 /* MAP */
+
 .mapboxgl-map {
     position: absolute !important;
 }
@@ -44,80 +46,42 @@ circle:hover {
     height: 30px;
 }
 
-.axis path,
-.axis line {
-    /* fill: none; */
-    stroke: #000;
-    shape-rendering: crispEdges;
-}
-
-.x.axis path, .y.axis path {
-    display: none;
-}
-
-.x.axis text, .y.axis text {
-    font-size: 10px;
-}
-
-.track {
-    /* stroke: #777; */
-    stroke-opacity: .2;
-    /* stroke-width: 8; */
-  }
-  .track-overlay {
-    pointer-events: stroke;
-    stroke-width: 20px;
-  }
-  
-  .slider-circle-time-from, .slider-circle-time-to {
-      cursor: pointer;  
-  }
-
 #tag-container {
-    background-color: whitesmoke;
-    margin-left: -54px;
-    margin-right: -54px;
-    padding-left: 50px;
-    padding-bottom: 10px;
-    display: flex;
-    padding-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -54px;
+  margin-right: -54px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 50px;
+  background-color: whitesmoke;
 }
 
 .tag-pill {
-    font-family: 'Oswald', sans-serif;
-    background-color: rgba(27, 117, 188, 0.1);
-    border-radius: 5px;
-    padding-top: 0.2em;
-    padding-bottom: 0.2em;
-    padding-left: 1em;
-    padding-right: 1em;
-    min-width: 3rem;
-    text-align: center;
-    font-size: 0.8em;
-    box-sizing: border-box;
-    float: left;
-    margin-right: 0.5em;
-    text-transform: uppe
+  min-width: 3rem;
+  margin-top: 0.4em;
+  margin-right: 0.5em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  padding-left: 1em;
+  padding-right: 1em;
+  box-sizing: border-box;
+  float: left;
+  font-family: 'Oswald', sans-serif;
+  background-color: rgba(27, 117, 188, 0.1);
+  border-radius: 5px;
+  font-size: 0.8em;
+  text-align: center;
+  text-transform: uppercase;
 }
 
+figcaption {
+  font-size: 0.72em !important;
+  text-align: left !important;
+  text-transform: inherit !important;
+}
 
-/* .tag-pill_ {
-    font-family: 'Oswald', sans-serif;
-    background-color: rgba(27, 117, 188, 0.8);
-    border-radius: 15px;
-    color: white;
-    padding-top: 0.2em;
-    padding-bottom: 0.2em;
-    padding-left: 1em;
-    padding-right: 1em;
-    min-width: 3rem;
-    text-align: center;
-    font-size: 0.8em;
-    box-sizing: border-box;
-    float: left;
-    margin-right: 0.5em;
-    text-transform: uppercase;
-} */
+/* SPINNER */
 
 #spinner {
     width: 100%;

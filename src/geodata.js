@@ -62,9 +62,11 @@ const drawNodes = async ({slug: theme}) => {
 const getThemeNodes = theme => {
 
 	const selectedNodes = dataset.filter( node => {
-		const nodethemes = node.properties.theme.split(', ');
-		const themeNode = nodethemes.filter(t => t.toLowerCase() === theme);
-		if (themeNode.length > 0) return node;
+		if(node.properties.theme) {
+			const nodethemes = node.properties.theme.split(', ');
+			const themeNode = nodethemes.filter(t => t.toLowerCase() === theme);
+			if (themeNode.length > 0) return node;
+		}
 	});
 
 	return selectedNodes;
