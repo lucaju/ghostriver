@@ -96,6 +96,19 @@ const changeMap = ({mapID}) => {
 	pitchMap({finalPitch:0, duration:1});
 };
 
+const flyTo = coordinates => {
+	mapbox.flyTo({
+		center:coordinates,
+		zoom: 17,
+		speed: 1,
+		curve: 1,
+		// minZoom: 3,
+		// pitch: 60,
+		// maxDuration: 5000,
+		easing: function (t) { return t; }
+	});
+};
+
 //pitch map animation
 const pitchMap = ({finalPitch = 0, duration = 1000}) => {
 
@@ -136,5 +149,6 @@ export default {
 	changeMap,
 	pitchMap,
 	project,
-	projectPoint
+	projectPoint,
+	flyTo
 };

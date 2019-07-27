@@ -72,6 +72,16 @@ const getThemeNodes = theme => {
 	return selectedNodes;
 };
 
+const getNodeCoordinates = async ({id}) => {
+	if (!dataset) await loadData();
+	const item = dataset.find( item => item.properties.id === id );
+	if (!item) return config.map.default.center; // return center of map
+
+	if (item.geometry.type == 'Point') return item.geometry.coordinates;
+	const coordinates = item.geometry.coordinates[0];
+	return coordinates;
+};
+
 const drawPoints =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 
 	nodesPoint = svg.selectAll('.circle')
@@ -94,7 +104,10 @@ const drawPoints =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 			return `index-${d.properties.id}`;
 		})
 		.on('click', function (d) {
-			content.showPost(d.properties);
+			console.log(d);
+			// map.flyTo(d.geometry.coordinates);
+
+			content.showPost({id: d.properties.id, coordinates: d.geometry.coordinates});
 		})
 		// .on('mouseover', function (d) {
 		// 	// _this._mouseOverSelection(d);
@@ -290,5 +303,6 @@ const nodeUpdate = () => {
 export default {
 	init,
 	drawNodes,
-	mapUpdate
+	mapUpdate,
+	getNodeCoordinates
 };

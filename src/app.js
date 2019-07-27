@@ -1,5 +1,4 @@
 import content from './content';
-// import './style.css';
 
 const host = 'http://localhost:8888'; //'http://localhost:8888'; // http://labs.fluxo.art.br
 const rootPath = '/ghost-river/';

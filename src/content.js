@@ -81,15 +81,26 @@ export const showPost = async ({id, slug}) => {
 	const postCategories = postData._embedded['wp:term'][0];
 	const postTags = postData._embedded['wp:term'][1];
 
-	// const postTheme = postCategories[0].slug;
 	let postTheme = postCategories.find(cat => cat.slug == theme.slug);
 
-	if (!postTheme) postTheme = postCategories[0];
+	if (!postTheme) {
+		if (postCategories.length > 1) {
+			const themePost = Math.floor(Math.random() * postCategories.length);
+			postTheme = postCategories[themePost];
+		} else {
+			postTheme = postCategories[0];
+		}
+		
+	}
 	
 	if(postTheme.slug == 'uncategorized') console.log('Problem with category "uncategorized": ', postData);
 
 	setTheme(postTheme.slug);
 	if (theme.isNew) updateMap(theme);
+
+	//fly to local
+	const coordinates = await geodata.getNodeCoordinates(postData);
+	map.flyTo(coordinates);
 	
 	contenHTML.updatePost(postData,postTags,theme);
 
