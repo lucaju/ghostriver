@@ -11,6 +11,7 @@ import themes from './config/themes.json';
 const wp = new WPAPI({endpoint: config.wordpress.remote.endpoint});
 
 let theme = themes[0];
+let currentNode;
 
 
 const initHome = ({location}) => {
@@ -33,6 +34,8 @@ export const showPage = async ({id, slug}) => {
 		
 	const pageData = await loadPage({id, slug});
 	// console.log(pageData);
+
+	currentNode = null;
 	
 	contenHTML.updatePage(pageData);
 	
@@ -66,6 +69,8 @@ const loadPage = async ({id, slug}) => {
 
 export const showPost = async ({id, slug}) => {
 
+	if (currentNode && currentNode.id == id) return;
+
 	await contenHTML.hidePanel({direction: 'up'});
 
 	contenHTML.showSpinner();
@@ -77,6 +82,8 @@ export const showPost = async ({id, slug}) => {
 		contenHTML.hideSpinner();
 		return;
 	}
+
+	currentNode = postData;
 
 	const postCategories = postData._embedded['wp:term'][0];
 	const postTags = postData._embedded['wp:term'][1];
