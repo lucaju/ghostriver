@@ -2,7 +2,7 @@ import WPAPI from 'wpapi';
 
 import map from './map';
 import geodata from './geodata';
-import contenHTML from './contentHTML';
+import contentHTML from './contentHTML';
 
 import config from './config/config.json';
 import themes from './config/themes.json';
@@ -15,7 +15,7 @@ let currentNode;
 
 
 const initHome = ({location}) => {
-	contenHTML.initHome();
+	contentHTML.initHome();
 	updateMap({location});
 };
 
@@ -39,10 +39,10 @@ export const showPage = async ({id, slug}) => {
 
 	currentNode = null;
 	
-	contenHTML.updatePage(pageData);
+	contentHTML.updatePage(pageData);
 	
 	//show panel
-	contenHTML.showPanel({
+	contentHTML.showPanel({
 		direction: 'down',
 		delay: 0
 	});
@@ -73,15 +73,15 @@ export const showPost = async ({id, slug}) => {
 
 	if (currentNode && currentNode.id == id) return;
 
-	await contenHTML.hidePanel({direction: 'up'});
+	await contentHTML.hidePanel({direction: 'up'});
 
-	contenHTML.showSpinner();
+	contentHTML.showSpinner();
 
 	//postData - load by ID or by Slug
 	const postData = await loadPost({id,slug});
 	// console.log(postData);
 	if (!postData) {
-		contenHTML.hideSpinner();
+		contentHTML.hideSpinner();
 		return;
 	}
 
@@ -108,15 +108,18 @@ export const showPost = async ({id, slug}) => {
 	if (theme.isNew) updateMap(theme);
 
 	//fly to local
+	geodata.setCurrentNodeAppearence(postData);
 	const coordinates = await geodata.getNodeCoordinates(postData);
 	map.flyTo(coordinates);
 	
-	contenHTML.updatePost(postData,postTags,theme);
+	contentHTML.updatePost(postData,postTags,theme);
 
-	contenHTML.hideSpinner();
+	contentHTML.hideSpinner();
+
+	
 
 	//show Panel
-	contenHTML.showPanel({
+	contentHTML.showPanel({
 		direction: 'down',
 		delay: 0
 	});
@@ -148,7 +151,7 @@ const loadPost = async ({id, slug}) => {
 };
 
 export const closePanel = async () => {
-	await await contenHTML.hidePanel({direction: 'up'});
+	await await contentHTML.hidePanel({direction: 'up'});
 	currentNode = null;
 	return currentNode;
 };
@@ -168,24 +171,25 @@ const setTheme = async requestedThemeSlug => {
 	}
 
 	if (theme.slug != 'home') {
-		await contenHTML.hidePanel({direction: 'up'});
+		await contentHTML.hidePanel({direction: 'up'});
 	}
 	
 	return theme;
 };
 
 const getThemeBySlug = slug => themes.find( theme => theme.slug === slug );
+const getCurrentTheme = () => theme;
 
 const changeState = async newState => {
 
 	if (newState != theme.state) {
 		if (newState === 'home') {
-			contenHTML.hideTopMenu();
-			await contenHTML.hidePanel({direction: 'up'});
-			contenHTML.showHome();
+			contentHTML.hideTopMenu();
+			await contentHTML.hidePanel({direction: 'up'});
+			contentHTML.showHome();
 		} else if (newState === 'page') {
-			contenHTML.hideHome();
-			contenHTML.showTopMenu();
+			contentHTML.hideHome();
+			contentHTML.showTopMenu();
 		}
 	}
 	
@@ -226,6 +230,7 @@ export default {
 	showPage,
 	showPost,
 	closePanel,
+	getCurrentTheme,
 	getThemeBySlug,
 	changeBrowserHistory,
 };

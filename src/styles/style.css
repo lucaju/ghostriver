@@ -22,18 +22,18 @@
 
 
 /* GEO DATA */
-circle {
+/* circle { */
     /* fill: #e55e5e; */
     /* stroke: #fefefe; */
-    stroke-width: 0;
+    /* stroke-width: 0;
     cursor: pointer;
-    transition: 0.5s fill, 0.5s stroke-width;
-}
+    transition: 0.5s fill, 0.5s stroke-width; */
+/* } */
 
-circle:hover {
-    fill: #5e5ee5;
-    stroke-width: 9;
-}
+/* circle:hover { */
+    /* fill: #5e5ee5;
+    stroke-width: 9; */
+/* } */
   
 
 /* WORPRESS */

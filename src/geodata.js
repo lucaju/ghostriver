@@ -1,5 +1,6 @@
 // import * as d3 from 'd3';
 import {select,geoTransform,geoPath,easeLinear} from 'd3/dist/d3.min';
+import chroma from 'chroma-js';
 
 import map from './map';
 import content from './content';
@@ -19,6 +20,8 @@ let dataset;
 let nodesPoint;
 let nodesLine;
 let nodesPoygon;
+
+let currentSelected;
 
 
 const init = async canvas => {
@@ -53,9 +56,9 @@ const drawNodes = async ({slug: theme}) => {
 	const lines = themeNodes.filter(n => n.geometry.type === 'LineString');
 	const polygons = themeNodes.filter(n => n.geometry.type === 'Polygon');
 
-	drawPoints({data:points});
-	drawLines({data:lines});
 	drawPolygins({data:polygons});
+	drawLines({data:lines});
+	drawPoints({data:points});
 
 };
 
@@ -84,6 +87,10 @@ const getNodeCoordinates = async ({id}) => {
 
 const drawPoints =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 
+	const colours = getColours();
+
+	console.log(colours);
+
 	nodesPoint = svg.selectAll('.circle')
 		.data(data);
 
@@ -103,17 +110,14 @@ const drawPoints =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 		.attr('id', function (d) {
 			return `index-${d.properties.id}`;
 		})
-		.on('click', function (d) {
-			content.showPost(d.properties);
+		.style('cursor', 'pointer')
+		.style('stroke-width', 2)
+		.style('stroke', () => {
+			return chroma(colours.active.stroke).hex();
 		})
-		// .on('mouseover', function (d) {
-		// 	// _this._mouseOverSelection(d);
-		// 	console.log(d.properties);
-		// })
-		// .on('mouseout', function (d) {
-		// 	// _this._mouseOutSelection(d);
-		// 	// console.log(d);
-		// })
+		.style('fill', () => {
+			return chroma(colours.active.fill).alpha(0.7).hex();
+		})
 		.attr('cx', function (d) {
 			return map.project(d.geometry.coordinates).x;
 		})
@@ -121,17 +125,33 @@ const drawPoints =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 			return map.project(d.geometry.coordinates).y;
 		})
 		.attr('r', 0)
-		.style('opacity', 0.1);
-	// .style('fill', )
-	// .style('stroke', );
-		
+		.style('opacity', 0.1)
+		.on('click', function (d) {
+			content.showPost(d.properties);
+			currentSelected = d;
+			resetNodesState(d);
+			select(this).transition()
+				// .style('stroke-width', 8)
+				.duration(2000)
+				.delay(1000)
+				.attr('r', 16)
+				// .style('stroke', chroma(colours.selected.stroke).hex());
+		})
+		.on('mouseover', function (d) {
+			nodesOver(d);
+			console.log(d.properties);
+		})
+		.on('mouseout', () => {
+			nodesOut();
+		});
+	
 	nodesPoint.transition()
 		.duration(transitionTime)
 		.delay(function (d, i) {
 			return delayTime * i;
 		})
 		.attr('r', 8)
-		.style('opacity', 0.8);
+		.style('opacity', 1);
 };
 
 const drawLines =  ({data, transitionTime = 5000, delayTime = 1000}) => {
@@ -295,6 +315,94 @@ const nodeUpdate = () => {
 	if (nodesPoygon) nodesPoygon.attr('d', D3geoPath);
 	
 };
+
+const getColours = () => {
+
+	const theme = content.getCurrentTheme();
+
+	if (theme.slug === 'environment') {
+		return {
+			active: {
+				fill: '#FFDE17',
+				stroke: '#8B5E3C'
+			},
+			selected: {
+				stroke: '#ffffff'
+			}
+		};
+	}
+
+	if (theme.slug === 'water') {
+		return {
+			active: {
+				fill: '#00AEEF',
+				stroke: '#1B75BC'
+			},
+			selected: {
+				stroke: '#ffffff'
+			}
+		};
+	}
+
+	if (theme.slug === 'steps') {
+		return {
+			active: {
+				fill: '#F15A29',
+				stroke: '#F15A29'
+			},
+			selected: {
+				stroke: '#58595B'
+			}
+		};
+	}
+};
+
+const nodesOver = current => {
+	if (nodesPoint) {
+		nodesPoint.style('opacity', function (d) {
+			if (d !== current) return 0.5;
+		});
+	}
+
+	if (nodesLine) {
+		nodesLine.style('opacity', function (d) {
+			if (d !== current) return 0.5;
+		});
+	}
+
+	if (nodesPoygon) {
+		nodesPoygon.style('opacity', function (d) {
+			if (d !== current) return 0.5;
+		});
+	}
+}; 
+
+const nodesOut = () => {
+	if (nodesPoint) nodesPoint.style('opacity', () => 1);
+	if (nodesLine) nodesLine.style('opacity', () => 1);
+	if (nodesPoygon) nodesPoygon.style('opacity', () => 1);
+};
+
+const resetNodesState = current => {
+	if (nodesPoint) {
+		nodesPoint.transition()
+			// .style('stroke-width', function (d) {
+			// 	if (d !== current) return 2;
+			// })
+			.duration(2000)
+			.delay(1000)
+			.attr('r', function (d) {
+				if (d !== current) return 8;
+			})
+			// .style('stroke', chroma(colours.selected.stroke).hex());
+	}
+};
+
+const setCurrentNodeAppearence = ({id}) => {
+	let node;
+
+	if (nodesPoint) 
+}
 
 
 export default {
