@@ -39,7 +39,7 @@ const goHome = async data => {
 		return;
 	}
 
-	//test if url is searching fofr deeplink
+	//test if url is searching for deeplink
 	if (window.location.search) {																				
 		const url = new URL(window.location.href);					//get utl		
 		const slug = url.searchParams.get('node');					//get the params for search (a slug for a page or post)

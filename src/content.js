@@ -105,18 +105,16 @@ export const showPost = async ({id, slug}) => {
 	if(postTheme.slug == 'uncategorized') console.log('Problem with category "uncategorized": ', postData);
 
 	setTheme(postTheme.slug);
-	if (theme.isNew) updateMap(theme);
+	if (theme.isNew) await updateMap(theme);
 
 	//fly to local
-	geodata.setCurrentNodeAppearence(postData);
+	geodata.setCurrentNode(postData);
 	const coordinates = await geodata.getNodeCoordinates(postData);
 	map.flyTo(coordinates);
 	
 	contentHTML.updatePost(postData,postTags,theme);
 
 	contentHTML.hideSpinner();
-
-	
 
 	//show Panel
 	contentHTML.showPanel({
@@ -210,7 +208,7 @@ const updateMap = async ({location}) => {
 		await map.changeMap(theme);
 	}
 
-	geodata.drawNodes(theme);
+	await geodata.drawNodes(theme);
 };
 
 const changeBrowserHistory = ({title,slug}) => {

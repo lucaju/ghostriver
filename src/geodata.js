@@ -21,9 +21,6 @@ let nodesPoint;
 let nodesLine;
 let nodesPoygon;
 
-let currentSelected;
-
-
 const init = async canvas => {
 
 	const D3geoTransform = geoTransform({point:map.projectPoint});
@@ -43,6 +40,8 @@ const loadData = async () => {
 	const response = await fetch(dataURL);
 	const data = await response.json();
 	dataset = data.features;
+	
+	return dataset;
 };
 
 
@@ -59,6 +58,12 @@ const drawNodes = async ({slug: theme}) => {
 	drawPolygins({data:polygons});
 	drawLines({data:lines});
 	drawPoints({data:points});
+
+	return {
+		points,
+		lines,
+		polygons
+	};
 
 };
 
@@ -85,11 +90,9 @@ const getNodeCoordinates = async ({id}) => {
 	return coordinates;
 };
 
-const drawPoints =  ({data, transitionTime = 5000, delayTime = 1000}) => {
+const drawPoints =  ({data, transitionTime = 5000, delayTime = 200}) => {
 
 	const colours = getColours();
-
-	console.log(colours);
 
 	nodesPoint = svg.selectAll('.circle')
 		.data(data);
@@ -127,19 +130,11 @@ const drawPoints =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 		.attr('r', 0)
 		.style('opacity', 0.1)
 		.on('click', function (d) {
-			content.showPost(d.properties);
-			currentSelected = d;
 			resetNodesState(d);
-			select(this).transition()
-				// .style('stroke-width', 8)
-				.duration(2000)
-				.delay(1000)
-				.attr('r', 16)
-				// .style('stroke', chroma(colours.selected.stroke).hex());
+			content.showPost(d.properties);
 		})
 		.on('mouseover', function (d) {
 			nodesOver(d);
-			console.log(d.properties);
 		})
 		.on('mouseout', () => {
 			nodesOut();
@@ -154,7 +149,9 @@ const drawPoints =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 		.style('opacity', 1);
 };
 
-const drawLines =  ({data, transitionTime = 5000, delayTime = 1000}) => {
+const drawLines =  ({data, transitionTime = 5000, delayTime = 200}) => {
+
+	const colours = getColours();
 
 	nodesLine = svg.selectAll('.line')
 		.data(data);
@@ -164,8 +161,7 @@ const drawLines =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 		.attr('class', 'exit')
 		.transition()
 		.duration(500)
-		.style('fill', '#000000')
-		.attr('width', 0)
+		.attr('stroke-width', 0)
 		.remove();
 
 	nodesLine.enter().append('path')
@@ -176,20 +172,23 @@ const drawLines =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 			return d.properties.id;
 		})
 		.attr('d', D3geoPath)
-		// .on('mouseover', function (d) {
-		// 	// console.log(d);
-		// })
-		// .on('mouseout', function (d) {
-		// 	// console.log(d);
-		// })
+		.style('cursor', 'pointer')
+		.style('stroke-width', 0)
+		.style('stroke', () => {
+			return chroma(colours.active.stroke).hex();
+		})
+		.style('fill', 'none')
+		.style('opacity', 0.1)
 		.on('click', function (d) {
+			resetNodesState(d);
 			content.showPost(d.properties);
 		})
-		.style('cursor', 'pointer')
-		.style('fill','none')
-		.style('stroke-width', 0)
-		.style('stroke', '#FF8C00')
-		.style('opacity', 0.1);
+		.on('mouseover', function (d) {
+			nodesOver(d);
+		})
+		.on('mouseout', () => {
+			nodesOut();
+		});
 
 
 	nodesLine.transition()
@@ -197,13 +196,15 @@ const drawLines =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 		.delay(function (d, i) {
 			return delayTime * i;
 		})
-		.style('stroke-width', 2)
-		.style('opacity', 0.8);
+		.style('stroke-width', 4)
+		.style('opacity', 1);
 
 
 };
 
-const drawPolygins =  ({data, transitionTime = 5000, delayTime = 1000}) => {
+const drawPolygins =  ({data, transitionTime = 5000, delayTime = 200}) => {
+
+	const colours = getColours();
 
 	nodesPoygon = svg.selectAll('.polygons')
 		.data(data);
@@ -214,7 +215,7 @@ const drawPolygins =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 		.transition()
 		.duration(500)
 		.style('fill', '#000000')
-		.attr('width', 0)
+		.attr('stroke-width', 0)
 		.remove();
 
 	nodesPoygon.enter().append('path')
@@ -225,20 +226,25 @@ const drawPolygins =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 			return d.properties.id;
 		})
 		.attr('d', D3geoPath)
-		// .on('mouseover', function (d) {
-		// 	// console.log(d);
-		// })
-		// .on('mouseout', function (d) {
-		// 	// console.log(d);
-		// })
+		.style('cursor', 'pointer')
+		.style('stroke-width', 0)
+		.style('stroke', () => {
+			return chroma(colours.active.stroke).hex();
+		})
+		.style('fill', () => {
+			return chroma(colours.active.fill).alpha(0.7).hex();
+		})
+		.style('opacity', 0.1)
 		.on('click', function (d) {
+			resetNodesState(d);
 			content.showPost(d.properties);
 		})
-		.style('cursor', 'pointer')
-		.style('fill','#FFA500')
-		.style('stroke-width', 0)
-		.style('stroke', '#FF8C00')
-		.style('opacity', 0.1);
+		.on('mouseover', function (d) {
+			nodesOver(d);
+		})
+		.on('mouseout', () => {
+			nodesOut();
+		});
 
 
 	nodesPoygon.transition()
@@ -247,7 +253,7 @@ const drawPolygins =  ({data, transitionTime = 5000, delayTime = 1000}) => {
 			return delayTime * i;
 		})
 		.style('stroke-width', 2)
-		.style('opacity', 0.8);
+		.style('opacity', 1);
 
 };
 
@@ -359,55 +365,118 @@ const getColours = () => {
 
 const nodesOver = current => {
 	if (nodesPoint) {
-		nodesPoint.style('opacity', function (d) {
-			if (d !== current) return 0.5;
-		});
+		nodesPoint
+			.style('opacity', function (d) {
+				if (d !== current) return 0.5;
+			})
+			.style('stroke-width', function (d) {
+				if (d === current) return 4;
+			});
+
 	}
 
 	if (nodesLine) {
-		nodesLine.style('opacity', function (d) {
-			if (d !== current) return 0.5;
-		});
+		nodesLine
+			.style('opacity', function (d) {
+				if (d !== current) return 0.5;
+			})
+			.style('stroke-width', function (d) {
+				if (d === current) return 7;
+			});
 	}
 
 	if (nodesPoygon) {
-		nodesPoygon.style('opacity', function (d) {
-			if (d !== current) return 0.5;
-		});
+		nodesPoygon
+			.style('opacity', function (d) {
+				if (d !== current) return 0.5;
+			})
+			.style('stroke-width', function (d) {
+				if (d === current) return 4;
+			});
 	}
 }; 
 
 const nodesOut = () => {
-	if (nodesPoint) nodesPoint.style('opacity', () => 1);
-	if (nodesLine) nodesLine.style('opacity', () => 1);
-	if (nodesPoygon) nodesPoygon.style('opacity', () => 1);
-};
-
-const resetNodesState = current => {
 	if (nodesPoint) {
-		nodesPoint.transition()
-			// .style('stroke-width', function (d) {
-			// 	if (d !== current) return 2;
-			// })
-			.duration(2000)
-			.delay(1000)
-			.attr('r', function (d) {
-				if (d !== current) return 8;
-			})
-			// .style('stroke', chroma(colours.selected.stroke).hex());
+		nodesPoint
+			.style('opacity', 1)
+			.style('stroke-width', 2);
+	}
+	if (nodesLine) {
+		nodesLine
+			.style('opacity', 1)
+			.style('stroke-width', 4);
+	}
+	if (nodesPoygon) {
+		nodesPoygon
+			.style('opacity', 1)
+			.style('stroke-width', 2);
 	}
 };
 
-const setCurrentNodeAppearence = ({id}) => {
-	let node;
+const resetNodesState = () => {
+	if (nodesPoint) {
+		nodesPoint.transition()
+			.duration(2000)
+			.delay(1000)
+			.attr('r', 8);
+	}
 
-	if (nodesPoint) 
-}
+	if (nodesLine) {
+		nodesLine.transition()
+			.duration(2000)
+			.delay(1000)
+			.style('stroke-width', 4);
+	}
+
+	if (nodesPoygon) {
+		nodesPoygon.transition()
+			.duration(2000)
+			.delay(1000)
+			.style('stroke-width', 2);
+	}
+};
+
+const setCurrentNode = ({id}) => {
+
+	if (nodesPoint) {
+		nodesPoint.transition()
+			.duration(3000)
+			.attr('r', function(d) {
+				if (d.properties.id === id) return 16;
+				return 8;
+			})
+			.style('opacity', 1);
+	}
+
+	if (nodesLine) {
+		nodesLine.transition()
+			.duration(3000)
+			.style('stroke-width', function(d) {
+				console.log(d.properties.id === id);
+				if (d.properties.id === id) return 8;
+				return 2;
+			})
+			.style('opacity', 1);
+	}
+
+	if (nodesPoygon) {
+		nodesPoygon.transition()
+			.duration(3000)
+			.style('stroke-width', function(d) {
+				if (d.properties.id === id) return 8;
+				return 2;
+			})
+			.style('opacity', 1);
+	}
+	
+};
 
 
 export default {
 	init,
 	drawNodes,
 	mapUpdate,
-	getNodeCoordinates
+	getNodeCoordinates,
+	setCurrentNode
 };
