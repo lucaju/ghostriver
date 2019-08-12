@@ -1,7 +1,17 @@
 @import url('https://fonts.googleapis.com/css?family=Oswald&display=swap');
 
 
+html {
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
 /* MAP */
+
+#map-bg {
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/black-and-white-dark-1291515.jpg');
+}
 
 .mapboxgl-map {
     position: absolute !important;

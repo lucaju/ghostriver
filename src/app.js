@@ -21,7 +21,6 @@ const loadDeepLink = async slug => {
 
 	//if no page/post found: load home with 404
 	if (!post) goHome({location: '404'});
-	
 
 };
 

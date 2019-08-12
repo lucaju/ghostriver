@@ -29,6 +29,11 @@ const init = async ({mapID, location}) => {
 		select('#app').select(':first-child')
 			.append('div')
 			.attr('id', 'map');
+		
+
+		// select('#map').append('div').attr('id','map-bg');
+		// select('.mapboxgl-canvas').style('opacity', 0);
+
 
 		if (location === '404') setUnknowLocation();											//404: center the map anywhere in the globe
 
