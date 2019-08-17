@@ -6,13 +6,16 @@ import map from './map';
 import content from './content';
 
 import config from './config/config.json';
-// import river1834 from './data/1834_A_Jobin_final-2.json';
+// import river1834 from './data/speculative-river.json';
 import historicalRivel from './data/historical.json';
 
 
 // const internalOption = {
 // 	passThrough: true,
 // };
+
+const historicalRiverScale = chroma.scale(['red','orange','yellow','green','blue','indigo','violet']).domain([0,8]);
+// const historicalRiverScale = chroma.scale(['dodgerblue','darkslategray']).domain([0,8]);
 
 let D3geoPath;
 let svg;
@@ -22,8 +25,7 @@ let nodesPoint;
 let nodesLine;
 let nodesPoygon;
 
-const historicalRiverScale = chroma.scale(['red','orange','yellow','green','blue','indigo','violet']).domain([0,8]);
-// const historicalRiverScale = chroma.scale(['dodgerblue','darkslategray']).domain([0,8]);
+
 
 const init = async canvas => {
 
@@ -195,6 +197,8 @@ const drawLines =  ({data, transitionTime = 5000, delayTime = 200}) => {
 		.style('fill', 'none')
 		.style('opacity', 0.1)
 		.on('click', function (d) {
+			const theme = content.getCurrentTheme();
+			if (d.properties.name === 'Saint-Pierre Speculative River' && theme.slug !== 'steps') return;
 			resetNodesState(d);
 			content.showPost(d.properties);
 		})
@@ -429,7 +433,7 @@ const nodesOut = () => {
 	}
 };
 
-const resetNodesState = () => {
+export const resetNodesState = () => {
 	if (nodesPoint) {
 		nodesPoint.transition()
 			.duration(2000)
@@ -492,5 +496,6 @@ export default {
 	drawNodes,
 	mapUpdate,
 	getNodeCoordinates,
-	setCurrentNode
+	setCurrentNode,
+	resetNodesState
 };

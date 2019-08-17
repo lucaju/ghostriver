@@ -151,6 +151,7 @@ const loadPost = async ({id, slug}) => {
 export const closePanel = async () => {
 	await await contentHTML.hidePanel({direction: 'up'});
 	currentNode = null;
+	geodata.resetNodesState();
 	return currentNode;
 };
 
@@ -194,7 +195,6 @@ const changeState = async newState => {
 };
 
 const updateMap = async ({location}) => {
-
 	if (!theme) theme = themes[0];
 
 	if(!map.isMapboxLoaded()) {
