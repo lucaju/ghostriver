@@ -89,6 +89,13 @@ const showHome = () => {
 		.style('display', 'block')
 		.style('opacity', 1);
 
+	select('#map-bg')
+		.style('display', 'block')
+		.transition()
+		.delay(1000)
+		.duration(3000)
+		.style('opacity', 1);
+
 	for (const theme of themes) {
 		select(`#main-${theme.slug}-bt`)
 			.style('display', 'block')
@@ -100,6 +107,7 @@ const showHome = () => {
 };
 
 const hideHome = () => {
+
 	select('#header-col')
 		.transition()
 		.duration(3000)
@@ -114,6 +122,14 @@ const hideHome = () => {
 		.duration(3000)
 		.style('opacity', 0)
 		.style('margin-top', '-200px')
+		.on('end', function () {
+			select(this).style('display', 'none');
+		});
+
+	select('#map-bg')
+		.transition()
+		.duration(3000)
+		.style('opacity', 0)
 		.on('end', function () {
 			select(this).style('display', 'none');
 		});

@@ -6,20 +6,24 @@ import map from './map';
 import content from './content';
 
 import config from './config/config.json';
-import river1834 from './data/1834_A_Jobin_final-2.json';
+// import river1834 from './data/1834_A_Jobin_final-2.json';
+import historicalRivel from './data/historical.json';
 
 
-const internalOption = {
-	passThrough: true,
-};
+// const internalOption = {
+// 	passThrough: true,
+// };
 
 let D3geoPath;
 let svg;
-let riverLines;
+// let riverLines;
 let dataset;
 let nodesPoint;
 let nodesLine;
 let nodesPoygon;
+
+const historicalRiverScale = chroma.scale(['red','orange','yellow','green','blue','indigo','violet']).domain([0,8]);
+// const historicalRiverScale = chroma.scale(['dodgerblue','darkslategray']).domain([0,8]);
 
 const init = async canvas => {
 
@@ -31,7 +35,12 @@ const init = async canvas => {
 		.attr('id', 'map-box-vis')
 		.attr('height', '100%');
 
-	drawRiver(river1834.features, 500, 2);
+
+	svg.append('g').attr('id', 'polygons-container');
+	svg.append('g').attr('id', 'lines-container');
+	svg.append('g').attr('id', 'points-container');
+
+	// drawRiver(river1834.features, 500, 2);
 
 };
 
@@ -40,6 +49,8 @@ const loadData = async () => {
 	const response = await fetch(dataURL);
 	const data = await response.json();
 	dataset = data.features;
+
+	dataset = dataset.concat(historicalRivel.features);
 	
 	return dataset;
 };
@@ -93,8 +104,8 @@ const getNodeCoordinates = async ({id}) => {
 const drawPoints =  ({data, transitionTime = 5000, delayTime = 200}) => {
 
 	const colours = getColours();
-
-	nodesPoint = svg.selectAll('.circle')
+	
+	nodesPoint = svg.select('#points-container').selectAll('.circle')
 		.data(data);
 
 	nodesPoint.exit()
@@ -153,7 +164,7 @@ const drawLines =  ({data, transitionTime = 5000, delayTime = 200}) => {
 
 	const colours = getColours();
 
-	nodesLine = svg.selectAll('.line')
+	nodesLine = svg.select('#lines-container').selectAll('.line')
 		.data(data);
 
 	nodesLine.exit()
@@ -174,7 +185,11 @@ const drawLines =  ({data, transitionTime = 5000, delayTime = 200}) => {
 		.attr('d', D3geoPath)
 		.style('cursor', 'pointer')
 		.style('stroke-width', 0)
-		.style('stroke', () => {
+		.style('stroke', function (d) {
+			if (d.properties.name === 'Saint-Pierre Speculative River') return chroma('#0071bc').hex();
+			if (d.properties.type === 'historical') {
+				return historicalRiverScale(d.properties.index).alpha(.8).hex();
+			}
 			return chroma(colours.active.stroke).hex();
 		})
 		.style('fill', 'none')
@@ -196,7 +211,7 @@ const drawLines =  ({data, transitionTime = 5000, delayTime = 200}) => {
 		.delay(function (d, i) {
 			return delayTime * i;
 		})
-		.style('stroke-width', 4)
+		.style('stroke-width', 2)
 		.style('opacity', 1);
 
 
@@ -206,7 +221,7 @@ const drawPolygins =  ({data, transitionTime = 5000, delayTime = 200}) => {
 
 	const colours = getColours();
 
-	nodesPoygon = svg.selectAll('.polygons')
+	nodesPoygon = svg.select('#polygons-container').selectAll('.polygons')
 		.data(data);
 
 	nodesPoygon.exit()
@@ -257,53 +272,53 @@ const drawPolygins =  ({data, transitionTime = 5000, delayTime = 200}) => {
 
 };
 
-const drawRiver = data => {
+// const drawRiver = data => {
 
-	riverLines = svg.selectAll('#river')
-		.data(data)
-		.enter()
-		.append('path')
-		.attr('id', 'river')
-		.attr('d', D3geoPath)
-		.style('fill','none')
-		.style('stroke-width', 1)
-		.style('stroke', '#0071bc')
-		.style('opacity', 0.8);
+// 	riverLines = svg.selectAll('#river')
+// 		.data(data)
+// 		.enter()
+// 		.append('path')
+// 		.attr('id', 'river')
+// 		.attr('d', D3geoPath)
+// 		.style('fill','none')
+// 		.style('stroke-width', 1)
+// 		.style('stroke', '#0071bc')
+// 		.style('opacity', 0.8);
 
-	// riverLines.transition()
-	// 	.duration(1000)
-	// 	.style('stroke-width', 4)
-	// 	.style('opacity', 0.8);
+// 	// riverLines.transition()
+// 	// 	.duration(1000)
+// 	// 	.style('stroke-width', 4)
+// 	// 	.style('opacity', 0.8);
 
-	//graph animation
-	let lineLength = riverLines.node().getTotalLength();
+// 	//graph animation
+// 	let lineLength = riverLines.node().getTotalLength();
 
-	riverLines
-		.attr('stroke-dasharray', lineLength + ' ' + lineLength)
-		.attr('stroke-dashoffset', +lineLength)
-		.transition()
-		.duration(8000)
-		.ease(easeLinear)
-		.attr('stroke-dashoffset', 0)
-		.style('stroke-width', 3)
-		.on('end', () => {
-			if(!internalOption.passThrough) map.pitchMap({finalPitch:40, duration:2000});
-		});
-};
+// 	riverLines
+// 		.attr('stroke-dasharray', lineLength + ' ' + lineLength)
+// 		.attr('stroke-dashoffset', +lineLength)
+// 		.transition()
+// 		.duration(8000)
+// 		.ease(easeLinear)
+// 		.attr('stroke-dashoffset', 0)
+// 		.style('stroke-width', 3)
+// 		.on('end', () => {
+// 			if(!internalOption.passThrough) map.pitchMap({finalPitch:40, duration:2000});
+// 		});
+// };
 
 const mapUpdate =  () => {
-	riverUpdate();
+	// riverUpdate();
 	nodeUpdate();
 };
 
-const riverUpdate = () => {
-	if (riverLines) {
-		riverLines
-			.attr('d', D3geoPath)
-			.attr('stroke-dasharray', 'none')
-			.attr('stroke-dashoffset', 'none');
-	}
-};
+// const riverUpdate = () => {
+// 	if (riverLines) {
+// 		riverLines
+// 			.attr('d', D3geoPath)
+// 			.attr('stroke-dasharray', 'none')
+// 			.attr('stroke-dashoffset', 'none');
+// 	}
+// };
 
 const nodeUpdate = () => {
 	
@@ -341,8 +356,8 @@ const getColours = () => {
 	if (theme.slug === 'water') {
 		return {
 			active: {
-				fill: '#00AEEF',
-				stroke: '#1B75BC'
+				fill: '#fefefe',
+				stroke: '#652e00'
 			},
 			selected: {
 				stroke: '#ffffff'
@@ -370,7 +385,7 @@ const nodesOver = current => {
 				if (d !== current) return 0.5;
 			})
 			.style('stroke-width', function (d) {
-				if (d === current) return 4;
+				if (d === current) return 3;
 			});
 
 	}
@@ -378,10 +393,10 @@ const nodesOver = current => {
 	if (nodesLine) {
 		nodesLine
 			.style('opacity', function (d) {
-				if (d !== current) return 0.5;
+				if (d.properties.name !== current.properties.name) return 0.5;
 			})
 			.style('stroke-width', function (d) {
-				if (d === current) return 7;
+				if (d.properties.name === current.properties.name) return 3;
 			});
 	}
 
@@ -391,7 +406,7 @@ const nodesOver = current => {
 				if (d !== current) return 0.5;
 			})
 			.style('stroke-width', function (d) {
-				if (d === current) return 4;
+				if (d === current) return 3;
 			});
 	}
 }; 
@@ -405,7 +420,7 @@ const nodesOut = () => {
 	if (nodesLine) {
 		nodesLine
 			.style('opacity', 1)
-			.style('stroke-width', 4);
+			.style('stroke-width', 2);
 	}
 	if (nodesPoygon) {
 		nodesPoygon
@@ -453,7 +468,6 @@ const setCurrentNode = ({id}) => {
 		nodesLine.transition()
 			.duration(3000)
 			.style('stroke-width', function(d) {
-				console.log(d.properties.id === id);
 				if (d.properties.id === id) return 8;
 				return 2;
 			})

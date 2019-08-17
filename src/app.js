@@ -1,8 +1,10 @@
+import {select} from 'd3/dist/d3.min';
 import content from './content';
 
 const host = 'http://localhost:8888'; //'http://localhost:8888'; // http://labs.fluxo.art.br
 const rootPath = '/ghost-river/';
 
+select('body').append('div').attr('id','map-bg');
 
 const loadDeepLink = async slug => {
 

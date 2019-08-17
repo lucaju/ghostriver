@@ -12,6 +12,7 @@ const mapBoxConfig = {
 	center: config.map.default.center, //center in Montreal
 	zoom: config.map.default.zoom,
 	pitch: config.map.default.pitch,
+	minZoom: config.map.default.minZoom,
 	maxZoom: config.map.default.maxZoom,
 	maxBounds: config.map.default.maxBounds,
 	interactive: true,
@@ -29,10 +30,6 @@ const init = async ({mapID, location}) => {
 		select('#app').select(':first-child')
 			.append('div')
 			.attr('id', 'map');
-		
-
-		// select('#map').append('div').attr('id','map-bg');
-		// select('.mapboxgl-canvas').style('opacity', 0);
 
 
 		if (location === '404') setUnknowLocation();											//404: center the map anywhere in the globe
@@ -60,7 +57,6 @@ const init = async ({mapID, location}) => {
 };
 
 const setUnknowLocation = async () => {
-
 	//anywhere in the globe
 	const lat = Math.floor(Math.random() * 180) - 90;
 	const lon = Math.floor(Math.random() * 360) - 180;
@@ -87,7 +83,9 @@ const flyFromUnknowLocation = async () => {
 	});
 };
 
-const update = () => geodata.mapUpdate();
+const update = () => {
+	geodata.mapUpdate();
+};
 
 //check if map is loaded
 const isMapboxLoaded = () =>  {

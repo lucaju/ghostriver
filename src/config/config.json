@@ -3,12 +3,13 @@
         "default": {
             "styleID": "cjxzbs7nf0a4b1cowp80tsndy",
             "center": [-73.56, 45.465],
-            "zoom": 11.5,
+            "zoom": 12.14,
             "pitch": 0,
+            "minZoom": 12,
             "maxZoom": 17,
             "maxBounds": [
-                [-73.81,45.35],
-                [-73.34,45.58]
+                [-73.68,45.415],
+                [-73.44,45.535]
             ]
         },
         "dataset": "cjxdpkggs01gi2os0srxdx837"
