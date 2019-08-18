@@ -84,8 +84,6 @@ const drawNodeByTag = async ({name: tag}) => {
 
 	const tagNodes = getTagNodes(tag);
 
-	console.log(tagNodes.length);
-
 	const points = tagNodes.filter(n => n.geometry.type === 'Point');
 	const lines = tagNodes.filter(n => n.geometry.type === 'LineString');
 	const polygons = tagNodes.filter(n => n.geometry.type === 'Polygon');

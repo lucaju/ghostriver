@@ -13,7 +13,8 @@ html {
   width: 100%;
   height: 100%;
   background-image: url('../assets/culture1.jpg');
-  background-size:100%;
+  /* background-size:100%; */
+  background-size: cover;
 }
 
 .mapboxgl-map {
@@ -34,7 +35,7 @@ html {
 
 #map-heading {
   position: absolute;
-  top: 100px;
+  top: 140px;
   left: 100px;
   z-index: 100;
   cursor: default;
@@ -49,7 +50,17 @@ html {
   color: rgba(0, 0, 0, 0.6)
 }
 
-  
+#small-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/culture1.jpg');
+  /* background-size:100%; */
+  background-size: cover;
+  z-index: 1000;
+}
 
 /* WORPRESS */
 .lower-layer {

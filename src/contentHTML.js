@@ -14,6 +14,8 @@ const animation = {
 let mainMenu = false;
 let topMenu = false;
 
+select('body').append('div').attr('id','map-bg');
+
 const initHome = () => {
 
 	select('#home-text')
@@ -133,7 +135,7 @@ const showHomeBG = () => {
 const hideHomeBG = () => {
 	select('#map-bg')
 		.transition()
-		.duration(3000)
+		.duration(2000)
 		.style('opacity', 0)
 		.on('end', function () {
 			select(this).style('display', 'none');
@@ -166,7 +168,7 @@ const hideTopMenu = () => {
 		});
 };
 
-const showPanel = ({direction = 'none', delay = 0}) => {
+const showPanel = ({activePanel = 'left-panel', direction = 'none', delay = 0}) => {
 
 	if (direction == 'none') {
 		direction = '0px';
@@ -176,41 +178,59 @@ const showPanel = ({direction = 'none', delay = 0}) => {
 		direction = '2000px';
 	}
 
-	select('#left-panel')
-		.style('opacity', 0)
-		.style('margin-top', direction)
-		.style('display', 'block')
-		.transition()
-		.delay(delay)
-		.duration(animation.duration.in)
-		.style('opacity', 0)
-		.style('margin-top', '0px');
+	if (activePanel === 'full-panel') {
+		select('#full-panel')
+			.style('opacity', 0)
+			.style('margin-top', direction)
+			.style('display', 'block')
+			.transition()
+			.delay(delay)
+			.duration(animation.duration.in)
+			.style('opacity', 1)
+			.style('margin-top', '0px');
 
-	select('#middle-panel')
-		.style('opacity', 0)
-		.style('margin-top', direction)
-		.style('display', 'block')
-		.transition()
-		.delay(delay)
-		.duration(animation.duration.in)
-		.style('opacity', 0)
-		.style('margin-top', '0px');
+		select('#full-panel').select('.fl-col-content').property('scrollTop', 0);
+		showHomeBG();
 
-	select('#right-panel')
-		.style('opacity', 0)
-		.style('margin-top', direction)
-		.style('display', 'block')
-		.transition()
-		.delay(delay)
-		.duration(animation.duration.in)
-		.style('opacity', 1)
-		.style('margin-top', '0px');
+	} else {
 
-	select('#right-panel').select('.fl-col-content').property('scrollTop', 0);
+		select('#left-panel')
+			.style('opacity', 0)
+			.style('margin-top', direction)
+			.style('display', 'block')
+			.transition()
+			.delay(delay)
+			.duration(animation.duration.in)
+			.style('opacity', 0)
+			.style('margin-top', '0px');
+
+		select('#middle-panel')
+			.style('opacity', 0)
+			.style('margin-top', direction)
+			.style('display', 'block')
+			.transition()
+			.delay(delay)
+			.duration(animation.duration.in)
+			.style('opacity', 0)
+			.style('margin-top', '0px');
+
+		select('#right-panel')
+			.style('opacity', 0)
+			.style('margin-top', direction)
+			.style('display', 'block')
+			.transition()
+			.delay(delay)
+			.duration(animation.duration.in)
+			.style('opacity', 1)
+			.style('margin-top', '0px');
+
+		select('#right-panel').select('.fl-col-content').property('scrollTop', 0);
+
+	}
 
 };
 
-const hidePanel = async ({direction = 'none'}) => {
+const hidePanel = async ({activePanel = 'right-panel', direction = 'none'}) => {
 
 	return new Promise(resolve => {
 
@@ -221,37 +241,56 @@ const hidePanel = async ({direction = 'none'}) => {
 		} else if (direction == 'down') {
 			direction = '2000px';
 		}
+
+		if (activePanel === 'full-panel') {
+			select('#full-panel')
+				.transition()
+				.delay(0)
+				.duration(animation.duration.out)
+				.style('opacity', 0)
+				.style('margin-top', direction)
+				.on('end', function () {
+					select(this).style('display', 'none');
+					resolve();
+				});
+
+			hideHomeBG();
+
+		} else {
 	
-		select('#left-panel')
-			.transition()
-			.delay(0)
-			.duration(animation.duration.out)
-			.style('opacity', 0)
-			.style('margin-top', direction)
-			.on('end', function () {
-				select(this).style('display', 'none');
-			});
+			select('#left-panel')
+				.transition()
+				.delay(0)
+				.duration(animation.duration.out)
+				.style('opacity', 0)
+				.style('margin-top', direction)
+				.on('end', function () {
+					select(this).style('display', 'none');
+				});
 
-		select('#middle-panel')
-			.transition()
-			.delay(0)
-			.duration(animation.duration.out)
-			.style('opacity', 0)
-			.style('margin-top', direction)
-			.on('end', function () {
-				select(this).style('display', 'none');
-			});
+			select('#middle-panel')
+				.transition()
+				.delay(0)
+				.duration(animation.duration.out)
+				.style('opacity', 0)
+				.style('margin-top', direction)
+				.on('end', function () {
+					select(this).style('display', 'none');
+				});
 
-		select('#right-panel')
-			.transition()
-			.delay(0)
-			.duration(animation.duration.out)
-			.style('opacity', 0)
-			.style('margin-top', direction)
-			.on('end', function () {
-				select(this).style('display', 'none');
-				resolve();
-			});
+			select('#right-panel')
+				.transition()
+				.delay(0)
+				.duration(animation.duration.out)
+				.style('opacity', 0)
+				.style('margin-top', direction)
+				.on('end', function () {
+					select(this).style('display', 'none');
+					resolve();
+				});
+
+		}
+		
 	});
 };
 
@@ -287,14 +326,15 @@ const hideHeading = () => {
 };
 
 const updateHeading = title => {
+	if (title.toLowerCase() === 'about') title = '';
 	let heading = select('#map-heading');
 	if (heading.empty()) heading = showHeading();
 	heading.select('h3').html(title);
 };
 
-const updatePage = ({title, content}) => {
+const updatePage = (activePanel, {title, content}) => {
 	//dom manipulation
-	const panel = select('#right-panel');
+	const panel = select(`#${activePanel}`);
 	panel.select('#article-title').select('.fl-heading-text').html(title.rendered);
 	panel.select('#article-content').select('.fl-rich-text').html(content.rendered);
 	panel.select('.tagline').select('.fl-heading-text').html('');
@@ -389,6 +429,38 @@ const showSpinner = () => {
 const hideSpinner = () => {
 	select('#spinner').remove();
 };
+
+// select(window).on('resize', () => {
+// 	checkScreenSize();
+// });
+
+// const checkScreenSize = () => {
+// 	if (window.innerWidth <= 880) {
+// 		showSmallScreenMsg();
+// 	} else {
+// 		hideSmallScreenMsg();
+// 	}
+// };
+
+// const showSmallScreenMsg = () => {
+// 	let smallScreen = select('#small-screen');
+
+// 	if (smallScreen.empty()) {
+// 		smallScreen = select('body').append('div')
+// 			.attr('id','small-screen');
+// 	}
+
+// 	smallScreen.style('display', 'block');
+
+// 	return smallScreen;
+// };
+
+// const hideSmallScreenMsg = () => {
+// 	const smallScreen = select('#small-screen');
+// 	if (!smallScreen.empty()) smallScreen.style('display', 'none');
+// };
+
+// checkScreenSize();
 
 
 export default {

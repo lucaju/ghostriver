@@ -4,8 +4,6 @@ import content from './content';
 const host = 'http://localhost:8888'; //'http://localhost:8888'; // http://labs.fluxo.art.br
 const rootPath = '/ghost-river/';
 
-select('body').append('div').attr('id','map-bg');
-
 const loadDeepLink = async slug => {
 
 	content.changeBrowserHistory({slug});					//change URL Bar
@@ -32,6 +30,8 @@ const goHome = async data => {
 };
  
 ( async () => {		
+
+	if (window.innerWidth <= 880) goHome({location: 'home'});
 
 	//test if url is trying to reach a deeplink		
 	if (window.location.pathname !== rootPath) {								

@@ -12,7 +12,7 @@ const wp = new WPAPI({endpoint: config.wordpress.remote.endpoint});
 
 let theme;
 let currentNode;
-
+let activePanel;
 
 const initHome = ({location}) => {
 	contentHTML.initHome();
@@ -24,7 +24,7 @@ export const showPage = async ({id, slug}) => {
 	await setTheme(slug);
 
 	// if (theme.isNew) 
-	updateMap(theme);
+	if (slug !== 'about') updateMap(theme);
 
 	// map.pitchMap();
 
@@ -33,19 +33,21 @@ export const showPage = async ({id, slug}) => {
 		return;
 	}
 
-	// console.log(theme.id, id);
-		
 	const pageData = await loadPage({id, slug});
 	// console.log(pageData);
 
 	currentNode = null;
 
 	map.flyToOrigin();
+
+	//panel
+	activePanel = (slug === 'about') ? 'full-panel' : 'right-panel';
 	
-	contentHTML.updatePage(pageData);
+	contentHTML.updatePage(activePanel, pageData);
 	
 	//show panel
 	contentHTML.showPanel({
+		activePanel,
 		direction: 'down',
 		delay: 0
 	});
@@ -76,7 +78,10 @@ export const showPost = async ({id, slug}) => {
 
 	if (currentNode && currentNode.id == id) return;
 
-	await contentHTML.hidePanel({direction: 'up'});
+	await contentHTML.hidePanel({
+		activePanel,
+		direction: 'up'
+	});
 
 	contentHTML.showSpinner();
 
@@ -114,6 +119,8 @@ export const showPost = async ({id, slug}) => {
 	geodata.setCurrentNode(postData);
 	const coordinates = await geodata.getNodeCoordinates(postData);
 	map.flyTo(coordinates);
+
+	activePanel = 'right-panel';
 	
 	contentHTML.updatePost(postData,postTags,theme);
 
@@ -121,6 +128,7 @@ export const showPost = async ({id, slug}) => {
 
 	//show Panel
 	contentHTML.showPanel({
+		activePanel,
 		direction: 'down',
 		delay: 0
 	});
@@ -152,7 +160,10 @@ const loadPost = async ({id, slug}) => {
 };
 
 export const closePanel = async () => {
-	await await contentHTML.hidePanel({direction: 'up'});
+	await contentHTML.hidePanel({
+		activePanel,
+		direction: 'up'
+	});
 	currentNode = null;
 	geodata.resetNodesState();
 	return currentNode;
@@ -173,7 +184,10 @@ const setTheme = async requestedThemeSlug => {
 	}
 
 	if (theme.slug != 'home') {
-		await contentHTML.hidePanel({direction: 'up'});
+		await contentHTML.hidePanel({
+			activePanel,
+			direction: 'up'
+		});
 	}
 	
 	return theme;
@@ -187,7 +201,10 @@ const changeState = async newState => {
 	if (newState != theme.state) {
 		if (newState === 'home') {
 			contentHTML.hideTopMenu();
-			await contentHTML.hidePanel({direction: 'up'});
+			await contentHTML.hidePanel({
+				activePanel,
+				direction: 'up'
+			});
 			contentHTML.showHome();
 		} else if (newState === 'page') {
 			contentHTML.hideHome();
@@ -232,7 +249,6 @@ const changeBrowserHistory = ({title,slug}) => {
 		'',
 		slug);
 };
-
 
 export default {
 	initHome,
