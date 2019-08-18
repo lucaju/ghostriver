@@ -1,5 +1,5 @@
 import {select, selectAll, event} from 'd3/dist/d3.min';
-import {showPage, showPost, closePanel} from './content';
+import {showPage, showPost, closePanel, tagSearch} from './content';
 import themes from './config/themes.json';
 import {getIcon} from './tags';
 
@@ -28,7 +28,6 @@ const initHome = () => {
 	let delay = 0; //8000
 	
 	for (const theme of themes) {
-
 		select(`#main-${theme.slug}-bt`)
 			.style('opacity', 0)
 			.style('display', 'block')
@@ -36,7 +35,6 @@ const initHome = () => {
 			.delay(delay)
 			.duration(animation.duration.in)
 			.style('opacity', 1);
-
 		delay += 1000;
 	}
 
@@ -67,7 +65,6 @@ const configTopMenu = () => {
 };
 
 const showHome = () => {
-
 	select('#header-col')
 		.style('display', 'block')
 		.transition()
@@ -89,13 +86,6 @@ const showHome = () => {
 		.style('display', 'block')
 		.style('opacity', 1);
 
-	select('#map-bg')
-		.style('display', 'block')
-		.transition()
-		.delay(1000)
-		.duration(3000)
-		.style('opacity', 1);
-
 	for (const theme of themes) {
 		select(`#main-${theme.slug}-bt`)
 			.style('display', 'block')
@@ -103,11 +93,12 @@ const showHome = () => {
 	}
 
 	configMainMenu();
+	showHomeBG();
+	hideHeading();
 
 };
 
 const hideHome = () => {
-
 	select('#header-col')
 		.transition()
 		.duration(3000)
@@ -126,6 +117,20 @@ const hideHome = () => {
 			select(this).style('display', 'none');
 		});
 
+	hideHomeBG();
+	showHeading();
+};
+
+const showHomeBG = () => {
+	select('#map-bg')
+		.style('display', 'block')
+		.transition()
+		.delay(1000)
+		.duration(3000)
+		.style('opacity', 1);
+};
+
+const hideHomeBG = () => {
 	select('#map-bg')
 		.transition()
 		.duration(3000)
@@ -202,6 +207,7 @@ const showPanel = ({direction = 'none', delay = 0}) => {
 		.style('margin-top', '0px');
 
 	select('#right-panel').select('.fl-col-content').property('scrollTop', 0);
+
 };
 
 const hidePanel = async ({direction = 'none'}) => {
@@ -249,6 +255,43 @@ const hidePanel = async ({direction = 'none'}) => {
 	});
 };
 
+const showHeading = () => {
+	let heading = select('#map-heading');
+
+	if (heading.empty()) {
+		heading = select('body').append('div')
+			.attr('id','map-heading');
+		heading.append('h3');
+	}
+
+	heading.style('display', 'block')
+		.style('opacity', 0)
+		.transition()
+		.duration(animation.duration.in)
+		.style('opacity', 1);
+
+	return heading;
+};
+
+const hideHeading = () => {
+	const heading = select('#map-heading');
+	if (!heading.empty()) {
+		heading.transition()
+			.duration(animation.duration.in)
+			.style('opacity', 0)
+			.on('end', function () {
+				select(this).style('display', 'none');
+			});
+
+	}
+};
+
+const updateHeading = title => {
+	let heading = select('#map-heading');
+	if (heading.empty()) heading = showHeading();
+	heading.select('h3').html(title);
+};
+
 const updatePage = ({title, content}) => {
 	//dom manipulation
 	const panel = select('#right-panel');
@@ -258,6 +301,8 @@ const updatePage = ({title, content}) => {
 	panel.select('#article-tags').select('.fl-html').html('');
 	panel.select('#close-panel').style('cursor', 'pointer').on('click', closePanel);
 	captureLinks();
+
+	updateHeading(title.rendered);
 };
 
 const updatePost = ({title, content}, tags, theme) => {
@@ -268,20 +313,41 @@ const updatePost = ({title, content}, tags, theme) => {
 	panel.select('#article-content').select('.fl-rich-text').html(content.rendered);
 	panel.select('#close-panel').style('cursor', 'pointer').on('click', closePanel);
 	panel.select('.tagline').select('.fl-heading-text').html(theme.slug);
+	
 
 	//tags
-	const tagsDIV = panel.select('#article-tags').select('.fl-html');
-	let tagsHTML = '<div id="tag-container">';
-	for (const tag of tags) {
-		const icon = getIcon(tag);
-		
-		tagsHTML += `<div id="tag-${tag.slug}" class="tag-pill">${icon}
-		${tag.name}
-		</div>`;
-	}
-	tagsHTML += '</div>';
+	panel.select('#article-tags').select('.fl-html').html('');
+	const tagsDIV = panel.select('#article-tags').select('.fl-html')
+		.append('div')
+		.attr('id','tag-container');
 
-	tagsDIV.html(tagsHTML);
+	const tagsHTML = tagsDIV.selectAll('.circle')
+		.data(tags);
+
+	tagsHTML.exit()
+		.attr('id', 'exit')
+		.attr('class', 'exit')
+		.remove();
+
+	tagsHTML.enter().append('div')
+		.attr('id',  tag => `tag-${tag.slug}`)
+		.attr('class', 'tag-pill')
+		.html( tag => {
+			const icon = getIcon(tag);
+			return `${icon} ${tag.name}`;
+		})
+		.on('click', d => {
+			tagSearch(d);
+		})
+		.on('mouseover', function () {
+			select(this).style('color', 'steelblue');
+		})
+		.on('mouseout', function() {
+			select(this).style('color', '#535354');
+		});
+
+	
+	//resize tag icons
 	tagsDIV.selectAll('svg').attr('width','15px').attr('height','15px');
 
 	captureLinks();
@@ -333,6 +399,9 @@ export default {
 	hideHome,
 	showTopMenu,
 	hideTopMenu,
+	showHeading,
+	hideHeading,
+	updateHeading,
 	showPanel,
 	hidePanel,
 	updatePage,

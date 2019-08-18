@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Oswald&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap');
 
 html {
   -ms-overflow-style: -ms-autohiding-scrollbar;
@@ -30,6 +31,24 @@ html {
     position: absolute;
     width: 100%;
   }
+
+#map-heading {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  z-index: 100;
+  cursor: default;
+  pointer-events: none;
+ 
+}
+
+#map-heading > h3 {
+  font-family: 'Oswald', sans-serif !important;
+  /* font-size: 1em; */
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.6)
+}
+
   
 
 /* WORPRESS */
@@ -68,6 +87,7 @@ html {
   font-size: 0.8em;
   text-align: center;
   text-transform: uppercase;
+  cursor: pointer;
 }
 
 figcaption {

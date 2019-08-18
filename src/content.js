@@ -23,7 +23,8 @@ export const showPage = async ({id, slug}) => {
 
 	await setTheme(slug);
 
-	if (theme.isNew) updateMap(theme);
+	// if (theme.isNew) 
+	updateMap(theme);
 
 	// map.pitchMap();
 
@@ -38,6 +39,8 @@ export const showPage = async ({id, slug}) => {
 	// console.log(pageData);
 
 	currentNode = null;
+
+	map.flyToOrigin();
 	
 	contentHTML.updatePage(pageData);
 	
@@ -102,7 +105,7 @@ export const showPost = async ({id, slug}) => {
 		}
 	}
 	
-	if(postTheme.slug == 'uncategorized') console.log('Problem with category "uncategorized": ', postData);
+	if (postTheme.slug == 'uncategorized') console.log('Problem with category "uncategorized": ', postData);
 
 	setTheme(postTheme.slug);
 	if (theme.isNew) await updateMap(theme);
@@ -211,6 +214,14 @@ const updateMap = async ({location}) => {
 	await geodata.drawNodes(theme);
 };
 
+
+export const tagSearch = tag => {
+	geodata.drawNodeByTag(tag);
+	map.flyToOrigin();
+	contentHTML.updateHeading(tag.name);
+};
+
+
 const changeBrowserHistory = ({title,slug}) => {
 	let pageTitle = 'Ghost River';
 	if (title) pageTitle += ` - ${title}`;
@@ -230,5 +241,6 @@ export default {
 	closePanel,
 	getCurrentTheme,
 	getThemeBySlug,
+	tagSearch,
 	changeBrowserHistory,
 };

@@ -112,6 +112,16 @@ const flyTo = coordinates => {
 	});
 };
 
+const flyToOrigin = coordinates => {
+	mapbox.flyTo({
+		center:config.map.default.center,
+		zoom: config.map.default.zoom + 0.2,
+		speed: 1.2,
+		curve: 1,
+		easing: function (t) { return t; }
+	});
+};
+
 //pitch map animation
 const pitchMap = ({finalPitch = 0, duration = 1000}) => {
 
@@ -153,5 +163,6 @@ export default {
 	pitchMap,
 	project,
 	projectPoint,
-	flyTo
+	flyTo,
+	flyToOrigin
 };

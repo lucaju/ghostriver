@@ -80,6 +80,28 @@ const drawNodes = async ({slug: theme}) => {
 
 };
 
+const drawNodeByTag = async ({name: tag}) => {
+
+	const tagNodes = getTagNodes(tag);
+
+	console.log(tagNodes.length);
+
+	const points = tagNodes.filter(n => n.geometry.type === 'Point');
+	const lines = tagNodes.filter(n => n.geometry.type === 'LineString');
+	const polygons = tagNodes.filter(n => n.geometry.type === 'Polygon');
+
+	drawPolygins({data:polygons});
+	drawLines({data:lines});
+	drawPoints({data:points});
+
+	return {
+		points,
+		lines,
+		polygons
+	};
+
+};
+
 const getThemeNodes = theme => {
 
 	const selectedNodes = dataset.filter( node => {
@@ -87,6 +109,19 @@ const getThemeNodes = theme => {
 			const nodethemes = node.properties.theme.split(', ');
 			const themeNode = nodethemes.filter(t => t.toLowerCase() === theme);
 			if (themeNode.length > 0) return node;
+		}
+	});
+
+	return selectedNodes;
+};
+
+const getTagNodes = tag => {
+
+	const selectedNodes = dataset.filter( node => {
+		if (node.properties.tag) {
+			const nodeTags = node.properties.tag.split(', ');
+			const tagNode = nodeTags.filter(t => t.toLowerCase() === tag.toLowerCase());
+			if (tagNode.length > 0) return node;
 		}
 	});
 
@@ -494,6 +529,7 @@ const setCurrentNode = ({id}) => {
 export default {
 	init,
 	drawNodes,
+	drawNodeByTag,
 	mapUpdate,
 	getNodeCoordinates,
 	setCurrentNode,
