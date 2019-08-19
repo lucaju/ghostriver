@@ -3,7 +3,9 @@ const webpack = require('webpack');
 
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const CleanWebpackPlugin = require('clean-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const {
+	CleanWebpackPlugin
+} = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -22,6 +24,17 @@ module.exports = {
 	devtool: 'inline-source-map',
 	module: {
 		rules: [
+			{
+				test: /\.m?js$/,
+				exclude: /(node_modules|bower_components)/,
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: ['@babel/preset-env'],
+						plugins: ['@babel/plugin-proposal-object-rest-spread']
+					}
+				}
+			},
 			{
 				test: /\.css$/,
 				use: [
@@ -67,7 +80,7 @@ module.exports = {
 				},
 				{
 					name: 'viewport',
-					content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0',
+					// content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0',
 				},
 				{
 					name: 'apple-mobile-web-app-capable',

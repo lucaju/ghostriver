@@ -112,7 +112,7 @@ const flyTo = coordinates => {
 	});
 };
 
-const flyToOrigin = coordinates => {
+const flyToOrigin = () => {
 	mapbox.flyTo({
 		center:config.map.default.center,
 		zoom: config.map.default.zoom + 0.2,

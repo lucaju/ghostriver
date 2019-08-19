@@ -5,6 +5,16 @@ html {
   -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
+body {
+  margin:0;
+  padding:0;
+  overflow-y: hidden;
+
+}
+body:hover {
+  overflow-y: scroll;
+}
+
 /* MAP */
 #map-bg {
   position: absolute;

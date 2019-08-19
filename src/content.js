@@ -16,7 +16,7 @@ let activePanel;
 
 const initHome = ({location}) => {
 	contentHTML.initHome();
-	updateMap({location});
+	if (window.innerWidth > 880) updateMap({location});
 };
 
 export const showPage = async ({id, slug}) => {
