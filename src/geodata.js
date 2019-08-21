@@ -223,7 +223,7 @@ const drawLines =  ({data, transitionTime = 5000, delayTime = 200}) => {
 		.style('stroke', function (d) {
 			if (d.properties.name === 'Saint-Pierre Speculative River') return chroma('#0071bc').hex();
 			if (d.properties.type === 'historical') {
-				return historicalRiverScale(d.properties.index).alpha(.8).hex();
+				return historicalRiverScale(d.properties.year).alpha(.8).hex();
 			}
 			return chroma(colours.active.stroke).hex();
 		})
