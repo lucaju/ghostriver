@@ -7,6 +7,7 @@ import speculative from './assets/help.svg';
 import beyondHumans from './assets/snake.svg';
 import disreappearingWaters from './assets/sea.svg';
 
+
 export const getIcon = ({slug}) => {
 	if (slug.toLowerCase() == 'ghosts') return ghost;
 	if (slug.toLowerCase() == 'unrullywaters') return unrulyWaters;
@@ -17,6 +18,7 @@ export const getIcon = ({slug}) => {
 	if (slug.toLowerCase() == 'beyond-humans') return beyondHumans;
 	if (slug.toLowerCase() == 'disreappearingwaters') return disreappearingWaters;
 };
+
 
 export default {
 	getIcon
