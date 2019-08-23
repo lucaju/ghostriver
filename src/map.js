@@ -84,7 +84,7 @@ const flyFromUnknowLocation = async () => {
 };
 
 const update = () => {
-	geodata.mapUpdate();
+	geodata.nodesUpdate();
 };
 
 //check if map is loaded
