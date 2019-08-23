@@ -14,8 +14,7 @@ import historicalRivel from './data/historical.json';
 // 	passThrough: true,
 // };
 
-const historicalRiverScale = chroma.scale(['red','orange','yellow','green','blue','indigo','violet']).domain([0,8]);
-// const historicalRiverScale = chroma.scale(['dodgerblue','darkslategray']).domain([0,8]);
+const historicalRiverScale = chroma.scale(['violet','indigo','blue','green']).domain([1,7]);
 
 let D3geoPath;
 let svg;
@@ -223,7 +222,7 @@ const drawLines =  ({data, transitionTime = 5000, delayTime = 200}) => {
 		.style('stroke', function (d) {
 			if (d.properties.name === 'Saint-Pierre Speculative River') return chroma('#0071bc').hex();
 			if (d.properties.type === 'historical') {
-				return historicalRiverScale(d.properties.year).alpha(.8).hex();
+				return historicalRiverScale(d.properties.color).alpha(.8).hex();
 			}
 			return chroma(colours.active.stroke).hex();
 		})
@@ -429,10 +428,12 @@ const nodesOver = current => {
 
 	if (nodesLine) {
 		nodesLine
-			.style('opacity', function (d) {
+			.style('opacity', d => {
+				if (current.properties.color && d.properties.color === current.properties.color) return;
 				if (d.properties.name !== current.properties.name) return 0.5;
 			})
-			.style('stroke-width', function (d) {
+			.style('stroke-width', d => {
+				if (current.properties.color && d.properties.color === current.properties.color) return 3;
 				if (d.properties.name === current.properties.name) return 3;
 			});
 	}

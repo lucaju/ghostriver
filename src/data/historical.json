@@ -6,7 +6,10 @@
         "name": "St-Pierre 1825-2-08/19",
         "type": "historical",
         "theme": "steps",
-        "year": 1825
+        "year": 1825,
+        "color": 2,
+        "id": 539,
+        "tag": "Dis/re-appearing Waters, Speculation"
       },
       "geometry": {
         "coordinates": [
@@ -1031,7 +1034,8 @@
         "name": "St-Pierre Canalized 1900 08/19",
         "type": "historical",
         "theme": "steps",
-        "year": 1900
+        "year": 1900,
+        "color": 5
       },
       "geometry": {
         "coordinates": [
@@ -2231,7 +2235,10 @@
         "name": "St-Pierre 1825-main-08/19",
         "type": "historical",
         "theme": "steps",
-        "year": 1825
+        "year": 1825,
+        "color": 2,
+        "id": 539,
+        "tag": "Dis/re-appearing Waters, Speculation"
       },
       "geometry": {
         "coordinates": [
@@ -3161,7 +3168,10 @@
         "name": "St-Pierre 1834 - 2",
         "type": "historical",
         "theme": "steps",
-        "year": 1834
+        "year": 1834,
+        "color": 3,
+        "id": 536,
+        "tag": "Dis/re-appearing Waters, Speculation"
       },
       "geometry": {
         "coordinates": [
@@ -3406,7 +3416,10 @@
         "name": "St-Pierre 1834 - main",
         "type": "historical",
         "theme": "steps",
-        "year": 1834
+        "year": 1834,
+        "color": 3,
+        "id": 536,
+        "tag": "Dis/re-appearing Waters, Speculation"
       },
       "geometry": {
         "coordinates": [
@@ -5161,7 +5174,10 @@
         "name": "St-Pierre 1825-3-08/19",
         "type": "historical",
         "theme": "steps",
-        "year": 1825
+        "year": 1825,
+        "color": 2,
+        "id": 539,
+        "tag": "Dis/re-appearing Waters, Speculation"
       },
       "geometry": {
         "coordinates": [
@@ -5611,7 +5627,10 @@
         "name": "St-Pierre 1860 August 2019",
         "type": "historical",
         "theme": "steps",
-        "year": 1860
+        "year": 1860,
+        "color": 4,
+        "id": 533,
+        "tag": "Dis/re-appearing Waters, Speculation"
       },
       "geometry": {
         "coordinates": [
@@ -6711,7 +6730,10 @@
         "name": "St-Pierre 1914 08/19",
         "type": "historical",
         "year": 1914,
-        "theme": "steps"
+        "theme": "steps",
+        "color": 7,
+        "id": 466,
+        "tag": "Dis/re-appearing Waters, Speculation"
       },
       "geometry": {
         "coordinates": [
@@ -9521,7 +9543,10 @@
         "name": "St-Pierre Canalized 1907 08/19",
         "type": "historical",
         "year": 1907,
-        "theme": "steps"
+        "theme": "steps",
+        "color": 6,
+        "id": 518,
+        "tag": "Dis/re-appearing Waters, Speculation"
       },
       "geometry": {
         "coordinates": [
@@ -11236,7 +11261,10 @@
         "name": "St-Pierre 1825-4-08/19",
         "type": "historical",
         "theme": "steps",
-        "year": 1825
+        "year": 1825,
+        "color": 2,
+        "id": 539,
+        "tag": "Dis/re-appearing Waters, Speculation"
       },
       "geometry": {
         "coordinates": [
@@ -11611,7 +11639,10 @@
         "name": "St-Pierre 1834 - 3",
         "type": "historical",
         "theme": "steps",
-        "year": 1834
+        "year": 1834,
+        "color": 3,
+        "id": 536,
+        "tag": "Dis/re-appearing Waters, Speculation"
       },
       "geometry": {
         "coordinates": [
@@ -11726,7 +11757,10 @@
         "name": "St-Martin 1825-08/19",
         "type": "historical",
         "theme": "steps",
-        "year": 1825
+        "year": 1825,
+        "color": 1,
+        "id": 401,
+        "tag": "Dis/re-appearing Waters, Speculation"
       },
       "geometry": {
         "coordinates": [

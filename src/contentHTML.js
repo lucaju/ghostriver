@@ -22,7 +22,7 @@ const initHome = () => {
 		.style('opacity', 0)
 		.style('display', 'block')
 		.transition()
-		.delay(0) //3000
+		.delay(0) //3000z	
 		// .duration(0)
 		.duration(animation.duration.in)
 		.style('opacity', 1);
