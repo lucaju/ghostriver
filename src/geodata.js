@@ -17,6 +17,7 @@ let nodesPoint;
 let nodesLine;
 let nodesPoygon;
 
+
 const init = async canvas => {
 
 	const D3geoTransform = geoTransform({point:map.projectPoint});
@@ -109,7 +110,7 @@ const getNodeCoordinates = async ({id}) => {
 
 	if (!item) return config.map.default.center; // return center of map
 
-	if (item.geometry.type == 'Point') return item.geometry.coordinates;
+	if (item.geometry.type === 'Point') return item.geometry.coordinates;
 	const coordinates = item.geometry.coordinates[0];
 
 	return coordinates;
@@ -355,7 +356,7 @@ export const resetNodesState = ({transitionTime = 2000, delayTime = 100}) => {
 			.delay(delayTime)
 			.style('stroke-width', 2);
 	}
-	
+
 };
 
 const setCurrentNode = ({id}) => {

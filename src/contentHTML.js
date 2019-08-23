@@ -5,14 +5,15 @@ import {getIcon} from './tags';
 
 
 const animation = {
-	duration: {
-		in: 3000,
-		out: 2000
-	}
+	durationIn: 3000,
+	durationOut: 2000,
+	delayIn: 1000,
+	delayOut: 0
 };
 
 let mainMenu = false;
 let topMenu = false;
+
 
 select('body').append('div').attr('id','map-bg');
 
@@ -22,12 +23,10 @@ const initHome = () => {
 		.style('opacity', 0)
 		.style('display', 'block')
 		.transition()
-		.delay(0) //3000z	
-		// .duration(0)
-		.duration(animation.duration.in)
+		.duration(animation.durationIn)
 		.style('opacity', 1);
 
-	let delay = 0; //8000
+	let delay = 0;
 	
 	for (const theme of themes) {
 		select(`#main-${theme.slug}-bt`)
@@ -35,7 +34,7 @@ const initHome = () => {
 			.style('display', 'block')
 			.transition()
 			.delay(delay)
-			.duration(animation.duration.in)
+			.duration(animation.durationIn)
 			.style('opacity', 1);
 		delay += 1000;
 	}
@@ -45,33 +44,37 @@ const initHome = () => {
 };
 
 const configMainMenu = () => {
-	if (mainMenu == false) {
+
+	if (mainMenu === false) {
 		for (const theme of themes) {
 			select(`#main-${theme.slug}-bt`)
 				.on('click', () => showPage(theme));
 		}
 		mainMenu = true;
 	}
+
 };
 
 const configTopMenu = () => {
-	if (topMenu == false) {
+
+	if (topMenu === false) {
 		for (const theme of themes) {
 			select(`#top-${theme.slug}-bt`)
 				.style('cursor', 'pointer')
 				.on('click', () => showPage(theme));
-				
 		}
 		topMenu = true;
 	}
+
 };
 
 const showHome = () => {
+
 	select('#header-col')
 		.style('display', 'block')
 		.transition()
-		.delay(1000)
-		.duration(animation.duration.in)
+		.delay(animation.delayIin)
+		.duration(animation.durationIn)
 		.style('opacity', 1)
 		.style('margin-top', '0px');
 
@@ -79,8 +82,8 @@ const showHome = () => {
 		.style('opacity', 0)
 		.style('display', 'block')
 		.transition()
-		.delay(1000)
-		.duration(3000)
+		.delay(animation.delayIn)
+		.duration(animation.durationIn)
 		.style('opacity', 1)
 		.style('margin-top', '0px');
 
@@ -103,7 +106,7 @@ const showHome = () => {
 const hideHome = () => {
 	select('#header-col')
 		.transition()
-		.duration(3000)
+		.duration(animation.durationOut)
 		.style('opacity', 0)
 		.style('margin-top', '-500px')
 		.on('end', function () {
@@ -112,7 +115,7 @@ const hideHome = () => {
 
 	selectAll('.col-main-menu')
 		.transition()
-		.duration(3000)
+		.duration(animation.durationOut)
 		.style('opacity', 0)
 		.style('margin-top', '-200px')
 		.on('end', function () {
@@ -121,60 +124,69 @@ const hideHome = () => {
 
 	hideHomeBG();
 	showHeading();
+
 };
 
 const showHomeBG = () => {
+
 	select('#map-bg')
 		.style('display', 'block')
 		.transition()
-		.delay(1000)
-		.duration(3000)
+		.delay(animation.delayIn)
+		.duration(animation.durationIn)
 		.style('opacity', 1);
+
 };
 
 const hideHomeBG = () => {
+
 	select('#map-bg')
 		.transition()
-		.duration(2000)
+		.duration(animation.durationOut)
 		.style('opacity', 0)
 		.on('end', function () {
 			select(this).style('display', 'none');
 		});
+
 };
 
 const showTopMenu = () => {
+
 	select('#top-menu')
 		.style('opacity', 0)
 		.style('top', -200)
 		.style('display', 'block')
 		.transition()
-		.delay(3000)
-		.duration(2000)
+		.delay(animation.delayIn)
+		.duration(animation.durationIn)
 		.style('opacity', 1)
 		.style('top', 0);
 
 	configTopMenu();
+
 };
 
 const hideTopMenu = () => {
+
 	select('#top-menu')
 		.transition()
 		.delay(0)
-		.duration(2000)
+		.duration(animation.durationOut)
 		.style('opacity', 0)
 		.style('top', -200)
 		.on('end', function () {
 			select(this).style('display', 'none');
 		});
+		
 };
 
 const showPanel = ({activePanel = 'left-panel', direction = 'none', delay = 0}) => {
 
-	if (direction == 'none') {
+	if (direction === 'none') {
 		direction = '0px';
-	} else if (direction == 'up') {
+	} else if (direction === 'up') {
 		direction = '-2000px';
-	} else if (direction == 'down') {
+	} else if (direction === 'down') {
 		direction = '2000px';
 	}
 
@@ -185,7 +197,7 @@ const showPanel = ({activePanel = 'left-panel', direction = 'none', delay = 0}) 
 			.style('display', 'block')
 			.transition()
 			.delay(delay)
-			.duration(animation.duration.in)
+			.duration(animation.durationIn)
 			.style('opacity', 1)
 			.style('margin-top', '0px');
 
@@ -200,7 +212,7 @@ const showPanel = ({activePanel = 'left-panel', direction = 'none', delay = 0}) 
 			.style('display', 'block')
 			.transition()
 			.delay(delay)
-			.duration(animation.duration.in)
+			.duration(animation.durationIn)
 			.style('opacity', 0)
 			.style('margin-top', '0px');
 
@@ -210,7 +222,7 @@ const showPanel = ({activePanel = 'left-panel', direction = 'none', delay = 0}) 
 			.style('display', 'block')
 			.transition()
 			.delay(delay)
-			.duration(animation.duration.in)
+			.duration(animation.durationIn)
 			.style('opacity', 0)
 			.style('margin-top', '0px');
 
@@ -220,7 +232,7 @@ const showPanel = ({activePanel = 'left-panel', direction = 'none', delay = 0}) 
 			.style('display', 'block')
 			.transition()
 			.delay(delay)
-			.duration(animation.duration.in)
+			.duration(animation.durationIn)
 			.style('opacity', 1)
 			.style('margin-top', '0px');
 
@@ -234,11 +246,11 @@ const hidePanel = async ({activePanel = 'right-panel', direction = 'none'}) => {
 
 	return new Promise(resolve => {
 
-		if (direction == 'none') {
+		if (direction === 'none') {
 			direction = '0px';
-		} else if (direction == 'up') {
+		} else if (direction === 'up') {
 			direction = '-2000px';
-		} else if (direction == 'down') {
+		} else if (direction === 'down') {
 			direction = '2000px';
 		}
 
@@ -246,7 +258,7 @@ const hidePanel = async ({activePanel = 'right-panel', direction = 'none'}) => {
 			select('#full-panel')
 				.transition()
 				.delay(0)
-				.duration(animation.duration.out)
+				.duration(animation.durationOut)
 				.style('opacity', 0)
 				.style('margin-top', direction)
 				.on('end', function () {
@@ -261,7 +273,7 @@ const hidePanel = async ({activePanel = 'right-panel', direction = 'none'}) => {
 			select('#left-panel')
 				.transition()
 				.delay(0)
-				.duration(animation.duration.out)
+				.duration(animation.durationOut)
 				.style('opacity', 0)
 				.style('margin-top', direction)
 				.on('end', function () {
@@ -271,7 +283,7 @@ const hidePanel = async ({activePanel = 'right-panel', direction = 'none'}) => {
 			select('#middle-panel')
 				.transition()
 				.delay(0)
-				.duration(animation.duration.out)
+				.duration(animation.durationOut)
 				.style('opacity', 0)
 				.style('margin-top', direction)
 				.on('end', function () {
@@ -281,7 +293,7 @@ const hidePanel = async ({activePanel = 'right-panel', direction = 'none'}) => {
 			select('#right-panel')
 				.transition()
 				.delay(0)
-				.duration(animation.duration.out)
+				.duration(animation.durationOut)
 				.style('opacity', 0)
 				.style('margin-top', direction)
 				.on('end', function () {
@@ -292,9 +304,11 @@ const hidePanel = async ({activePanel = 'right-panel', direction = 'none'}) => {
 		}
 		
 	});
+
 };
 
 const showHeading = () => {
+
 	let heading = select('#map-heading');
 
 	if (heading.empty()) {
@@ -306,57 +320,66 @@ const showHeading = () => {
 	heading.style('display', 'block')
 		.style('opacity', 0)
 		.transition()
-		.duration(animation.duration.in)
+		.duration(animation.durationIn)
 		.style('opacity', 1);
 
 	return heading;
 };
 
 const hideHeading = () => {
+
 	const heading = select('#map-heading');
+
 	if (!heading.empty()) {
 		heading.transition()
-			.duration(animation.duration.in)
+			.duration(animation.durationIn)
 			.style('opacity', 0)
 			.on('end', function () {
 				select(this).style('display', 'none');
 			});
-
 	}
+
 };
 
 const updateHeading = title => {
+
 	if (title.toLowerCase() === 'about') title = '';
+
 	let heading = select('#map-heading');
 	if (heading.empty()) heading = showHeading();
+
 	heading.select('h3').html(title);
+
 };
 
 const updatePage = (activePanel, {title, content}) => {
+
 	//dom manipulation
 	const panel = select(`#${activePanel}`);
+	panel.select('.tagline').select('.fl-heading-text').html('');
+	panel.select('#close-panel').style('cursor', 'pointer').on('click', closePanel);
 	panel.select('#article-title').select('.fl-heading-text').html(title.rendered);
 	panel.select('#article-content').select('.fl-rich-text').html(content.rendered);
-	panel.select('.tagline').select('.fl-heading-text').html('');
 	panel.select('#article-tags').select('.fl-html').html('');
-	panel.select('#close-panel').style('cursor', 'pointer').on('click', closePanel);
 	captureLinks();
 
 	updateHeading(title.rendered);
+
 };
 
 const updatePost = ({title, content}, tags, theme) => {
+
 	//DOM manipulation
 	const panel = select('#right-panel');
 
+	panel.select('.tagline').select('.fl-heading-text').html(theme.slug);
+	panel.select('#close-panel').style('cursor', 'pointer').on('click', closePanel);
 	panel.select('#article-title').select('.fl-heading-text').html(title.rendered);
 	panel.select('#article-content').select('.fl-rich-text').html(content.rendered);
-	panel.select('#close-panel').style('cursor', 'pointer').on('click', closePanel);
-	panel.select('.tagline').select('.fl-heading-text').html(theme.slug);
-	
 
 	//tags
 	panel.select('#article-tags').select('.fl-html').html('');
+
 	const tagsDIV = panel.select('#article-tags').select('.fl-html')
 		.append('div')
 		.attr('id','tag-container');
@@ -365,7 +388,6 @@ const updatePost = ({title, content}, tags, theme) => {
 		.data(tags);
 
 	tagsHTML.exit()
-		.attr('id', 'exit')
 		.attr('class', 'exit')
 		.remove();
 
@@ -376,26 +398,23 @@ const updatePost = ({title, content}, tags, theme) => {
 			const icon = getIcon(tag);
 			return `${icon} ${tag.name}`;
 		})
-		.on('click', d => {
-			tagSearch(d);
-		})
 		.on('mouseover', function () {
 			select(this).style('color', 'steelblue');
 		})
 		.on('mouseout', function() {
 			select(this).style('color', '#535354');
-		});
-
-	
+		})
+		.on('click', d => tagSearch(d));
+		
 	//resize tag icons
 	tagsDIV.selectAll('svg').attr('width','15px').attr('height','15px');
 
 	captureLinks();
 
-
 };
 
 const captureLinks = () => {
+
 	selectAll('a')
 		.on('click', function () {
 
@@ -404,7 +423,7 @@ const captureLinks = () => {
 			const domain = link.split('/')[2];
 
 			//Test if it is a local link (localhost -> remote)
-			const host = (window.location.hostname == 'localhost') ? 'labs.fluxo.art.br' : window.location.hostname;
+			const host = (window.location.hostname === 'localhost') ? 'labs.fluxo.art.br' : window.location.hostname;
 
 			//if extrrnal, navigate
 			if (domain != host) return; //window.location.hostname
@@ -421,46 +440,14 @@ const captureLinks = () => {
 };
 
 const showSpinner = () => {
+
 	select('body').append('div')
 		.attr('id', 'spinner')
 		.html('<div class="lds-ripple"><div></div><div></div></div>');
+
 };
 
-const hideSpinner = () => {
-	select('#spinner').remove();
-};
-
-// select(window).on('resize', () => {
-// 	checkScreenSize();
-// });
-
-// const checkScreenSize = () => {
-// 	if (window.innerWidth <= 880) {
-// 		showSmallScreenMsg();
-// 	} else {
-// 		hideSmallScreenMsg();
-// 	}
-// };
-
-// const showSmallScreenMsg = () => {
-// 	let smallScreen = select('#small-screen');
-
-// 	if (smallScreen.empty()) {
-// 		smallScreen = select('body').append('div')
-// 			.attr('id','small-screen');
-// 	}
-
-// 	smallScreen.style('display', 'block');
-
-// 	return smallScreen;
-// };
-
-// const hideSmallScreenMsg = () => {
-// 	const smallScreen = select('#small-screen');
-// 	if (!smallScreen.empty()) smallScreen.style('display', 'none');
-// };
-
-// checkScreenSize();
+const hideSpinner = () => select('#spinner').remove();
 
 
 export default {

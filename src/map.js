@@ -99,7 +99,7 @@ const flyFromUnknowLocation = async () => {
 	});
 
 	mapbox.on('moveend', () => {
-		if (mapbox.getMaxBounds() == null) mapbox.setMaxBounds(config.map.default.maxBounds);
+		if (mapbox.getMaxBounds() === null) mapbox.setMaxBounds(config.map.default.maxBounds);
 	});
 
 };

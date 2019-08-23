@@ -31,7 +31,7 @@ export const showPage = async ({id, slug}) => {
 	// if (theme.isNew) 
 	if (slug !== 'about') updateMap(theme);
 
-	if (id == 0) {
+	if (id === 0) {
 		changeBrowserHistory({slug: '/ghost-river/'});
 		return;
 	}
@@ -79,7 +79,7 @@ const loadPage = async ({id, slug}) => {
 
 export const showPost = async ({id, slug}) => {
 
-	if (currentNode && currentNode.id == id) return;
+	if (currentNode && currentNode.id === id) return;
 
 	await contentHTML.hidePanel({
 		activePanel,
@@ -102,7 +102,7 @@ export const showPost = async ({id, slug}) => {
 	const postTags = postData._embedded['wp:term'][1];
 
 	const postTheme = getPostTheme(postCategories);
-	if (postTheme.slug == 'uncategorized') console.log('Problem with category "uncategorized": ', postData);
+	if (postTheme.slug === 'uncategorized') console.log('Problem with category "uncategorized": ', postData);
 
 	setTheme(postTheme.slug);
 	if (theme.isNew) await updateMap(theme);
@@ -137,7 +137,7 @@ export const showPost = async ({id, slug}) => {
 const getPostTheme = (postCategories) => {
 
 	let postTheme;
-	if (theme) postTheme = postCategories.find(cat => cat.slug == theme.slug);
+	if (theme) postTheme = postCategories.find(cat => cat.slug === theme.slug);
 
 	if (!postTheme) {
 		if (postCategories.length > 1) {
