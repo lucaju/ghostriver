@@ -1,8 +1,8 @@
-import {select, geoTransform, geoPath} from 'd3/dist/d3.min';
 import chroma from 'chroma-js';
+import {select, geoTransform, geoPath} from 'd3/dist/d3.min';
 
-import map from './map';
 import content from './content';
+import map from './map';
 
 import config from './config/config.json';
 import historicalRivel from './data/historical.json';

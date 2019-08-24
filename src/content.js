@@ -1,8 +1,8 @@
 import WPAPI from 'wpapi';
 
-import map from './map';
-import geodata from './geodata';
 import contentHTML from './contentHTML';
+import geodata from './geodata';
+import map from './map';
 
 import config from './config/config.json';
 import themes from './config/themes.json';
@@ -49,11 +49,7 @@ export const showPage = async ({id, slug}) => {
 	contentHTML.updatePage(activePanel, pageData);
 	
 	//show panel
-	contentHTML.showPanel({
-		activePanel,
-		direction: 'down',
-		delay: 0
-	});
+	contentHTML.showPanel({activePanel});
 
 	changeBrowserHistory({
 		title: pageData.title.rendered,
@@ -81,10 +77,7 @@ export const showPost = async ({id, slug}) => {
 
 	if (currentNode && currentNode.id === id) return;
 
-	await contentHTML.hidePanel({
-		activePanel,
-		direction: 'up'
-	});
+	await contentHTML.hidePanel({activePanel});
 
 	contentHTML.showSpinner();
 
@@ -117,11 +110,7 @@ export const showPost = async ({id, slug}) => {
 	contentHTML.updatePost(postData,postTags,theme);
 
 	//show Panel
-	contentHTML.showPanel({
-		activePanel,
-		direction: 'down',
-		delay: 0
-	});
+	contentHTML.showPanel({activePanel});
 
 	changeBrowserHistory({
 		title: postData.title.rendered,
@@ -167,13 +156,10 @@ const loadPost = async ({id, slug}) => {
 
 export const closePanel = async () => {
 
-	await contentHTML.hidePanel({
-		activePanel,
-		direction: 'up'
-	});
-
+	await contentHTML.hidePanel({activePanel});
+	
 	setCurrentNode(null);
-	geodata.resetNodesState();
+	geodata.resetNodesState({});
 
 	return currentNode;
 };
@@ -193,10 +179,7 @@ const setTheme = async requestedThemeSlug => {
 	}
 
 	if (theme.slug != 'home') {
-		await contentHTML.hidePanel({
-			activePanel,
-			direction: 'up'
-		});
+		await contentHTML.hidePanel({activePanel});
 	}
 	
 	return theme;
@@ -210,10 +193,7 @@ const changeState = async newState => {
 	if (newState != theme.state) {
 		if (newState === 'home') {
 			contentHTML.hideTopMenu();
-			await contentHTML.hidePanel({
-				activePanel,
-				direction: 'up'
-			});
+			await contentHTML.hidePanel({activePanel});
 			contentHTML.showHome();
 		} else if (newState === 'page') {
 			contentHTML.hideHome();

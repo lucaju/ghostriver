@@ -1,4 +1,10 @@
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512.004 512.004" style="enable-background:new 0 0 512.004 512.004;" xml:space="preserve">
+<svg xmlns="http://www.w3.org/2000/svg"
+	xml:space="preserve"
+	version="1.1"
+	id="sea" class="tag-icon"
+	x="0px"
+	y="0px"
+	viewBox="0 0 512.004 512.004">
 	<g>
 		<g>
 			<path d="M503.325,140.931c-14.29,0-20.989-6.142-29.469-13.918c-9.447-8.663-20.155-18.482-41.198-18.482

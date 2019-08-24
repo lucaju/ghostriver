@@ -1,4 +1,3 @@
-/* @import url('https://fonts.googleapis.com/css?family=Oswald&display=swap'); */
 @import url('https://fonts.googleapis.com/css?family=Signika&display=swap');
 
 
@@ -23,7 +22,7 @@ body:hover { overflow-y: scroll; }
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../assets/culture1.jpg');
+  background-image: url('../assets/home-background.jpg');
   background-size: cover;
 }
 
@@ -60,7 +59,7 @@ body:hover { overflow-y: scroll; }
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../assets/culture1.jpg');
+  background-image: url('../assets/home-background.jpg');
   background-size: cover;
   z-index: 1000;
 }
