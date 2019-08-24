@@ -1,12 +1,10 @@
+// import {select} from 'd3/dist/d3.min';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-
 import content from './content';
-
 
 const host = 'http://localhost:8888'; //'http://localhost:8888'; // http://labs.fluxo.art.br
 const rootPath = '/ghost-river/';
-
 
 const loadDeepLink = async slug => {
 
@@ -29,10 +27,8 @@ const loadDeepLink = async slug => {
 };
 
 const goHome = async data => {
-
 	content.changeBrowserHistory({slug: rootPath});
 	content.initHome(data);
-
 };
  
 ( async () => {		
