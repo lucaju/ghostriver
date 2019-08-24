@@ -8,21 +8,16 @@ import config from './config/config.json';
 import themes from './config/themes.json';
 
 
-const wp = new WPAPI({endpoint: config.wordpress.endpoint});
+const wp = new WPAPI({endpoint: config.wordpress.remote.endpoint});
 
 let theme;
 let currentNode;
 let activePanel;
 
-
 const initHome = ({location}) => {
 	contentHTML.initHome();
 	if (window.innerWidth > 880) updateMap({location});
 };
-
-const setCurrentNode = data => currentNode = data;
-
-const setActivePanel = panel => activePanel = panel;
 
 export const showPage = async ({id, slug}) => {
 
@@ -31,7 +26,9 @@ export const showPage = async ({id, slug}) => {
 	// if (theme.isNew) 
 	if (slug !== 'about') updateMap(theme);
 
-	if (id === 0) {
+	// map.pitchMap();
+
+	if (id == 0) {
 		changeBrowserHistory({slug: '/ghost-river/'});
 		return;
 	}
@@ -39,12 +36,12 @@ export const showPage = async ({id, slug}) => {
 	const pageData = await loadPage({id, slug});
 	// console.log(pageData);
 
-	setCurrentNode(null);
+	currentNode = null;
 
-	if (slug !== 'about') map.flyToOrigin();
+	map.flyToOrigin();
 
 	//panel
-	setActivePanel((slug === 'about') ? 'full-panel' : 'right-panel');
+	activePanel = (slug === 'about') ? 'full-panel' : 'right-panel';
 	
 	contentHTML.updatePage(activePanel, pageData);
 	
@@ -61,10 +58,10 @@ export const showPage = async ({id, slug}) => {
 	});
 
 	return pageData;
+	
 };
 
 const loadPage = async ({id, slug}) => {
-
 	let pageData;
 
 	if (id) {
@@ -79,7 +76,7 @@ const loadPage = async ({id, slug}) => {
 
 export const showPost = async ({id, slug}) => {
 
-	if (currentNode && currentNode.id === id) return;
+	if (currentNode && currentNode.id == id) return;
 
 	await contentHTML.hidePanel({
 		activePanel,
@@ -88,6 +85,7 @@ export const showPost = async ({id, slug}) => {
 
 	contentHTML.showSpinner();
 
+	//postData - load by ID or by Slug
 	const postData = await loadPost({id,slug});
 	// console.log(postData);
 	if (!postData) {
@@ -95,26 +93,38 @@ export const showPost = async ({id, slug}) => {
 		return;
 	}
 
-	contentHTML.hideSpinner();
-	setCurrentNode(postData);
+	currentNode = postData;
 
 	const postCategories = postData._embedded['wp:term'][0];
 	const postTags = postData._embedded['wp:term'][1];
 
-	const postTheme = getPostTheme(postCategories);
-	if (postTheme.slug === 'uncategorized') console.log('Problem with category "uncategorized": ', postData);
+	let postTheme;
+	if (theme) postTheme = postCategories.find(cat => cat.slug == theme.slug);
+
+	if (!postTheme) {
+		if (postCategories.length > 1) {
+			const themePost = Math.floor(Math.random() * postCategories.length);
+			postTheme = postCategories[themePost];
+		} else {
+			postTheme = postCategories[0];
+		}
+	}
+	
+	if (postTheme.slug == 'uncategorized') console.log('Problem with category "uncategorized": ', postData);
 
 	setTheme(postTheme.slug);
 	if (theme.isNew) await updateMap(theme);
 
 	//fly to local
-	geodata.setCurrentNode(currentNode);
-	const coordinates = await geodata.getNodeCoordinates(currentNode);
+	geodata.setCurrentNode(postData);
+	const coordinates = await geodata.getNodeCoordinates(postData);
 	map.flyTo(coordinates);
 
-	setActivePanel('right-panel');
+	activePanel = 'right-panel';
 	
 	contentHTML.updatePost(postData,postTags,theme);
+
+	contentHTML.hideSpinner();
 
 	//show Panel
 	contentHTML.showPanel({
@@ -132,23 +142,7 @@ export const showPost = async ({id, slug}) => {
 		post: postData,
 		theme: postTheme
 	};
-};
 
-const getPostTheme = (postCategories) => {
-
-	let postTheme;
-	if (theme) postTheme = postCategories.find(cat => cat.slug === theme.slug);
-
-	if (!postTheme) {
-		if (postCategories.length > 1) {
-			const themePost = Math.floor(Math.random() * postCategories.length);
-			postTheme = postCategories[themePost];
-		} else {
-			postTheme = postCategories[0];
-		}
-	}
-
-	return postTheme;
 };
 
 const loadPost = async ({id, slug}) => {
@@ -166,15 +160,12 @@ const loadPost = async ({id, slug}) => {
 };
 
 export const closePanel = async () => {
-
 	await contentHTML.hidePanel({
 		activePanel,
 		direction: 'up'
 	});
-
-	setCurrentNode(null);
+	currentNode = null;
 	geodata.resetNodesState();
-
 	return currentNode;
 };
 
@@ -202,8 +193,8 @@ const setTheme = async requestedThemeSlug => {
 	return theme;
 };
 
-const getCurrentTheme = () => theme;
 const getThemeBySlug = slug => themes.find( theme => theme.slug === slug );
+const getCurrentTheme = () => theme;
 
 const changeState = async newState => {
 
@@ -214,7 +205,7 @@ const changeState = async newState => {
 				activePanel,
 				direction: 'up'
 			});
-			contentHTML.showHoe();
+			contentHTML.showHome();
 		} else if (newState === 'page') {
 			contentHTML.hideHome();
 			contentHTML.showTopMenu();
@@ -224,7 +215,6 @@ const changeState = async newState => {
 };
 
 const updateMap = async ({location}) => {
-
 	if (!theme) theme = themes[0];
 
 	if(!map.isMapboxLoaded()) {
@@ -239,16 +229,15 @@ const updateMap = async ({location}) => {
 	}
 
 	await geodata.drawNodes(theme);
-
 };
 
-export const tagSearch = tag => {
 
+export const tagSearch = tag => {
 	geodata.drawNodeByTag(tag);
 	map.flyToOrigin();
 	contentHTML.updateHeading(tag.name);
-
 };
+
 
 const changeBrowserHistory = ({title,slug}) => {
 	let pageTitle = 'Ghost River';
@@ -260,7 +249,6 @@ const changeBrowserHistory = ({title,slug}) => {
 		'',
 		slug);
 };
-
 
 export default {
 	initHome,
