@@ -14,27 +14,24 @@ let theme;
 let currentNode;
 let activePanel;
 
-
-const initHome = ({location}) => {
-	contentHTML.initHome();
-	if (window.innerWidth > 880) updateMap({location});
-};
+const initHome = () => contentHTML.initHome();
 
 const setCurrentNode = data => currentNode = data;
 
 const setActivePanel = panel => activePanel = panel;
 
+
 export const showPage = async ({id, slug}) => {
 
 	await setTheme(slug);
-
-	// if (theme.isNew) 
-	if (slug !== 'about') updateMap(theme);
 
 	if (id === 0) {
 		changeBrowserHistory({slug: '/ghost-river/'});
 		return;
 	}
+
+	// if (theme.isNew) 
+	if (slug !== 'about') updateMap(theme);
 
 	const pageData = await loadPage({id, slug});
 	// console.log(pageData);
@@ -208,6 +205,7 @@ const updateMap = async ({location}) => {
 	if (!theme) theme = themes[0];
 
 	if(!map.isMapboxLoaded()) {
+
 		if (location === '404') {
 			await map.init({location});
 		} else {

@@ -1,13 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
-
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-// const CleanWebpackPlugin = require('clean-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackBar = require('webpackbar');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
 	mode: 'production', // production
@@ -22,13 +20,17 @@ module.exports = {
 	devtool: '',
 	module: {
 		rules: [
-			// {
-			// 	test: /\.css$/,
-			// 	use: [
-			// 		'style-loader',
-			// 		'css-loader',
-			// 	],
-			// },
+			{
+				test: /\.m?js$/,
+				exclude: /(node_modules|bower_components)/,
+				use: {
+					loader: 'babel-loader',
+					options: {
+						presets: ['@babel/preset-env'],
+						plugins: ['@babel/plugin-proposal-object-rest-spread']
+					}
+				}
+			},
 			{
 				test: /\.css$/,
 				use: [
@@ -45,7 +47,7 @@ module.exports = {
 				],
 			},
 			{
-				test: /\.(png|svg|jpg|gif)$/,
+				test: /\.(png|jpg|gif)$/,
 				use: [
 					'file-loader',
 				],
@@ -54,6 +56,10 @@ module.exports = {
 				test: /\.html$/,
 				use: 'mustache-loader',
 			},
+			{
+				test: /\.svg$/,
+				loader: 'svg-inline-loader'
+			}
 		],
 	},
 	plugins: [
@@ -87,10 +93,9 @@ module.exports = {
 			chunkFilename: '[id].css',
 		}),
 		new CopyWebpackPlugin([
-			{ from: 'src/styles/', to: '' },
-			{ from: 'src/assets/', to: 'assets/' }
+			// { from: 'src/styles/', to: '' },
+			// { from: 'src/assets/', to: 'assets/' }
 		]),
-		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 		new WebpackBar(),
 		new BundleAnalyzerPlugin(),
 	],

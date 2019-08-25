@@ -3,14 +3,12 @@
         "id": 0,
         "name": "Home",
 		"slug": "home",
-		"mapID": "cjtf3qpso03kh1fkvzo8dd4xk",
 		"state": "home"
 	},
 	{
         "id": 56,
         "name": "About",
 		"slug": "about",
-		"mapID": "cjzeju3nh0cg51crt3lyatfw4",
 		"state": "page"
 	},
 	{

@@ -24,20 +24,20 @@ const loadDeepLink = async slug => {
 	const post = await content.showPost({slug});			
 
 	//if no page/post found: load home with 404
-	if (!post) goHome({location: '404'});
+	if (!post) goHome();
 
 };
 
-const goHome = async data => {
+const goHome = async () => {
 
 	content.changeBrowserHistory({slug: rootPath});
-	content.initHome(data);
+	content.initHome();
 
 };
  
 ( async () => {		
 
-	if (window.innerWidth <= 880) goHome({location: 'home'});
+	// if (window.innerWidth <= 880) goHome();
 
 	//test if url is trying to reach a deeplink		
 	if (window.location.pathname !== rootPath) {								
@@ -55,6 +55,6 @@ const goHome = async data => {
 	}
 
 	//Go Home
-	goHome({location: 'home'});
+	goHome();
 
 })();

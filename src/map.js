@@ -1,5 +1,5 @@
-import {select} from 'd3/dist/d3.min';
-import mapboxgl from 'mapbox-gl';
+import {select} from 'd3-selection';
+// import mapboxgl from 'mapbox-gl';
 
 import geodata from './geodata';
 
@@ -18,12 +18,13 @@ const mapBoxConfig = {
 	interactive: true,
 };
 
+let mapboxgl;
 let mapbox;
 
 
 const init = async ({mapID, location}) => {
 
-	return new Promise(resolve => {
+	return new Promise( async resolve => {
 
 		//map container set on WP > Beaver
 		select('#app').select(':first-child')
@@ -34,7 +35,10 @@ const init = async ({mapID, location}) => {
 
 		if (mapID) mapBoxConfig.style = `mapbox://styles/${config.mapbox.user}/${mapID}`;		//if deeplink: set map style
 
-		mapboxgl.accessToken = config.mapbox.token;
+		await loadMapBoxGL()
+
+		// mapboxgl.accessToken = config.mapbox.token;
+		mapboxgl.default.accessToken = config.mapbox.token;
 		mapbox = new mapboxgl.Map(mapBoxConfig);
 
 		mapbox.on('load', () => {
@@ -52,6 +56,10 @@ const init = async ({mapID, location}) => {
 		
 	});
 
+};
+
+const loadMapBoxGL = async () => {
+	if(!mapboxgl) mapboxgl = await import(/* webpackChunkName: "mapbox-gl" */ 'mapbox-gl');
 };
 
 //check if map is loaded

@@ -1,4 +1,4 @@
-import {select, selectAll, event} from 'd3/dist/d3.min';
+import {select, selectAll, event} from 'd3-selection';
 import {TweenMax} from 'gsap/TweenMax';
 
 import {showPage, showPost, closePanel, tagSearch} from './content';

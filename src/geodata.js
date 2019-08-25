@@ -1,11 +1,14 @@
 import chroma from 'chroma-js';
-import {select, geoTransform, geoPath} from 'd3/dist/d3.min';
+import {select} from 'd3-selection';
+import {geoTransform, geoPath} from 'd3-geo';
+import {transition} from 'd3-transition';
+// import {select, geoTransform, geoPath} from 'd3';
 
 import content from './content';
 import map from './map';
 
 import config from './config/config.json';
-import historicalRivel from './data/historical.json';
+import historicalRiver from './data/historical-river.json';
 
 
 const historicalRiverScale = chroma.scale(['violet','indigo','blue','green']).domain([1,7]);
@@ -42,7 +45,7 @@ const loadData = async () => {
 	const data = await response.json();
 	dataset = data.features;
 
-	dataset = dataset.concat(historicalRivel.features);
+	dataset = dataset.concat(historicalRiver.features);
 	
 	return dataset;
 };

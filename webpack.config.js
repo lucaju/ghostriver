@@ -1,15 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
-
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-// const CleanWebpackPlugin = require('clean-webpack-plugin');
-const {
-	CleanWebpackPlugin
-} = require('clean-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackBar = require('webpackbar');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
 	mode: 'development', // production
@@ -100,7 +96,6 @@ module.exports = {
 			// { from: 'src/styles/', to: '' },
 			// { from: 'src/assets/', to: 'assets/' }
 		]),
-		new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 		new WebpackBar(),
 		// new BundleAnalyzerPlugin(),
 	],
