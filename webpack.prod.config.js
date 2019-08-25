@@ -84,7 +84,7 @@ module.exports = {
 				},
 			],
 			title: 'Ghost-River',
-			favicon: 'src/assets/favico.png'
+			// favicon: 'src/assets/favico.png'
 		}),
 		new MiniCssExtractPlugin({
 			// Options similar to the same options in webpackOptions.output
