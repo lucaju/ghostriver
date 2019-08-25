@@ -4,7 +4,8 @@ import 'regenerator-runtime/runtime';
 import content from './content';
 
 
-const host = 'http://localhost:8888'; //'http://localhost:8888'; // http://labs.fluxo.art.br
+const host = 'http://localhost:8888';
+// const host = ' http://labs.fluxo.art.br'; //'http://localhost:8888'; // http://labs.fluxo.art.br
 const rootPath = '/ghost-river/';
 
 

@@ -114,25 +114,29 @@ const flyFromUnknowLocation = async () => {
 
 const flyTo = coordinates => {
 
-	mapbox.flyTo({
-		center:coordinates,
-		zoom: 17,
-		speed: 1,
-		curve: 1,
-		easing: function (t) { return t; }
-	});
+	if(mapbox) {
+		mapbox.flyTo({
+			center:coordinates,
+			zoom: 17,
+			speed: 1,
+			curve: 1,
+			easing: function (t) { return t; }
+		});
+	}
 
 };
 
 const flyToOrigin = () => {
 
-	mapbox.flyTo({
-		center:config.map.default.center,
-		zoom: config.map.default.zoom + 0.2,
-		speed: 1.2,
-		curve: 1,
-		easing: function (t) { return t; }
-	});
+	if(mapbox) {
+		mapbox.flyTo({
+			center:config.map.default.center,
+			zoom: config.map.default.zoom + 0.2,
+			speed: 1.2,
+			curve: 1,
+			easing: function (t) { return t; }
+		});
+	}
 
 };
 

@@ -12,10 +12,10 @@ module.exports = {
 	entry: './src/app.js',
 	output: {
 		filename: 'app.bundle.js',
-		path: path.resolve(__dirname, 'dist'),
+		path: path.resolve(__dirname, 'dist-prod'),
 	},
 	devServer: {
-		contentBase: './dist',
+		contentBase: './dist-prod',
 	},
 	devtool: '',
 	module: {
@@ -84,7 +84,7 @@ module.exports = {
 				},
 			],
 			title: 'Ghost-River',
-			// favicon: 'src/images/favico.png'
+			favicon: 'src/assets/favico.png'
 		}),
 		new MiniCssExtractPlugin({
 			// Options similar to the same options in webpackOptions.output
@@ -93,7 +93,7 @@ module.exports = {
 			chunkFilename: '[id].css',
 		}),
 		new CopyWebpackPlugin([
-			// { from: 'src/styles/', to: '' },
+			{ from: 'src/styles/', to: '' },
 			// { from: 'src/assets/', to: 'assets/' }
 		]),
 		new WebpackBar(),

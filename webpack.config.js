@@ -93,7 +93,7 @@ module.exports = {
 			chunkFilename: '[id].css',
 		}),
 		new CopyWebpackPlugin([
-			// { from: 'src/styles/', to: '' },
+			{ from: 'src/styles/', to: '' },
 			// { from: 'src/assets/', to: 'assets/' }
 		]),
 		new WebpackBar(),
