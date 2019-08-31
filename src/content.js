@@ -100,6 +100,7 @@ export const showPost = async ({id, slug}) => {
 	//fly to local
 	geodata.setCurrentNode(currentNode);
 	const coordinates = await geodata.getNodeCoordinates(currentNode);
+
 	map.flyTo(coordinates);
 
 	setActivePanel('right-panel');

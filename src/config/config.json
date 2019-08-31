@@ -2,14 +2,14 @@
     "map": {
         "default": {
             "styleID": "cjxzbs7nf0a4b1cowp80tsndy",
-            "center": [-73.56, 45.465],
-            "zoom": 12,
+            "center": [-73.56, 45.48],
+            "zoom": 11.7,
             "pitch": 0,
-            "minZoom": 12,
+            "minZoom": 11.7,
             "maxZoom": 17,
             "maxBounds": [
-                [-73.68,45.415],
-                [-73.44,45.535]
+                [-73.76,45.38],
+                [-73.36,45.58]
             ]
         },
         "dataset": "cjxdpkggs01gi2os0srxdx837"
