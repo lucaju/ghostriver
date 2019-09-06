@@ -3,7 +3,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "St-Pierre 1825-2-08/19",
+        "name": "St-Pierre 1825",
         "type": "historical",
         "theme": "steps",
         "year": 1825,
@@ -1031,7 +1031,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "St-Pierre Canalized 1900 08/19",
+        "name": "St-Pierre Canalized 1900",
         "type": "historical",
         "theme": "steps",
         "year": 1900,
@@ -2232,7 +2232,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "St-Pierre 1825-main-08/19",
+        "name": "St-Pierre 1825",
         "type": "historical",
         "theme": "steps",
         "year": 1825,
@@ -3165,7 +3165,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "St-Pierre 1834 - 2",
+        "name": "St-Pierre 1834",
         "type": "historical",
         "theme": "steps",
         "year": 1834,
@@ -3413,7 +3413,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "St-Pierre 1834 - main",
+        "name": "St-Pierre 1834",
         "type": "historical",
         "theme": "steps",
         "year": 1834,
@@ -5171,7 +5171,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "St-Pierre 1825-3-08/19",
+        "name": "St-Pierre 1825",
         "type": "historical",
         "theme": "steps",
         "year": 1825,
@@ -5624,7 +5624,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "St-Pierre 1860 August 2019",
+        "name": "St-Pierre 1860",
         "type": "historical",
         "theme": "steps",
         "year": 1860,
@@ -6727,7 +6727,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "St-Pierre 1914 08/19",
+        "name": "St-Pierre 1914",
         "type": "historical",
         "year": 1914,
         "theme": "steps",
@@ -9540,7 +9540,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "St-Pierre Canalized 1907 08/19",
+        "name": "St-Pierre Canalized 1907",
         "type": "historical",
         "year": 1907,
         "theme": "steps",
@@ -11258,7 +11258,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "St-Pierre 1825-4-08/19",
+        "name": "St-Pierre 1825",
         "type": "historical",
         "theme": "steps",
         "year": 1825,
@@ -11636,7 +11636,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "St-Pierre 1834 - 3",
+        "name": "St-Pierre 1834",
         "type": "historical",
         "theme": "steps",
         "year": 1834,
@@ -11754,7 +11754,7 @@
     {
       "type": "Feature",
       "properties": {
-        "name": "St-Martin 1825-08/19",
+        "name": "St-Martin 1825",
         "type": "historical",
         "theme": "steps",
         "year": 1825,
