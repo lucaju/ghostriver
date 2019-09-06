@@ -20,8 +20,6 @@ let nodesPoint;
 let nodesLine;
 let nodesPoygon;
 
-let currentNodeOver;
-
 
 const init = async canvas => {
 
@@ -116,10 +114,9 @@ const getNodeCoordinates = async ({id}) => {
 	if (!item) return config.map.default.center; // return center of map
 
 	if (item.geometry.type === 'Point') return item.geometry.coordinates;
-	if (item.geometry.type === 'LineString') return item.geometry.coordinates[0];
-	if (item.geometry.type === 'Polygon') return item.geometry.coordinates[0][0];
+	const coordinates = item.geometry.coordinates[0];
 
-	return false;
+	return coordinates;
 };
 
 const getColours = () => {
@@ -133,15 +130,12 @@ const getColours = () => {
 	if (theme.slug === 'environment') {
 		colors.fill = '#FFDE17';
 		colors.stroke = '#8B5E3C';
-		colors.text = '#333';
 	} else if (theme.slug === 'water') {
 		colors.fill = '#fefefe';
 		colors.stroke = '#652e00';
-		colors.text = '#333';
 	} else if (theme.slug === 'steps') {
 		colors.fill = '#F15A29';
 		colors.stroke = '#F15A29';
-		colors.text = '#FFF';
 	}
 
 	return colors;
@@ -171,9 +165,9 @@ const drawPoints =  ({data, transitionTime = 1000, delayTime = 200}) => {
 		.attr('r', 0)
 		.style('cursor', 'pointer')
 		.style('stroke-width', 2)
-		.style('stroke', chroma(colours.stroke).hex())
-		.style('fill', chroma(colours.fill).alpha(0.7).hex())
-		.style('opacity', 0)
+		.style('stroke', () => chroma(colours.stroke).hex())
+		.style('fill', () => chroma(colours.fill).alpha(0.7).hex())
+		.style('opacity', 0.1)
 		.on('mouseover', d => nodesOver(d))
 		.on('mouseout', () => nodesOut())
 		.on('click', d => {
@@ -211,14 +205,14 @@ const drawLines =  ({data, transitionTime = 1000, delayTime = 200}) => {
 		.attr('id', d => d.properties.id)
 		.attr('d', D3geoPath)
 		.style('cursor', 'pointer')
-		.style('stroke-width', 2)
+		.style('stroke-width', 0)
 		.style('stroke', d => {
 			if (d.properties.name === 'Saint-Pierre Speculative River') return chroma(colours.river).hex();
 			if (d.properties.type === 'historical') return historicalRiverScale(d.properties.color).alpha(.8).hex();
 			return chroma(colours.stroke).hex();
 		})
 		.style('fill', 'none')
-		.style('opacity', 0)
+		.style('opacity', 0.1)
 		.on('mouseover', d => nodesOver(d))
 		.on('mouseout', () => nodesOut())
 		.on('click', d => {
@@ -231,6 +225,7 @@ const drawLines =  ({data, transitionTime = 1000, delayTime = 200}) => {
 	nodesLine.transition()
 		.duration(transitionTime)
 		.delay((d, i) => delayTime * i)
+		.style('stroke-width', 2)
 		.style('opacity', 1);
 
 };
@@ -257,10 +252,10 @@ const drawPolygins =  ({data, transitionTime = 1000, delayTime = 200}) => {
 		.attr('id', d => d.properties.id)
 		.attr('d', D3geoPath)
 		.style('cursor', 'pointer')
-		.style('stroke-width', 2)
-		.style('stroke', chroma(colours.stroke).hex())
-		.style('fill', chroma(colours.fill).alpha(0.7).hex())
-		.style('opacity', 0)
+		.style('stroke-width', 0)
+		.style('stroke', () => chroma(colours.stroke).hex())
+		.style('fill', () => chroma(colours.fill).alpha(0.7).hex())
+		.style('opacity', 0.1)
 		.on('mouseover', d => nodesOver(d))
 		.on('mouseout', () => nodesOut())
 		.on('click', d => {
@@ -271,6 +266,7 @@ const drawPolygins =  ({data, transitionTime = 1000, delayTime = 200}) => {
 	nodesPoygon.transition()
 		.duration(transitionTime)
 		.delay((d, i) => delayTime * i)
+		.style('stroke-width', 2)
 		.style('opacity', 1);
 
 };
@@ -287,55 +283,7 @@ const nodesUpdate = () => {
 	
 };
 
-const callTooltip = d => {
-
-	const colours = getColours();
-
-	let position;
-
-	if (d.geometry.type === 'Point') position = d.geometry.coordinates;
-	if (d.geometry.type === 'LineString') position = d.geometry.coordinates[0];
-	if (d.geometry.type === 'Polygon') position = d.geometry.coordinates[0][0];
-
-	const posX = map.project(position).x;
-	const posY = map.project(position).y;
-
-	const margins = 10;
-	const yOffset = 25;
-
-	const tooltip = svg.append('g')
-		.attr('class','tooltip')
-		.attr('transform', `translate(${posX},${posY})`);
-
-	const rect = tooltip.append('rect')
-		.style('stroke', () => chroma(colours.stroke).hex())
-		.style('fill', () => chroma(colours.fill).alpha(0.7).hex());
-		
-	tooltip.append('text')
-		.attr('y',-yOffset)
-		.style('text-anchor','middle')
-		.style('fill', chroma(colours.text).hex())
-		.text(d.properties.name);
-
-	
-	const tooltipSize = tooltip.node().getBBox();
-
-	const ttPosition = {
-		x: (-tooltipSize.width / 2) - margins,
-		y: -tooltipSize.height - yOffset,
-		width: tooltipSize.width + (2*margins),
-		height: tooltipSize.height + (margins)
-	};
-
-	rect.attr('x', ttPosition.x)
-		.attr('y',  ttPosition.y)
-		.attr('width',  ttPosition.width)
-		.attr('height',  ttPosition.height);
-};
-
 const nodesOver = current => {
-
-	callTooltip(current);
 
 	if (nodesPoint) {
 		nodesPoint
@@ -373,8 +321,6 @@ const nodesOver = current => {
 }; 
 
 const nodesOut = () => {
-
-	svg.select('.tooltip').remove();
 
 	if (nodesPoint) {
 		nodesPoint.style('opacity', 1)

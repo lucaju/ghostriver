@@ -6,6 +6,7 @@ import {getIcon} from './tags';
 
 import themes from './config/themes.json';
 
+
 select('body').append('div').attr('id','map-bg');
 
 const initHome = () => configMainMenu();

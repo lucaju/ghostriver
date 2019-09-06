@@ -1,6 +1,5 @@
 import WPAPI from 'wpapi';
 
-import {changeBrowserHistory} from './browser-request';
 import contentHTML from './contentHTML';
 import geodata from './geodata';
 import map from './map';
@@ -101,7 +100,6 @@ export const showPost = async ({id, slug}) => {
 	//fly to local
 	geodata.setCurrentNode(currentNode);
 	const coordinates = await geodata.getNodeCoordinates(currentNode);
-
 	map.flyTo(coordinates);
 
 	setActivePanel('right-panel');
@@ -230,6 +228,17 @@ export const tagSearch = tag => {
 
 };
 
+const changeBrowserHistory = ({title,slug}) => {
+	let pageTitle = 'Ghost River';
+	if (title) pageTitle += ` - ${title}`;
+
+	document.title = pageTitle;
+	window.history.pushState(
+		{pageTitle},
+		'',
+		slug);
+};
+
 
 export default {
 	initHome,
@@ -238,5 +247,6 @@ export default {
 	closePanel,
 	getCurrentTheme,
 	getThemeBySlug,
-	tagSearch
+	tagSearch,
+	changeBrowserHistory,
 };
