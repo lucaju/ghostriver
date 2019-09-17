@@ -14,6 +14,7 @@ const wp = new WPAPI({endpoint: config.wordpress.endpoint});
 let theme;
 let currentNode;
 let activePanel;
+let titleList;
 
 const initHome = () => contentHTML.initHome();
 
@@ -230,6 +231,16 @@ export const tagSearch = tag => {
 
 };
 
+const getPostsTitle = async () => {
+	if (!titleList) titleList = await wp.posts().perPage(100);
+};
+
+const getTitleById = nodeID => {
+	const post = titleList.find(p => p.id === nodeID);
+	if (post) return post.title.rendered;
+	return false;
+};
+
 
 export default {
 	initHome,
@@ -238,5 +249,7 @@ export default {
 	closePanel,
 	getCurrentTheme,
 	getThemeBySlug,
-	tagSearch
+	tagSearch,
+	getPostsTitle,
+	getTitleById
 };

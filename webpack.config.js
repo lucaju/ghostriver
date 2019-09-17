@@ -1,11 +1,12 @@
 const path = require('path');
+
 const webpack = require('webpack');
+
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackBar = require('webpackbar');
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
 	mode: 'development', // production
@@ -93,11 +94,11 @@ module.exports = {
 			chunkFilename: '[id].css',
 		}),
 		new CopyWebpackPlugin([
-			{ from: 'src/styles/', to: '' },
-			// { from: 'src/assets/', to: 'assets/' }
+			{
+				from: 'src/styles/', to: ''
+			}
 		]),
 		new WebpackBar(),
-		// new BundleAnalyzerPlugin(),
 	],
 	optimization: {
 		splitChunks: {

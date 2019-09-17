@@ -2,7 +2,6 @@ import chroma from 'chroma-js';
 import {select} from 'd3-selection';
 import {geoTransform, geoPath} from 'd3-geo';
 import {transition} from 'd3-transition';
-// import {select, geoTransform, geoPath} from 'd3';
 
 import content from './content';
 import map from './map';
@@ -11,7 +10,7 @@ import config from './config/config.json';
 import historicalRiver from './data/historical-river.json';
 
 
-const historicalRiverScale = chroma.scale(['violet','indigo','blue','green']).domain([1,7]);
+const historicalRiverScale = chroma.scale(['indigo','blue','green']).domain([1,7]);
 
 let D3geoPath;
 let svg;
@@ -48,6 +47,9 @@ const loadData = async () => {
 	dataset = data.features;
 
 	dataset = dataset.concat(historicalRiver.features);
+
+	///load titles
+	content.getPostsTitle();
 	
 	return dataset;
 };
@@ -287,7 +289,10 @@ const nodesUpdate = () => {
 	
 };
 
-const callTooltip = d => {
+const callTooltip = async d => {
+
+	let title = content.getTitleById(d.properties.id);
+	if (!title) title = '...';
 
 	const colours = getColours();
 
@@ -315,8 +320,8 @@ const callTooltip = d => {
 		.attr('y',-yOffset)
 		.style('text-anchor','middle')
 		.style('fill', chroma(colours.text).hex())
-		.text(d.properties.name);
-
+		.text(title);
+		
 	
 	const tooltipSize = tooltip.node().getBBox();
 
