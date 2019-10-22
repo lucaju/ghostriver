@@ -1,7 +1,6 @@
 import content from './content';
 
 const rootPath = '/ghostriver/';
-// const rootPath = '/ghost-river/';
 const origin = window.origin;
 
 

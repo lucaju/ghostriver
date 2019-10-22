@@ -28,7 +28,7 @@ export const showPage = async ({id, slug}) => {
 	await setTheme(slug);
 
 	if (id === 0) {
-		changeBrowserHistory({slug: '/ghost-river/'});
+		changeBrowserHistory({slug: '/ghostriver/'});
 		return;
 	}
 

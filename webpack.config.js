@@ -84,7 +84,7 @@ module.exports = {
 					content: 'yes',
 				},
 			],
-			title: 'Ghost-River',
+			title: 'Ghost River',
 			// favicon: 'src/images/favico.png'
 		}),
 		new MiniCssExtractPlugin({
