@@ -117,7 +117,7 @@ const flyTo = coordinates => {
 	if(mapbox) {
 		mapbox.flyTo({
 			center:coordinates,
-			zoom: 17,
+			zoom: 14,
 			speed: 1,
 			curve: 1,
 			easing: function (t) { return t; }
