@@ -360,8 +360,8 @@ const nodesOver = current => {
 				if (d.properties.name !== current.properties.name) return 0.5;
 			})
 			.style('stroke-width', d => {
-				if (current.properties.color && d.properties.color === current.properties.color) return 3;
-				if (d.properties.name === current.properties.name) return 3;
+				if (current.properties.color && d.properties.color === current.properties.color) return 5;
+				if (d.properties.name === current.properties.name) return 5;
 			});
 	}
 
