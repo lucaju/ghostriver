@@ -43,8 +43,9 @@ export const showPage = async ({id, slug}) => {
 	if (slug !== 'about') map.flyToOrigin();
 
 	//panel
-	setActivePanel((slug === 'about') ? 'full-panel' : 'right-panel');
-	
+	// setActivePanel((slug === 'about') ? 'full-panel' : 'right-panel');
+	setActivePanel('right-panel');
+
 	contentHTML.updatePage(activePanel, pageData);
 	
 	//show panel
