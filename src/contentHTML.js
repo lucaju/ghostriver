@@ -31,15 +31,18 @@ const configTopMenu = () => {
 
 const showHome = () => {
 
-	gsap.to('#header-col', 2, {
+	select('#header-col').style('display', 'block');
+	gsap.to('#header-col', {
+		duration: 2,
 		y: 0,
 		onStart: function() {
-			select(this._target)
+			selectAll(this._target)
 				.style('display', 'block');
 		}
 	});
 
-	gsap.to('.col-main-menu', 2, {
+	gsap.to('.col-main-menu', {
+		duration: 2,
 		y: 0,
 		onStart: function() {
 			selectAll(this._target)
@@ -55,7 +58,8 @@ const showHome = () => {
 
 const hideHome = () => {
 
-	gsap.to('#header-col', 2, {
+	gsap.to('#header-col', {
+		duration: 2,
 		y: -500,
 		onComplete: function() {
 			selectAll(this._targets)
@@ -63,7 +67,8 @@ const hideHome = () => {
 		}
 	});
 
-	gsap.to('.col-main-menu', 2, {
+	gsap.to('.col-main-menu', {
+		duration: 2,
 		y: -800,
 		onComplete: function() {
 			selectAll(this._target)
@@ -78,7 +83,8 @@ const hideHome = () => {
 
 const showHomeBG = () => {
 
-	gsap.to('#map-bg', 2, {
+	gsap.to('#map-bg', {
+		duration: 2,
 		alpha: 1,
 		onStart: function() {
 			selectAll(this._targets)
@@ -90,7 +96,8 @@ const showHomeBG = () => {
 
 const hideHomeBG = () => {
 	
-	gsap.to('#map-bg', 2, {
+	gsap.to('#map-bg', {
+		duration: 2,
 		alpha: 0,
 		onComplete: function() {
 			selectAll(this._targets)
@@ -119,7 +126,8 @@ const showTopMenu = () => {
 
 const hideTopMenu = () => {
 
-	gsap.to('#top-menu', 2, {
+	gsap.to('#top-menu', {
+		duration: 2,
 		y: -200,
 		onComplete: function() {
 			selectAll(this._targets)
@@ -151,7 +159,8 @@ const showPanel = ({activePanel = 'left-panel'}) => {
 	} else {
 
 		//Left Panel
-		gsap.to('#left-panel', 2, {
+		gsap.to('#left-panel', {
+			duration: 2,
 			x: 0,
 			onStart: function() {
 				selectAll(this._targets)
@@ -161,8 +170,11 @@ const showPanel = ({activePanel = 'left-panel'}) => {
 		});
 
 		//Right Panel
-		gsap.to('#right-panel', 2, {
+		select('#right-panel').style('margin-top', '-125px');
+		gsap.to('#right-panel', {
+			duration: 2,
 			x: 0,
+			y: 0,
 			onStart: function() {
 				selectAll(this._targets)
 					.style('display', 'block');
@@ -181,7 +193,8 @@ const hidePanel = async ({activePanel = 'right-panel'}) => {
 
 		if (activePanel === 'full-panel') {
 
-			gsap.to('#full-panel', 2, {
+			gsap.to('#full-panel', {
+				duration: 2,
 				y: window.outerHeight,
 				onComplete: function() {
 					selectAll(this._targets)
@@ -195,14 +208,20 @@ const hidePanel = async ({activePanel = 'right-panel'}) => {
 		} else {
 
 			//Left Panel
-			gsap.to('#left-panel', 2, {x: window.outerWidth});
+			gsap.to('#left-panel', {
+				duration: 2,
+				x: window.outerWidth
+			});
 
 			//Right Panel
-			gsap.to('#right-panel', 2, {
+			gsap.to('#right-panel',{
+				duration: 2,
 				x: window.outerWidth,
+				y: 0,
 				onComplete: function() {
 					resolve();
 				}
+
 			});
 
 		}
@@ -241,7 +260,8 @@ const hideHeading = () => {
 
 	if (!heading.empty()) {
 
-		gsap.to('#map-heading', 1, {
+		gsap.to('#map-heading', {
+			duration: 1,
 			alpha: 0,
 			onComplete: function() {
 				selectAll(this._targets)
