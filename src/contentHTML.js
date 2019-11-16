@@ -1,5 +1,5 @@
 import {select, selectAll, event} from 'd3-selection';
-import {TweenMax} from 'gsap/TweenMax';
+import gsap from 'gsap';
 
 import {showPage, showPost, closePanel, tagSearch} from './content';
 import {getIcon} from './tags';
@@ -31,18 +31,18 @@ const configTopMenu = () => {
 
 const showHome = () => {
 
-	TweenMax.to('#header-col', 2, {
+	gsap.to('#header-col', 2, {
 		y: 0,
 		onStart: function() {
-			select(this.target.selector)
+			select(this._target)
 				.style('display', 'block');
 		}
 	});
 
-	TweenMax.to('.col-main-menu', 2, {
+	gsap.to('.col-main-menu', 2, {
 		y: 0,
 		onStart: function() {
-			selectAll(this.target.selector)
+			selectAll(this._target)
 				.style('display', 'block');
 		}
 	});
@@ -55,18 +55,18 @@ const showHome = () => {
 
 const hideHome = () => {
 
-	TweenMax.to('#header-col', 2, {
+	gsap.to('#header-col', 2, {
 		y: -500,
 		onComplete: function() {
-			select(this.target.selector)
+			selectAll(this._targets)
 				.style('display', 'none');
 		}
 	});
 
-	TweenMax.to('.col-main-menu', 2, {
+	gsap.to('.col-main-menu', 2, {
 		y: -800,
 		onComplete: function() {
-			selectAll(this.target.selector)
+			selectAll(this._target)
 				.style('display', 'none');
 		}
 	});
@@ -78,10 +78,10 @@ const hideHome = () => {
 
 const showHomeBG = () => {
 
-	TweenMax.to('#map-bg', 2, {
+	gsap.to('#map-bg', 2, {
 		alpha: 1,
 		onStart: function() {
-			selectAll(this.target.selector)
+			selectAll(this._targets)
 				.style('display', 'block');
 		}
 	});
@@ -90,10 +90,10 @@ const showHomeBG = () => {
 
 const hideHomeBG = () => {
 	
-	TweenMax.to('#map-bg', 2, {
+	gsap.to('#map-bg', 2, {
 		alpha: 0,
 		onComplete: function() {
-			selectAll(this.target.selector)
+			selectAll(this._targets)
 				.style('display', 'none');
 		}
 	});
@@ -102,12 +102,12 @@ const hideHomeBG = () => {
 
 const showTopMenu = () => {
 
-	TweenMax.fromTo('#top-menu', 2,
+	gsap.fromTo('#top-menu', 2,
 		{y: -200},
 		{
 			y: 0,
 			onStart: function() {
-				selectAll(this.target.selector)
+				selectAll(this._targets)
 					.style('display', 'block');
 			}
 		}
@@ -119,10 +119,10 @@ const showTopMenu = () => {
 
 const hideTopMenu = () => {
 
-	TweenMax.to('#top-menu', 2, {
+	gsap.to('#top-menu', 2, {
 		y: -200,
 		onComplete: function() {
-			selectAll(this.target.selector)
+			selectAll(this._targets)
 				.style('display', 'none');
 		}
 	});
@@ -134,12 +134,12 @@ const showPanel = ({activePanel = 'left-panel'}) => {
 	if (activePanel === 'full-panel') {
 
 		//Full Panel
-		TweenMax.fromTo('#full-panel', 2, 
+		gsap.fromTo('#full-panel', 2, 
 			{y: window.outerHeight},
 			{
 				y: 0,
 				onStart: function() {
-					select(this.target.selector)
+					selectAll(this._targets)
 						.style('display', 'block');
 				}
 			}
@@ -151,20 +151,20 @@ const showPanel = ({activePanel = 'left-panel'}) => {
 	} else {
 
 		//Left Panel
-		TweenMax.to('#left-panel', 2, {
+		gsap.to('#left-panel', 2, {
 			x: 0,
 			onStart: function() {
-				select(this.target.selector)
+				selectAll(this._targets)
 					.style('display', 'block')
 					.style('opacity', 0);
 			}
 		});
 
 		//Right Panel
-		TweenMax.to('#right-panel', 2, {
+		gsap.to('#right-panel', 2, {
 			x: 0,
 			onStart: function() {
-				select(this.target.selector)
+				selectAll(this._targets)
 					.style('display', 'block');
 			}
 		});
@@ -181,10 +181,10 @@ const hidePanel = async ({activePanel = 'right-panel'}) => {
 
 		if (activePanel === 'full-panel') {
 
-			TweenMax.to('#full-panel', 2, {
+			gsap.to('#full-panel', 2, {
 				y: window.outerHeight,
 				onComplete: function() {
-					select(this.target.selector)
+					selectAll(this._targets)
 						.style('display', 'none');
 					resolve();
 				}
@@ -195,10 +195,10 @@ const hidePanel = async ({activePanel = 'right-panel'}) => {
 		} else {
 
 			//Left Panel
-			TweenMax.to('#left-panel', 2, {x: window.outerWidth});
+			gsap.to('#left-panel', 2, {x: window.outerWidth});
 
 			//Right Panel
-			TweenMax.to('#right-panel', 2, {
+			gsap.to('#right-panel', 2, {
 				x: window.outerWidth,
 				onComplete: function() {
 					resolve();
@@ -221,12 +221,12 @@ const showHeading = () => {
 		heading.append('h3');
 	}
 
-	TweenMax.fromTo('#map-heading', 2, 
+	gsap.fromTo('#map-heading', 2, 
 		{alpha: 0,},
 		{
 			alpha: 1,
 			onStart: function() {
-				selectAll(this.target.selector)
+				selectAll(this._targets)
 					.style('display', 'block');
 			}
 		}
@@ -241,10 +241,10 @@ const hideHeading = () => {
 
 	if (!heading.empty()) {
 
-		TweenMax.to('#map-heading', 1, {
+		gsap.to('#map-heading', 1, {
 			alpha: 0,
 			onComplete: function() {
-				selectAll(this.target.selector)
+				selectAll(this._targets)
 					.style('display', 'none');
 			}
 		});
