@@ -19,6 +19,6 @@
         "token": "pk.eyJ1Ijoic2FpbnRwaWVycmVtYXBwaW5nIiwiYSI6ImNqdDBpOXo4aDBkYmk0Nm5wMTU0MzhxcWcifQ.tH1TZXEMh4KOnahRKRl_BA"
     },
     "wordpress": {
-        "endpoint": "https://www.ethnographylabconcordia.ca/ghostriver/wp-json/"
+        "endpoint": "https://ethnographylabconcordia.ca/ghostriver/wp-json/"
     } 
 }
